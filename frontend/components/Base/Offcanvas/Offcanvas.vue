@@ -1,0 +1,210 @@
+<script setup lang="ts">
+import { computed, onMounted, watch } from "vue";
+
+export type IOffcanvasPosition = "top" | "left" | "right" | "bottom";
+
+export interface IOffcanvasProps {
+  isOpen: boolean;
+  position?: IOffcanvasPosition;
+  width?: string;
+  height?: string;
+  bodyClass?: string;
+}
+
+const props = withDefaults(defineProps<IOffcanvasProps>(), {
+  position: "right",
+  width: undefined,
+  height: undefined,
+  isOpen: false,
+  bodyClass: undefined,
+});
+
+const emit = defineEmits<{
+  "on-close": [];
+  "on-open": [];
+  "backdrop-click": [];
+  "update:isOpen": [boolean];
+}>();
+
+const isOpen = computed<boolean>({
+  get() {
+    return props.isOpen;
+  },
+  set(value) {
+    emit("update:isOpen", value);
+  },
+});
+
+const height = computed(() => {
+  if (["right", "left"].includes(props.position)) {
+    return props.height;
+  }
+  return props.height ?? "500px";
+});
+
+const width = computed(() => {
+  if (["right", "left"].includes(props.position)) {
+    return props.width ?? "400px";
+  }
+  return props.width ?? "100%";
+});
+
+const classMap: Record<IOffcanvasPosition, string> = {
+  right: "top-0 right-0",
+  top: "left-0 top-0",
+  bottom: "left-0 bottom-0",
+  left: "top-0 left-0",
+};
+
+const classPosition = computed(() => classMap[props.position]);
+
+function openOffCanvas() {
+  isOpen.value = true;
+}
+function closeOffCanvas() {
+  isOpen.value = false;
+}
+function toggleOffCanvas() {
+  isOpen.value = !isOpen.value;
+}
+
+// Expose open / close so we can programaticaly close / open canvas base of ref
+defineExpose({ openOffCanvas, closeOffCanvas, toggleOffCanvas });
+
+onMounted(() => {
+  watch(isOpen, (newValue) => {
+    if (newValue) {
+      document.body.classList.add("overflow-hidden");
+      emit("on-open");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+      emit("on-close");
+    }
+  });
+});
+</script>
+
+<template>
+  <Teleport to="body">
+    <transition name="slide-fade">
+      <div
+        v-if="isOpen"
+        class="fixed z-50 flex flex-col max-w-full bg-white dark:bg-gray-800 dark:text-gray-300 bg-clip-padding transition-all duration-300 ease-in-out h-full shadow-2xl"
+        :class="[classPosition, position, bodyClass]"
+        :style="{
+          width: width,
+          height: height,
+          maxWidth: '100vw',
+          maxHeight: '100vh',
+        }"
+      >
+        <slot name="header">
+          <div
+            class="flex justify-between p-4 border-b-2 dark:border-gray-700 border-b-gray-200 items-center"
+          >
+            <slot name="headerTitle"></slot>
+            <slot name="headerButton">
+              <button
+                class="duration-200 p-1 ml-auto bg-transparent border-0 text-black dark:text-gray-50 opacity-30 hover:opacity-80 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                @click="closeOffCanvas()"
+              >
+                <Icon name="ic:sharp-close" />
+              </button>
+            </slot>
+          </div>
+        </slot>
+        <slot :close-off-canvas="closeOffCanvas" :is-open="isOpen" />
+      </div>
+    </transition>
+    <transition
+      enter-active-class="ease-out duration-300"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="ease-in duration-200"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <slot name="backdrop">
+        <div v-if="isOpen" class="fixed inset-0 transform transition-all z-10">
+          <div
+            class="absolute inset-0 bg-gray-900 opacity-50"
+            @click="
+              closeOffCanvas();
+              emit('backdrop-click');
+            "
+          ></div>
+        </div>
+      </slot>
+    </transition>
+  </Teleport>
+</template>
+
+<style scoped>
+.left.slide-fade-enter-from {
+  transform: translateX(-100%);
+}
+
+.left.slide-fade-enter-active {
+  transition: all 0.5s ease-in-out;
+}
+
+.left.slide-fade-leave-active-to {
+  transition: all 0.5s ease-in-out;
+}
+
+.left.slide-fade-enter,
+.left.slide-fade-leave-to {
+  transform: translateX(-100%);
+}
+
+.right.slide-fade-enter-from {
+  transform: translateX(100%);
+}
+
+.right.slide-fade-enter-active {
+  transition: all 0.5s ease-in-out;
+}
+
+.right.slide-fade-leave-active-to {
+  transition: all 0.5s ease-in-out;
+}
+
+.right.slide-fade-enter,
+.right.slide-fade-leave-to {
+  transform: translateX(100%);
+}
+
+.top.slide-fade-enter-from {
+  transform: translateY(-100%);
+}
+
+.top.slide-fade-enter-active {
+  transition: all 0.5s ease-in-out;
+}
+
+.top.slide-fade-leave-active-to {
+  transition: all 0.5s ease-in-out;
+}
+
+.top.slide-fade-enter,
+.top.slide-fade-leave-to {
+  transform: translateY(-100%);
+}
+
+.bottom.slide-fade-enter-from {
+  transform: translateY(100%);
+}
+
+.bottom.slide-fade-enter-active {
+  transition: all 0.5s ease-in-out;
+}
+
+.bottom.slide-fade-leave-active-to {
+  transition: all 0.5s ease-in-out;
+}
+
+.bottom.slide-fade-enter,
+.bottom.slide-fade-leave-to {
+  transform: translateY(100%);
+}
+</style>
