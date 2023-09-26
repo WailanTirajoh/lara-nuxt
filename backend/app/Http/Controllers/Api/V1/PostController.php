@@ -21,7 +21,7 @@ class PostController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/posts",
+     *     path="/api/v1/posts",
      *     summary="Get a list of posts",
      *     description="Returns a list of posts",
      *     tags={"Posts"},
@@ -116,7 +116,7 @@ class PostController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/posts",
+     *     path="/api/v1/posts",
      *     summary="Store a new post",
      *     description="Stores a new post in the database",
      *     tags={"Posts"},
@@ -231,7 +231,7 @@ class PostController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/posts/{post}",
+     *     path="/api/v1/posts/{post}",
      *     summary="Get a single post by ID",
      *     description="Retrieves a single post by its ID",
      *     tags={"Posts"},
@@ -311,7 +311,7 @@ class PostController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/posts/{post}",
+     *     path="/api/v1/posts/{post}",
      *     summary="Update a post by ID",
      *     description="Updates a post by its ID",
      *     tags={"Posts"},
@@ -435,7 +435,7 @@ class PostController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/posts/{post}",
+     *     path="/api/v1/posts/{post}",
      *     summary="Delete a post by ID",
      *     description="Deletes a post by its ID",
      *     tags={"Posts"},

@@ -20,7 +20,7 @@ class RegisterController extends Controller
      * Register a new user.
      *
      * @OA\Post(
-     *     path="/api/auth/register",
+     *     path="/api/v1/auth/register",
      *     summary="Register a new user",
      *     description="Registers a new user and returns a success message.",
      *     tags={"Auth"},

@@ -18,17 +18,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(["as" => "api.", "prefix" => "/v1"], function () {
+    // Unauthenticated
     Route::prefix("/auth")->group(function () {
         Route::post('/login', LoginController::class)->name('login');
-        Route::delete('/logout', LogoutController::class)->name('logout');
         Route::post('/register', RegisterController::class)->name('register');
     });
 
+    // Authtenticated
     Route::group([
         'middleware' => [
             'auth:sanctum'
         ],
     ], function () {
+        Route::prefix("/auth")->group(function () {
+            Route::delete('/logout', LogoutController::class)->name('logout');
+        });
+
         Route::apiResource("posts", PostController::class);
     });
 });

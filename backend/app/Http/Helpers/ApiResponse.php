@@ -20,6 +20,6 @@ class ApiResponse
         $data = null,
         $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
     ) {
-        return response()->json(['error' => $message, $data => $data], $statusCode);
+        return response()->json(['error' => $message, 'data' => $data], $statusCode);
     }
 }

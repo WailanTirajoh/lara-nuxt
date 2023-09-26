@@ -18,7 +18,7 @@ class LoginController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/auth/login",
+     *     path="/api/v1/auth/login",
      *     summary="Login",
      *     description="Logs in a user with valid credentials and returns a token.",
      *     tags={"Auth"},
@@ -62,14 +62,14 @@ class LoginController extends Controller
     public function __invoke(LoginRequest $request)
     {
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return ApiResponse::success(
+            return ApiResponse::error(
+                message: 'Invalid credentials',
                 data: [
                     'errors' => [
                         'email' => [
                             'Invalid credentials',
                         ]
                     ],
-                    'message' => 'Invalid credentials'
                 ],
                 statusCode: Response::HTTP_UNAUTHORIZED
             );

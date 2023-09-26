@@ -11,15 +11,11 @@ use Illuminate\Support\Facades\Auth;
 class LogoutController extends Controller
 {
     /**
-     * @OA\Post(
-     *     path="/api/auth/logout",
+     * @OA\Delete(
+     *     path="/api/v1/auth/logout",
      *     summary="Logout",
      *     description="Logs out a user with valid token and destroy the token.",
      *     tags={"Auth"},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/LogoutRequest")
-     *     ),
      *     @OA\Response(
      *         response=204,
      *         description="Successful logout",
@@ -27,6 +23,9 @@ class LogoutController extends Controller
      *             @OA\Property(property="message", type="string", example="Success logout")
      *         )
      *     ),
+     *     security={
+     *         {"bearerAuth": {}}
+     *     }
      * )
      */
     public function __invoke(LogoutRequest $request)
