@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Auth\LoginController;
+use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\PostController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(["as" => "api.", "prefix" => "/v1"], function () {
     Route::prefix("/auth")->group(function () {
         Route::post('/login', LoginController::class)->name('login');
+        Route::delete('/logout', LogoutController::class)->name('logout');
         Route::post('/register', RegisterController::class)->name('register');
     });
 
