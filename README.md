@@ -1,5 +1,5 @@
 # lara-nuxt
-Fully function fullstack apps build with Laravel API & Nuxt 3 FE
+Monorepo fullstack apps build with Laravel API & Nuxt 3 FE
 
 
 ## Backend
