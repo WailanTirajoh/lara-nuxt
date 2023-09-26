@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+
 const dialog = useDialog();
+
+const authStore = useAuthStore();
+const { profile } = storeToRefs(authStore);
 
 const logout = async () => {
   const res = await dialog.fire({
@@ -8,17 +13,29 @@ const logout = async () => {
   });
 
   if (!res) return;
+
+  await useFetchAPI("/auth/logout", {
+    method: "delete",
+  });
+
+  useAuthStore().revokeAccessToken();
+
+  navigateTo("/auth/login");
 };
 </script>
 
 <template>
   <div class="h-full">
     <div class="h-16 px-4">
-      <div class="flex gap-2 items-center">
+      <div v-if="profile" class="flex gap-2 items-center">
         <NuxtImg src="/wailan.jpeg" class="w-8 h-8 rounded border" />
         <div class="">
-          <div class="text-lg text-slate-900">Wailan Tirajoh</div>
-          <div class="text-sm text-slate-400">Software Engineer</div>
+          <div class="text-lg text-slate-900">
+            {{ profile.name }}
+          </div>
+          <div class="text-sm text-slate-400">
+            {{ profile.email }}
+          </div>
         </div>
       </div>
     </div>

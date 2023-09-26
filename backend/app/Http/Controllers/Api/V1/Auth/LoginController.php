@@ -71,7 +71,7 @@ class LoginController extends Controller
                         ]
                     ],
                 ],
-                statusCode: Response::HTTP_UNAUTHORIZED
+                statusCode: Response::HTTP_UNPROCESSABLE_ENTITY
             );
         }
 

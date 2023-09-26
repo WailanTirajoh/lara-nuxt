@@ -1,14 +1,48 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+
+import type { FormKitNode } from "@formkit/core";
+import type { LoginRequest, LoginResponse } from "@/types/api/auth";
+
+useSeoMeta({
+  title: "Login",
+});
+
 definePageMeta({
   layout: "guest",
 });
+
+const authStore = useAuthStore();
+const { accessToken } = storeToRefs(authStore);
+
+async function submit(loginRequest: LoginRequest, node: FormKitNode) {
+  const { data, error } = await useFetchAPI<ApiResponse<LoginResponse>>(
+    "/auth/login",
+    {
+      method: "post",
+      body: loginRequest,
+    }
+  );
+
+  if (error.value) {
+    if (error.value.data?.data.errors) {
+      node.setErrors(error.value.data.data.errors);
+    }
+  }
+
+  if (!data.value) return;
+
+  accessToken.value = data.value.data.access_token;
+
+  navigateTo("/");
+}
 </script>
 
 <template>
   <div class="p-4 border rounded max-w-lg mx-auto bg-white shadow">
     <div class="grid grid-cols-12">
       <div class="col-span-12">
-        <FormKit type="form">
+        <FormKit type="form" submit-label="Login" @submit="submit">
           <FormKit
             type="text"
             name="email"
@@ -16,6 +50,7 @@ definePageMeta({
             label="Email"
             help="Your email"
             placeholder="jondoe@email.com"
+            validation="required|email"
           />
           <FormKit
             type="password"
@@ -24,6 +59,7 @@ definePageMeta({
             label="Password"
             help="Your Password"
             placeholder="********"
+            validation="required"
           />
         </FormKit>
       </div>

@@ -62,12 +62,7 @@ class UpdatePostRequest extends FormRequest
             'body' => [
                 'required',
                 'string'
-            ],
-            'author_id' => [
-                'required',
-                'integer',
-                'exists:users,id'
-            ],
+            ]
         ];
     }
 }

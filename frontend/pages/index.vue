@@ -1,4 +1,7 @@
 <script setup lang="ts">
+useSeoMeta({
+  title: "Home",
+});
 definePageMeta({
   middleware: ["auth"],
 });

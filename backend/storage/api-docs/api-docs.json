@@ -114,6 +114,26 @@
                 ]
             }
         },
+        "/api/v1/auth/profile": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Auth Profile",
+                "description": "Logs out a user with valid token and destroy the token.",
+                "operationId": "69b30311962aac00eabd81e4705e5972",
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/auth/register": {
             "post": {
                 "tags": [
@@ -212,6 +232,16 @@
                         "schema": {
                             "type": "integer",
                             "default": 1
+                        }
+                    },
+                    {
+                        "name": "with_trashed",
+                        "in": "query",
+                        "description": "Current page (default is 1)",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
                         }
                     }
                 ],

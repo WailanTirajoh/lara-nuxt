@@ -1,10 +1,7 @@
-// The following Tailwind theme aspires to be a reproduction of the
-// default optional Genesis CSS theme that ships with FormKit
-
 export default {
   // Global styles apply to _all_ inputs with matching section keys
   global: {
-    fieldset: "max-w-md border border-gray-400 rounded px-2 pb-1",
+    fieldset: "border border-gray-400 rounded px-2 pb-1",
     help: "text-xs text-gray-500",
     inner:
       "formkit-disabled:bg-gray-200 formkit-disabled:cursor-not-allowed formkit-disabled:pointer-events-none",
@@ -48,7 +45,7 @@ export default {
     emptyMessageInner:
       "flex items-center justify-center text-sm p-2 text-center w-full text-gray-500 [&>span]:mr-3 [&>span]:ml-0",
     inner:
-      "max-w-md relative flex ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 rounded mb-1 formkit-disabled:focus-within:ring-gray-400 formkit-disabled:focus-within:ring-1 [&>span:first-child]:focus-within:text-blue-500",
+      "relative flex ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 rounded mb-1 formkit-disabled:focus-within:ring-gray-400 formkit-disabled:focus-within:ring-1 [&>span:first-child]:focus-within:text-blue-500",
     input: "w-full px-3 py-2",
     listbox: "bg-white shadow-lg rounded overflow-hidden",
     listboxButton: "flex w-12 self-stretch justify-center mx-auto",
@@ -69,13 +66,13 @@ export default {
   },
   "family:text": {
     inner:
-      "flex items-center max-w-md ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 [&>label:first-child]:focus-within:text-blue-500 rounded mb-1",
+      "flex items-center ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 [&>label:first-child]:focus-within:text-blue-500 rounded mb-1",
     input:
       "w-full px-3 py-2 border-none text-base text-gray-700 placeholder-gray-400",
   },
   "family:date": {
     inner:
-      "flex items-center max-w-md ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 [&>label:first-child]:focus-within:text-blue-500 rounded mb-1",
+      "flex items-center ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 [&>label:first-child]:focus-within:text-blue-500 rounded mb-1",
     input: "w-full px-3 py-2 border-none text-gray-700 placeholder-gray-400",
   },
 
@@ -97,7 +94,7 @@ export default {
       "relative z-[2] ml-auto text-[0px] hover:text-red-500 pl-2 peer-data-[has-multiple=true]:text-sm peer-data-[has-multiple=true]:text-blue-500 peer-data-[has-multiple=true]:ml-3 peer-data-[has-multiple=true]:mb-2 formkit-multiple:bottom-[0.15em] formkit-multiple:pl-0 formkit-multiple:ml-0 formkit-multiple:left-[1em] formkit-multiple:formkit-prefix-icon:left-[3.75em]",
     fileRemoveIcon: "block text-base w-3 relative z-[2]",
     inner:
-      "relative max-w-md cursor-pointer formkit-multiple:[&>button]:absolute",
+      "relative cursor-pointer formkit-multiple:[&>button]:absolute",
     input:
       "cursor-pointer text-transparent absolute top-0 right-0 left-0 bottom-0 opacity-0 z-[2]",
     noFiles: "flex w-full items-center px-3 py-2 text-gray-400",
@@ -117,7 +114,7 @@ export default {
   },
   select: {
     inner:
-      "flex relative max-w-md items-center rounded mb-1 ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 [&>span:first-child]:focus-within:text-blue-500",
+      "flex relative items-center rounded mb-1 ring-1 ring-gray-400 focus-within:ring-blue-500 focus-within:ring-2 [&>span:first-child]:focus-within:text-blue-500",
     input:
       'w-full pl-3 pr-8 py-2 border-none text-base text-gray-700 placeholder-gray-400 formkit-multiple:p-0 data-[placeholder="true"]:text-gray-400 formkit-multiple:data-[placeholder="true"]:text-inherit',
     selectIcon:
@@ -126,7 +123,7 @@ export default {
   },
   textarea: {
     inner:
-      "flex max-w-md rounded mb-1 ring-1 ring-gray-400 focus-within:ring-blue-500 [&>label:first-child]:focus-within:text-blue-500",
+      "flex rounded mb-1 ring-1 ring-gray-400 focus-within:ring-blue-500 [&>label:first-child]:focus-within:text-blue-500",
     input:
       "block w-full h-32 px-3 py-3 border-none text-base text-gray-700 placeholder-gray-400 focus:shadow-outline",
   },

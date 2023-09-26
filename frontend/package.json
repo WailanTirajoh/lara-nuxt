@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host 127.0.0.1",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -20,8 +20,11 @@
     "nuxt-icon": "^0.5.0"
   },
   "dependencies": {
+    "@formkit/addons": "^1.1.0",
     "@formkit/icons": "^1.1.0",
     "@formkit/themes": "^1.1.0",
-    "@nuxt/image": "1.0.0-rc.2"
+    "@formkit/zod": "^1.1.0",
+    "@nuxt/image": "1.0.0-rc.2",
+    "zod": "^3.22.2"
   }
 }

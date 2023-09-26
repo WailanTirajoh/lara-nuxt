@@ -1,8 +1,13 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+
 const isOpen = ref(false);
 
-const { width } = useWindowSize();
 const route = useRoute();
+const authStore = useAuthStore();
+
+const { width } = useWindowSize();
+const { isAuthenticated } = storeToRefs(authStore);
 
 watch(
   () => route.fullPath,
@@ -25,7 +30,7 @@ watch(width, (newVal, oldVal) => {
       <Icon name="logos:nuxt-icon" class="text-xl" />
       <div class="">Nuxt AdMiny</div>
     </div>
-    <div class="block sm:hidden">
+    <div v-if="isAuthenticated" class="block sm:hidden">
       <button @click="isOpen = !isOpen">
         <Icon name="ci:hamburger-md" />
       </button>

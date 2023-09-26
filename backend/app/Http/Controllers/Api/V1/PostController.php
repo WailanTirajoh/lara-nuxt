@@ -10,6 +10,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @OA\Tag(
@@ -43,6 +44,16 @@ class PostController extends Controller
      *         @OA\Schema(
      *             type="integer",
      *             default=1
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="with_trashed",
+     *         in="query",
+     *         description="Current page (default is 1)",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="boolean",
+     *             default=false
      *         )
      *     ),
      *     @OA\Response(
@@ -104,8 +115,14 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        $search = $request->query("query");
         $limit = $request->query('limit', 5);
-        $posts = Post::with("author")->paginate($limit);
+        $posts = Post::when($request->with_trashed == 'true', fn ($query) => $query->withTrashed())
+            ->with("author")
+            ->where(function ($query) use ($search) {
+                $query->where("title", 'like', "%{$search}%");
+            })
+            ->paginate($limit);
 
         return ApiResponse::success(
             data: [
@@ -212,6 +229,7 @@ class PostController extends Controller
     {
         try {
             $validatedData = $request->validated();
+            $validatedData['author_id'] = Auth::user()->id;
             $post = Post::create($validatedData);
 
             return ApiResponse::success(
