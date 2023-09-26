@@ -1,4 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts" generic="T extends string | number | symbol = string">
+export interface IDatatableProps<T extends string | number | symbol = string> {
+  columns: Array<{
+    field: T;
+    label: string;
+    class?: string;
+    advanceInput?: boolean;
+  }>;
+  data: Array<Record<T | string, any>>;
+  fieldKey: T;
+  page: number;
+  limit: number;
+}
+
+const props = defineProps<IDatatableProps<T>>();
+</script>
 
 <template>
   <div class="overflow-auto w-full border rounded">
@@ -6,46 +21,51 @@
       <slot name="head"> </slot>
     </div>
     <table
-      class="w-full rounded overflow-hidden text-slate-700"
+      class="w-full overflow-hidden text-slate-700"
       aria-label="Posts Table"
     >
       <thead class="bg-gray-50 border-b">
         <tr>
-          <th scope="col" class="text-slate-900 font-normal p-2 w-12">No</th>
-          <th scope="col" class="text-slate-900 font-normal p-2">Title</th>
-          <th scope="col" class="text-slate-900 font-normal p-2">Created By</th>
+          <th
+            v-for="column in columns"
+            :key="column.field"
+            scope="col"
+            class="text-slate-900 font-normal p-2"
+            :class="[column.class]"
+          >
+            {{ column.label }}
+          </th>
         </tr>
         <tr>
-          <th scope="col" class="text-slate-900 font-normal p-1 w-12"></th>
-          <th scope="col" class="text-slate-900 font-normal p-1">
+          <th
+            v-for="column in columns"
+            :key="column.field"
+            scope="col"
+            class="text-slate-900 font-normal p-1"
+          >
             <input
+              v-if="column.advanceInput"
               type="text"
               class="p-2 rounded bg-gray-white w-full focus:bg-white focus:outline-none focus:ring focus:ring-violet-300 duration-300"
               placeholder="Search by title"
-            />
-          </th>
-          <th scope="col" class="text-slate-900 font-normal p-1">
-            <input
-              type="text"
-              class="p-2 rounded bg-gray-white w-full focus:bg-white focus:outline-none focus:ring focus:ring-violet-300 duration-300"
-              placeholder="Search by created by"
             />
           </th>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="i in 5"
-          :key="i"
+          v-for="(d, index) in data"
+          :key="d[fieldKey as T]"
           class="duration-100 rounded-lg hover:bg-gray-100"
         >
           <td
-            class="p-3 border first:border-l-0 last:border-r-0 w-12 text-center"
+            class="p-3 border first:border-l-0 last:border-r-0"
+            v-for="column in columns"
           >
-            {{ i }}
+            <slot name="row" :data="d" :column="column" :index="index">
+              {{ d[column.field] }}
+            </slot>
           </td>
-          <td class="p-3 border first:border-l-0 last:border-r-0">Test</td>
-          <td class="p-3 border first:border-l-0 last:border-r-0">Test</td>
         </tr>
       </tbody>
     </table>

@@ -100,7 +100,7 @@ onMounted(() => {
       >
         <slot name="header">
           <div
-            class="flex justify-between p-4 border-b-2 dark:border-gray-700 border-b-gray-200 items-center"
+            class="flex justify-between p-1 border-b-2 dark:border-gray-700 border-b-gray-200 items-center"
           >
             <slot name="headerTitle"></slot>
             <slot name="headerButton">

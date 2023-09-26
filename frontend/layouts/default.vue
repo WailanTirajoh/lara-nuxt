@@ -28,5 +28,8 @@ const { sidebarIsOpen } = storeToRefs(appStore);
         </div>
       </main>
     </div>
+    <Teleport to="body">
+      <BaseDialog />
+    </Teleport>
   </div>
 </template>
