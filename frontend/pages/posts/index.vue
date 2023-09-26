@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { IDatatableProps } from "@/components/Base/Datatable/Datatable.vue";
 
+definePageMeta({
+  middleware: ["auth"]
+})
+
 interface Data {
   id: number;
   title: string;

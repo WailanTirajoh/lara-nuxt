@@ -1,3 +1,9 @@
+<script setup lang="ts">
+definePageMeta({
+  middleware: ["auth"],
+});
+</script>
+
 <template>
   <div class="grid grid-cols-12">
     <div class="col-span-12">

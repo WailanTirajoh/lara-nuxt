@@ -1,3 +1,16 @@
+<script setup lang="ts">
+const dialog = useDialog();
+
+const logout = async () => {
+  const res = await dialog.fire({
+    title: "Are you sure you want to logout?",
+    description: "This will destroy your current session.",
+  });
+
+  if (!res) return;
+};
+</script>
+
 <template>
   <div class="h-full">
     <div class="h-16 px-4">
@@ -64,6 +77,7 @@
         <BaseButton
           class="flex gap-2 items-center text-lg w-full"
           variant="light"
+          @click="logout"
         >
           <Icon name="solar:logout-3-bold-duotone" />
           <div class="text-center">Logout</div>

@@ -1,6 +1,9 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@formkit/icons': ^1.1.0
+  '@formkit/nuxt': ^1.1.0
+  '@formkit/themes': ^1.1.0
   '@nuxt/devtools': latest
   '@nuxt/image': 1.0.0-rc.2
   '@nuxtjs/google-fonts': ^3.0.2
@@ -11,9 +14,12 @@ specifiers:
   nuxt-icon: ^0.5.0
 
 dependencies:
+  '@formkit/icons': 1.1.0
+  '@formkit/themes': 1.1.0
   '@nuxt/image': 1.0.0-rc.2
 
 devDependencies:
+  '@formkit/nuxt': 1.1.0
   '@nuxt/devtools': 0.8.5_nuxt@3.7.3
   '@nuxtjs/google-fonts': 3.0.2
   '@nuxtjs/tailwindcss': 6.8.0
@@ -794,6 +800,118 @@ packages:
     engines: {node: '>=14'}
     dev: false
     optional: true
+
+  /@formkit/core/1.1.0:
+    resolution: {integrity: sha512-p3fbSVYI/93mndlIKU+Rc/ZqR9mzQ55B8HLvDAj53Aooo5GVDGeRYI78+rbB0Uy4nuu/Drivr8+x1+uiWTuOdw==}
+    dependencies:
+      '@formkit/utils': 1.1.0
+
+  /@formkit/dev/1.1.0:
+    resolution: {integrity: sha512-9HOALk5mHEpw8YE2mYGQwL8dompKT02t8NijzIaNmh9+a7P4xcQoK2ty6dQFSt4MS21nNDun7R2eCF/TXtDo6g==}
+    dependencies:
+      '@formkit/core': 1.1.0
+      '@formkit/utils': 1.1.0
+    dev: true
+
+  /@formkit/i18n/1.1.0:
+    resolution: {integrity: sha512-CtljGO5Ee9JZStM42lIFilsbur2lZVJsVLnWZNqL6MDaBW4W4huTuMYaz1qOoNV2xXdiHHO88F6MQARzeY8yUw==}
+    dependencies:
+      '@formkit/core': 1.1.0
+      '@formkit/utils': 1.1.0
+      '@formkit/validation': 1.1.0
+    dev: true
+
+  /@formkit/icons/1.1.0:
+    resolution: {integrity: sha512-jD0qEbSAjSRY/1ilupJPLiJOv7HesI66pr8GMJaeuanSLS/h1vFOAFZmRu/izKjyJBZeC0TvO2szzC8kCSle/A==}
+    dependencies:
+      '@formkit/core': 1.1.0
+    dev: false
+
+  /@formkit/inputs/1.1.0:
+    resolution: {integrity: sha512-R55gIS0dATpL6q1mAN5egXU1hruPADWunwfR9Ff42p/iMLEoKg/UxeUP6Lm8rUiZmqa5b6DD3deo6l68afNDAQ==}
+    dependencies:
+      '@formkit/core': 1.1.0
+      '@formkit/utils': 1.1.0
+    dev: true
+
+  /@formkit/nuxt/1.1.0:
+    resolution: {integrity: sha512-WG5JCq4uPmZA9vj/wLAb64amNYpnISgHWDsFNRLs/0fCgwYUWBKDprHl+qs09/GQsw+O+qhstfiT0DZvVgywhA==}
+    dependencies:
+      '@formkit/core': 1.1.0
+      '@formkit/i18n': 1.1.0
+      '@formkit/vue': 1.1.0
+      '@nuxt/kit': 3.7.3
+      chokidar: 3.5.3
+      nuxi: 3.9.0
+      pathe: 1.1.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+      - tailwindcss
+      - unocss
+      - windicss
+    dev: true
+
+  /@formkit/observer/1.1.0:
+    resolution: {integrity: sha512-lOVwCXUw1PBDl6ZNBC1TeJYTUEPKhOHhAgUkH++tjjGOcALvZBGKFRhMblGPkoxHeGZaujSB+ADOpOQ6KX2i+w==}
+    dependencies:
+      '@formkit/core': 1.1.0
+      '@formkit/utils': 1.1.0
+    dev: true
+
+  /@formkit/rules/1.1.0:
+    resolution: {integrity: sha512-EZYmwRF8pAa7BRhKptCW10RgJU5O57JA6F0RDCcrEIAuzQVa/Ha3fnG2O+CX4ZPehM7H5U1vZkMOtI0sWxsVCw==}
+    dependencies:
+      '@formkit/core': 1.1.0
+      '@formkit/utils': 1.1.0
+      '@formkit/validation': 1.1.0
+    dev: true
+
+  /@formkit/themes/1.1.0:
+    resolution: {integrity: sha512-ZpJhXh1q7kc3MCJqkQBap/bmsMU312G/TbOlfk3sLpZJmGXdLa6RwP3S9Z4VdUcS9HDwzJj+YGTPDEfR4sTwsA==}
+    peerDependencies:
+      tailwindcss: ^3.2.0
+      unocss: ^0.31.0
+      windicss: ^3.0.0
+    peerDependenciesMeta:
+      tailwindcss:
+        optional: true
+      unocss:
+        optional: true
+      windicss:
+        optional: true
+    dependencies:
+      '@formkit/core': 1.1.0
+
+  /@formkit/utils/1.1.0:
+    resolution: {integrity: sha512-pxYqS+50yGj2NuUZtuayRP8CFKslzd+fbM/PaS5I3UmhQ8oJcj651KNLN2k5XGXSLYIll+VlaCCr4ny0HOd2Mw==}
+
+  /@formkit/validation/1.1.0:
+    resolution: {integrity: sha512-09HajJ0sONNuUmkomugrqpMnEcPWT2mWB+UeDTZOa70/YI36QGOGrC5l5lLwqNygYqbwQG1r8XporafDnAJU+g==}
+    dependencies:
+      '@formkit/core': 1.1.0
+      '@formkit/observer': 1.1.0
+      '@formkit/utils': 1.1.0
+    dev: true
+
+  /@formkit/vue/1.1.0:
+    resolution: {integrity: sha512-hFlTiIpqmXG1k2jhJvM4zRhHSHdKPGlXN+bLlGEig5s/jLCeX3RvjCbRsydmvGddBvx6PXH9IxycAQMPRBaJvg==}
+    dependencies:
+      '@formkit/core': 1.1.0
+      '@formkit/dev': 1.1.0
+      '@formkit/i18n': 1.1.0
+      '@formkit/inputs': 1.1.0
+      '@formkit/observer': 1.1.0
+      '@formkit/rules': 1.1.0
+      '@formkit/themes': 1.1.0
+      '@formkit/utils': 1.1.0
+      '@formkit/validation': 1.1.0
+      vue: 3.3.4
+    transitivePeerDependencies:
+      - tailwindcss
+      - unocss
+      - windicss
+    dev: true
 
   /@hapi/hoek/9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
