@@ -117,7 +117,7 @@ class PostController extends Controller
     {
         $search = $request->query("query");
         $limit = $request->query('limit', 5);
-        $posts = Post::when($request->with_trashed == 'true', fn ($query) => $query->withTrashed())
+        $posts = Post::when($request->with_trashed == 'true', fn ($query) => $query->onlyTrashed())
             ->with("author")
             ->where(function ($query) use ($search) {
                 $query->where("title", 'like', "%{$search}%");
@@ -525,6 +525,100 @@ class PostController extends Controller
             $post->delete();
 
             return ApiResponse::success(message: 'Post deleted successfully', statusCode: Response::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            return ApiResponse::error(
+                message: "Failed to update post: {$e->getMessage()}",
+                statusCode: Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/api/v1/posts/{post_id}/restore",
+     *     summary="Restore a soft-deleted post by ID",
+     *     description="Restores a soft-deleted post by its ID",
+     *     tags={"Posts"},
+     *     @OA\Parameter(
+     *         name="post_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the soft-deleted post to restore",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Post restored successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Post restored successfully"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Unauthorized"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Forbidden"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Post not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Not Found"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to restore post: Error message here"
+     *             )
+     *         )
+     *     ),
+     *     security={
+     *         {"bearerAuth": {}}
+     *     }
+     * )
+     */
+    public function restore($post_id)
+    {
+        try {
+            Post::withTrashed()->find($post_id)->restore();
+
+            return ApiResponse::success(message: 'Post restored successfully');
         } catch (\Exception $e) {
             return ApiResponse::error(
                 message: "Failed to update post: {$e->getMessage()}",

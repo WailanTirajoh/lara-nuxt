@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   ssr: false,
   runtimeConfig: {
     public: {
-      baseURL: "https://lara-blog.test/api/v1",
+      baseUrl: "https://lara-blog.test/api/v1",
     },
   },
   modules: [

@@ -1,3 +1,5 @@
+import { LoginRequest, LoginResponse, ProfileResponse } from "~/types/api/auth";
+
 export const useAuthStore = defineStore("auth", () => {
   const accessToken = useCookie("access_token");
   const profile = ref();
@@ -7,18 +9,6 @@ export const useAuthStore = defineStore("auth", () => {
     accessToken.value = null;
   }
 
-  interface ProfileResponse {
-    message: string;
-    data: {
-      id: number;
-      name: string;
-      email: string;
-      email_verified_at: string | null;
-      created_at: string | null;
-      updated_at: string | null;
-    };
-  }
-
   async function getUserProfile() {
     const { data } = await useFetchAPI<ProfileResponse>("/auth/profile");
     if (data.value) {
@@ -26,11 +16,26 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
 
+  const login = (loginRequest: LoginRequest) => {
+    return useFetchAPI<ApiResponse<LoginResponse>>("/auth/login", {
+      method: "post",
+      body: loginRequest,
+    });
+  };
+
+  const logout = () => {
+    return useFetchAPI("/auth/logout", {
+      method: "delete",
+    });
+  };
+
   return {
     profile,
     isAuthenticated,
     accessToken,
     revokeAccessToken,
     getUserProfile,
+    login,
+    logout,
   };
 });

@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { getNode, type FormKitNode } from "@formkit/core";
-import { PostStoreRequest } from "~/types/api/post";
+import { Post, PostUpdateRequest } from "~/types/api/post";
 
+interface IPostEditInterface {
+  post: Post;
+}
+const props = defineProps<IPostEditInterface>();
 const emit = defineEmits<{
   submit: [];
 }>();
 
 const postStore = usePostStore();
 
-async function submit(body: PostStoreRequest, node: FormKitNode) {
-  const { data, error } = await postStore.store(body);
+async function submit(body: PostUpdateRequest, node: FormKitNode) {
+  const { data, error } = await postStore.update(props.post.id, body);
 
   if (error.value?.data) {
     node.setErrors(error.value.data.errors);
@@ -32,7 +36,11 @@ onMounted(() => {
 <template>
   <div class="grid grid-cols-12">
     <div class="col-span-12">
-      <FormKit type="form" @submit="submit">
+      <FormKit type="form" @submit="submit" :value="{
+        'title': $props.post.title,
+        'slug': $props.post.slug,
+        'body': $props.post.body,
+      }">
         <FormKit
           type="text"
           name="title"

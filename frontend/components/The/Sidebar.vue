@@ -7,7 +7,7 @@ const { sidebarIsOpen } = storeToRefs(appStore);
 
 <template>
   <aside
-    class="group fixed left-0 bg-gray-50 h-[calc(100vh-3rem)] shadow-inner duration-300 hidden sm:block"
+    class="group fixed z-10 left-0 bg-gray-50 h-[calc(100vh-3rem)] shadow-inner duration-300 hidden sm:block"
     :class="{
       'w-64': sidebarIsOpen,
       'w-6 hover:w-64': !sidebarIsOpen,

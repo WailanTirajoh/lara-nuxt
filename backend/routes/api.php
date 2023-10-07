@@ -40,6 +40,7 @@ Route::group([
             Route::delete('/logout', LogoutController::class)->name('logout');
         });
 
+        Route::put('/posts/{id}/restore', [PostController::class, 'restore'])->name('posts.restore');
         Route::apiResource('posts', PostController::class);
     });
 });

@@ -1,12 +1,19 @@
+import { format, parseISO } from "date-fns";
+
 export const stringToSlug = (str: string) => {
-  // Step 1: Remove special characters and spaces
-  str = str.replace(/[^\w\s-]/g, "");
+  return str
+    .replace(/[^\w\s-]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+};
 
-  // Step 2: Convert the string to lowercase
-  str = str.toLowerCase();
+export const formatDatetime = (
+  datetime: string,
+  datetimeFormat = "MM/dd/yyyy HH:mm:ss"
+) => {
+  return format(parseISO(datetime), datetimeFormat);
+};
 
-  // Step 3: Replace spaces with hyphens
-  str = str.replace(/\s+/g, "-");
-
-  return str;
+export const formatDate = (datetime: string) => {
+  return format(parseISO(datetime), "MM/dd/yyyy");
 };

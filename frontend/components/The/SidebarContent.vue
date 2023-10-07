@@ -14,11 +14,8 @@ const logout = async () => {
 
   if (!res) return;
 
-  await useFetchAPI("/auth/logout", {
-    method: "delete",
-  });
-
-  useAuthStore().revokeAccessToken();
+  await authStore.logout();
+  authStore.revokeAccessToken();
 
   navigateTo("/auth/login");
 };

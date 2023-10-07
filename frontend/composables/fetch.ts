@@ -25,16 +25,24 @@ export const useFetchAPI = async <
   opts?: UseFetchOptions<_ResT, DataT, PickKeys, DefaultT, ReqT, Method>
 ): Promise<AsyncData<PickFrom<DataT, PickKeys> | DefaultT, ErrorT | null>> => {
   const config = useRuntimeConfig();
-  const auth = useAuthStore();
+  const authStore = useAuthStore();
 
   return useFetch(request, {
-    baseURL: opts?.baseURL ?? config.public.baseURL,
+    baseURL: opts?.baseURL ?? config.public.baseUrl,
     headers: {
-      Authorization: `Bearer ${auth.accessToken}`,
+      Authorization: `Bearer ${authStore.accessToken}`,
+      accept: `application/json`,
       ...(opts?.headers ?? {}),
     },
-    retry: 3,
-    onResponseError(context) {
+    retry: 1,
+    async onResponseError(context) {
+      if (context.response.status === 401) {
+        authStore.revokeAccessToken();
+
+        navigateTo("/auth/login");
+        return;
+      }
+
       const data = context.response._data;
 
       if (data.error) {
@@ -50,16 +58,18 @@ export const $useFetchAPI = async <T>(
   fetchOptions?: Parameters<typeof $fetch<T>>[1]
 ) => {
   const config = useRuntimeConfig();
-  const auth = useAuthStore();
+  const authStore = useAuthStore();
 
   return await $fetch<T>(request, {
     ...fetchOptions,
-    baseURL: fetchOptions?.baseURL ?? config.public.baseURL,
+    baseURL: fetchOptions?.baseURL ?? config.public.baseUrl,
     headers: {
-      Authorization: `Bearer ${auth.accessToken}`,
+      Authorization: `Bearer ${authStore.accessToken}`,
+      accept: `application/json`,
       ...(fetchOptions?.headers ?? {}),
     },
     onResponseError(context) {
+      console.log(context);
       const data = context.response._data;
 
       if (data.error) {

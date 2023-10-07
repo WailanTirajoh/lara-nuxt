@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 
 import type { FormKitNode } from "@formkit/core";
-import type { LoginRequest, LoginResponse } from "@/types/api/auth";
+import type { LoginRequest } from "@/types/api/auth";
 
 useSeoMeta({
   title: "Login",
@@ -16,18 +16,10 @@ const authStore = useAuthStore();
 const { accessToken } = storeToRefs(authStore);
 
 async function submit(loginRequest: LoginRequest, node: FormKitNode) {
-  const { data, error } = await useFetchAPI<ApiResponse<LoginResponse>>(
-    "/auth/login",
-    {
-      method: "post",
-      body: loginRequest,
-    }
-  );
+  const { data, error } = await authStore.login(loginRequest);
 
-  if (error.value) {
-    if (error.value.data?.data.errors) {
-      node.setErrors(error.value.data.data.errors);
-    }
+  if (error.value?.data?.data.errors) {
+    node.setErrors(error.value.data.data.errors);
   }
 
   if (!data.value) return;

@@ -5,19 +5,35 @@ export interface IDatatableProps<T extends string> {
     label: string;
     class?: string;
     advanceInput?: boolean;
+    format?: "text" | "datetime" | "date";
   }>;
   data: Array<Record<T | string, any>>;
   fieldKey: T;
   page: number;
   limit: number;
   loading: boolean;
-  withTrashed?: boolean;
+  trashed?: boolean;
   search?: string;
 }
+
+type FormatType = "text" | "datetime" | "date";
 
 withDefaults(defineProps<IDatatableProps<T>>(), {
   loading: false,
 });
+
+const format = (value: string, type: FormatType = "text") => {
+  let result = value;
+  switch (type) {
+    case "datetime":
+      result = formatDatetime(value);
+      break;
+    case "date":
+      result = formatDate(value);
+      break;
+  }
+  return result;
+};
 
 const getFieldValue = (data: Record<string, any>, field: string) => {
   const keys = field.split(".");
@@ -41,55 +57,70 @@ const getFieldValue = (data: Record<string, any>, field: string) => {
     <div class="bg-gray-50">
       <slot name="head"> </slot>
     </div>
-    <table
-      class="w-full overflow-hidden text-slate-700"
-      aria-label="Posts Table"
-    >
-      <thead class="bg-gray-50 border-b">
-        <tr>
-          <th
-            v-for="column in columns"
-            :key="column.field"
-            scope="col"
-            class="text-slate-900 font-normal p-2"
-            :class="[column.class]"
-          >
-            {{ column.label }}
-          </th>
-        </tr>
-        <tr>
-          <th
-            v-for="column in columns"
-            :key="column.field"
-            scope="col"
-            class="text-slate-900 font-normal p-1"
-          >
-            <input
-              v-if="column.advanceInput"
-              type="text"
-              class="p-2 rounded bg-gray-white w-full focus:bg-white outline-none focus:ring focus:ring-violet-300 duration-300"
-              :placeholder="`Search by ${column.label}`"
-            />
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(d, index) in data"
-          :key="d[fieldKey as T]"
-          class="duration-100 rounded-lg hover:bg-gray-100"
-        >
-          <td
-            class="p-3 border first:border-l-0 last:border-r-0 hover:bg-gray-200 duration-100"
-            v-for="column in columns"
-          >
-            <slot name="row" :data="d" :column="column" :index="index">
-              {{ getFieldValue(d, column.field) }}
-            </slot>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="overflow-auto">
+      <table
+        class="w-full overflow-hidden text-slate-700"
+        aria-label="Posts Table"
+      >
+        <thead class="bg-gray-50 border-b">
+          <tr>
+            <th
+              v-for="column in columns"
+              :key="column.field"
+              scope="col"
+              class="text-slate-900 font-normal p-2"
+              :class="[column.class]"
+            >
+              {{ column.label }}
+            </th>
+          </tr>
+          <tr>
+            <th
+              v-for="column in columns"
+              :key="column.field"
+              scope="col"
+              class="text-slate-900 font-normal p-1"
+            >
+              <input
+                v-if="column.advanceInput"
+                type="text"
+                class="p-2 rounded bg-gray-white w-full focus:bg-white outline-none focus:ring focus:ring-violet-300 duration-300"
+                :placeholder="`Search by ${column.label}`"
+              />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-if="data.length === 0">
+            <tr class="duration-100 rounded-lg hover:bg-gray-100">
+              <td
+                class="p-3 border first:border-l-0 last:border-r-0 hover:bg-gray-200 duration-100 text-center"
+                :colspan="columns.length"
+              >
+                <slot name="empty">No data</slot>
+              </td>
+            </tr>
+            <slot name="empty"></slot>
+          </template>
+          <template v-else>
+            <tr
+              v-for="(d, index) in data"
+              :key="d[fieldKey as T]"
+              class="duration-100 rounded-lg hover:bg-gray-100"
+            >
+              <td
+                class="p-3 border first:border-l-0 last:border-r-0 hover:bg-gray-200 duration-100"
+                v-for="column in columns"
+              >
+                <slot name="row" :data="d" :column="column" :index="index">
+                  {{ format(getFieldValue(d, column.field), column.format) }}
+                </slot>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
     <div class="p-2">
       <div class="flex items-center justify-between">
         <div class="">Rows per page</div>
@@ -117,7 +148,7 @@ const getFieldValue = (data: Record<string, any>, field: string) => {
     >
       <div
         v-if="loading"
-        class="w-full h-full absolute top-0 flex items-center justify-center bg-slate-800 bg-opacity-10 duration-100"
+        class="w-full h-full absolute top-0 flex items-center justify-center bg-slate-800 bg-opacity-10 duration-100 cursor-wait"
       >
         <Icon name="eos-icons:loading" class="text-3xl text-slate-700" />
       </div>
