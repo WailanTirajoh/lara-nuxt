@@ -24,7 +24,14 @@ const logout = async () => {
 <template>
   <div class="h-full">
     <div class="h-16 px-4">
-      <div v-if="profile" class="flex gap-2 items-center">
+      <div v-if="!profile" class="flex gap-2 items-center">
+        <div class="skeleton !w-10 !h-8 rounded"></div>
+        <div class="flex flex-col gap-3 w-full">
+          <div class="skeleton w-24 h-4 rounded"></div>
+          <div class="skeleton w-32 h-4 rounded"></div>
+        </div>
+      </div>
+      <div v-else class="flex gap-2 items-center">
         <NuxtImg src="/wailan.jpeg" class="w-8 h-8 rounded border" />
         <div class="">
           <div class="text-lg text-slate-900">
@@ -60,6 +67,16 @@ const logout = async () => {
             >
               <Icon name="mdi:post-outline" class="text-xl" />
               <div class="">Post</div>
+            </NuxtLink>
+          </li>
+          <li class="relative overflow-hidden">
+            <NuxtLink
+              class="px-4 py-2 flex items-center duration-300 text-md gap-2 hover:bg-blue-100 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-600 before:rounded-r before:duration-300"
+              active-class="text-blue-600 bg-blue-100 before:!left-0"
+              to="/users"
+            >
+              <Icon name="ph:users-three-duotone" class="text-xl" />
+              <div class="">User</div>
             </NuxtLink>
           </li>
         </ul>

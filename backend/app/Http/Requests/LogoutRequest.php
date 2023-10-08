@@ -4,13 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * @OA\Schema(
- *     schema="LogoutRequest",
- *     title="Logout Request",
- *     description="Request structure for user logout"
- * )
- */
 class LogoutRequest extends FormRequest
 {
     /**

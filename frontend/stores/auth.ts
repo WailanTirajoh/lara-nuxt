@@ -24,6 +24,7 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const logout = () => {
+    profile.value = null;
     return useFetchAPI("/auth/logout", {
       method: "delete",
     });

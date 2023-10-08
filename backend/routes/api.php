@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\PostController;
+use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,5 +45,7 @@ Route::group([
         Route::delete('/posts/{id}/destroy-permanent', [PostController::class, 'destroy_permanent'])
             ->name('posts.restore');
         Route::apiResource('posts', PostController::class);
+
+        Route::apiResource('users', UserController::class);
     });
 });

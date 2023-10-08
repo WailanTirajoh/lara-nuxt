@@ -10,21 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/api/v1/auth/profile",
-     *     summary="Auth Profile",
-     *     description="Logs out a user with valid token and destroy the token.",
-     *     tags={"Auth"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful",
-     *     ),
-     *     security={
-     *         {"bearerAuth": {}}
-     *     }
-     * )
-     */
     public function __invoke()
     {
         try {

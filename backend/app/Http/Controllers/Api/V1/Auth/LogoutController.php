@@ -10,24 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
-    /**
-     * @OA\Delete(
-     *     path="/api/v1/auth/logout",
-     *     summary="Logout",
-     *     description="Logs out a user with valid token and destroy the token.",
-     *     tags={"Auth"},
-     *     @OA\Response(
-     *         response=204,
-     *         description="Successful logout",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Success logout")
-     *         )
-     *     ),
-     *     security={
-     *         {"bearerAuth": {}}
-     *     }
-     * )
-     */
     public function __invoke(LogoutRequest $request)
     {
         try {

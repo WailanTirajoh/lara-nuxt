@@ -2,10 +2,14 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Helpers\ApiResponse;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -34,5 +38,28 @@ class Handler extends ExceptionHandler
                 ], Response::HTTP_NOT_FOUND);
             }
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e) {
+            $statusCode = match (true) {
+                $e instanceof HttpException => $e->getStatusCode(),
+                $e instanceof AuthenticationException => 401,
+                default => Response::HTTP_INTERNAL_SERVER_ERROR,
+            };
+
+            return match (true) {
+                $e instanceof HttpResponseException => $e->getResponse(),
+                $e instanceof AuthenticationException => $this->unauthenticated($request, $e),
+                $e instanceof ValidationException => $this->convertValidationExceptionToResponse($e, $request),
+                default => ApiResponse::error(
+                    message: "{$e->getMessage()}",
+                    statusCode: $statusCode
+                ),
+            };
+        }
+
+        return parent::render($request, $e);
     }
 }
