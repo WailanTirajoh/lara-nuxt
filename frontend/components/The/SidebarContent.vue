@@ -39,19 +39,19 @@ const logout = async () => {
     <ul
       class="flex flex-col gap-4 px-4 h-[calc(100%-3rem-4rem)] overflow-auto overflow-x-hidden"
     >
+      <li class="relative overflow-hidden">
+        <NuxtLink
+          class="px-4 py-2 flex items-center duration-300 text-md gap-2 hover:bg-blue-100 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-600 before:rounded-r before:duration-300"
+          active-class="text-blue-600 bg-blue-100 before:!left-0"
+          to="/"
+        >
+          <Icon name="lucide:home" class="text-xl" />
+          <div class="">Dashboard</div>
+        </NuxtLink>
+      </li>
       <li class="flex flex-col gap-2">
         <div class="font-semibold">Management</div>
         <ul class="flex flex-col gap-1">
-          <li class="relative overflow-hidden">
-            <NuxtLink
-              class="px-4 py-2 flex items-center duration-300 text-md gap-2 hover:bg-blue-100 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-600 before:rounded-r before:duration-300"
-              active-class="text-blue-600 bg-blue-100 before:!left-0"
-              to="/"
-            >
-              <Icon name="lucide:home" class="text-xl" />
-              <div class="">Home</div>
-            </NuxtLink>
-          </li>
           <li class="relative overflow-hidden">
             <NuxtLink
               class="px-4 py-2 flex items-center duration-300 text-md gap-2 hover:bg-blue-100 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-600 before:rounded-r before:duration-300"

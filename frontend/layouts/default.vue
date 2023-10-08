@@ -19,11 +19,6 @@ const { sidebarIsOpen } = storeToRefs(appStore);
       >
         <NuxtLoadingIndicator />
         <div class="p-4 sm:p-8 flex flex-col gap-2">
-          <div class="text-slate-600 flex gap-4">
-            <div class="">Home</div>
-            <div class="">/</div>
-            <div class="">Posts</div>
-          </div>
           <NuxtPage />
         </div>
       </main>
