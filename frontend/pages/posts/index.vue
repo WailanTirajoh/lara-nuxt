@@ -20,6 +20,12 @@ const datatable = reactive<IDatatableProps<keyof Post | "no" | "action">>({
   fieldKey: "id",
   columns: [
     {
+      label: "Action",
+      field: "action",
+      class: "w-32 bg-gray-50",
+      advanceInput: false,
+    },
+    {
       field: "no",
       label: "No",
       class: "w-14 text-center",
@@ -29,64 +35,37 @@ const datatable = reactive<IDatatableProps<keyof Post | "no" | "action">>({
       field: "title",
       label: "Title",
       advanceInput: false,
+      sortable: true,
     },
     {
       field: "created_at",
-      format: 'datetime',
+      format: "datetime",
       label: "Created At",
       advanceInput: false,
+      sortable: true,
     },
     {
       field: "updated_at",
-      format: 'datetime',
+      format: "datetime",
       label: "Updated At",
       advanceInput: false,
+      sortable: true,
     },
     {
       field: "author.name" as keyof Post,
       label: "Author",
       advanceInput: false,
     },
-    {
-      label: "Action",
-      field: "action",
-      advanceInput: false,
-    },
   ],
   data: [],
   page: 1,
   limit: 5,
+  orderBy: "id",
+  orderType: "asc",
   loading: false,
   trashed: false,
   search: "",
 });
-
-
-const remove = async (id: number) => {
-  const accepted = await dialog.fire({
-    title: "Are you sure?",
-    description: "This action is ireversible!",
-  });
-
-  if (!accepted) return;
-
-  await postStore.destroy(id);
-
-  fetchPost();
-};
-
-const restore = async (id: number) => {
-  const accepted = await dialog.fire({
-    title: "Are you sure?",
-    description: "This action is ireversible!",
-  });
-
-  if (!accepted) return;
-
-  await postStore.restore(id);
-
-  fetchPost();
-};
 
 const query = ref("");
 const debouncedFn = useDebounceFn(() => {
@@ -100,14 +79,39 @@ const params = computed(() => {
     page: datatable.page,
     with_trashed: datatable.trashed,
     query: query.value,
+    order_by: datatable.orderBy,
+    order_type: datatable.orderType,
   };
 });
 const { data, execute: fetchPost, pending } = await postStore.get(params);
 
-function onPostCreated() {
+const permanentDestroy = async (id: number) => {
+  const accepted = await dialog.fire({
+    title: "Are you sure?",
+    description: "This action is ireversible!",
+  });
+  if (!accepted) return;
+  await postStore.permanentDestroy(id);
   fetchPost();
-  isOpenOffcanvas.value = false;
-}
+};
+
+const destroy = async (id: number) => {
+  const accepted = await dialog.fire({
+    title: "Are you sure?",
+  });
+  if (!accepted) return;
+  await postStore.destroy(id);
+  fetchPost();
+};
+
+const restore = async (id: number) => {
+  const accepted = await dialog.fire({
+    title: "Are you sure?",
+  });
+  if (!accepted) return;
+  await postStore.restore(id);
+  fetchPost();
+};
 
 function add() {
   selectedPost.value = null;
@@ -117,6 +121,16 @@ function add() {
 function edit(post: Post) {
   selectedPost.value = post;
   isOpenOffcanvas.value = true;
+}
+
+function onPostCreated() {
+  isOpenOffcanvas.value = false;
+  fetchPost();
+}
+
+function onPostUpdated() {
+  isOpenOffcanvas.value = false;
+  fetchPost();
 }
 </script>
 
@@ -134,7 +148,7 @@ function edit(post: Post) {
           <PagePostEdit
             v-if="selectedPost"
             :post="selectedPost"
-            @submit="onPostCreated"
+            @submit="onPostUpdated"
           />
           <PagePostCreate v-else @submit="onPostCreated" />
         </div>
@@ -143,15 +157,20 @@ function edit(post: Post) {
     <div class="col-span-12">
       <BaseDatatable
         v-bind="datatable"
+        v-model:limit="datatable.limit"
+        v-model:page="datatable.page"
+        v-model:orderBy="datatable.orderBy"
+        v-model:orderType="datatable.orderType"
         :data="data?.data.posts ?? []"
         :loading="pending"
+        class="shadow-md"
       >
         <template #head>
           <div class="flex gap-2 p-2">
             <input
               v-model="datatable.search"
               type="text"
-              class="p-2 rounded bg-gray-200 w-full focus:bg-white outline-none focus:ring focus:ring-violet-300 duration-300"
+              class="p-2 rounded bg-white border w-full focus:bg-white outline-none focus:ring focus:ring-violet-300 duration-300"
               placeholder="Search by title, or created by"
             />
             <BaseButton class="w-24" @click="add"> Add Post </BaseButton>
@@ -180,14 +199,19 @@ function edit(post: Post) {
           </template>
           <template v-else-if="column.field === 'action'">
             <template v-if="datatable.trashed">
-              <BaseButton variant="primary" @click="restore(data.id)">
-                Restore
-              </BaseButton>
+              <div class="flex gap-1 justify-center items-center">
+                <BaseButton variant="primary" @click="restore(data.id)">
+                  Restore
+                </BaseButton>
+                <BaseButton variant="danger" @click="permanentDestroy(data.id)">
+                  Remove
+                </BaseButton>
+              </div>
             </template>
             <template v-else>
-              <div class="flex gap-1">
+              <div class="flex gap-1 justify-center items-center">
                 <BaseButton @click="edit(data as Post)"> Edit </BaseButton>
-                <BaseButton variant="danger" @click="remove(data.id)">
+                <BaseButton variant="danger" @click="destroy(data.id)">
                   Delete
                 </BaseButton>
               </div>

@@ -41,6 +41,8 @@ Route::group([
         });
 
         Route::put('/posts/{id}/restore', [PostController::class, 'restore'])->name('posts.restore');
+        Route::delete('/posts/{id}/destroy-permanent', [PostController::class, 'destroy_permanent'])
+            ->name('posts.restore');
         Route::apiResource('posts', PostController::class);
     });
 });

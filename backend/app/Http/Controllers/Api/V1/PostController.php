@@ -115,13 +115,17 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        $orderBy = $request->query("order_by", "id");
+        $orderType = $request->query("order_type", "ASC");
         $search = $request->query("query");
         $limit = $request->query('limit', 5);
+
         $posts = Post::when($request->with_trashed == 'true', fn ($query) => $query->onlyTrashed())
             ->with("author")
             ->where(function ($query) use ($search) {
                 $query->where("title", 'like', "%{$search}%");
             })
+            ->orderBy($orderBy, $orderType)
             ->paginate($limit);
 
         return ApiResponse::success(
@@ -622,6 +626,100 @@ class PostController extends Controller
         } catch (\Exception $e) {
             return ApiResponse::error(
                 message: "Failed to update post: {$e->getMessage()}",
+                statusCode: Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/v1/posts/{post_id}/destroy-permanent",
+     *     summary="Restore a soft-deleted post by ID",
+     *     description="Restores a soft-deleted post by its ID",
+     *     tags={"Posts"},
+     *     @OA\Parameter(
+     *         name="post_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID of the soft-deleted post to restore",
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Post destroyed successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Post destroyed successfully"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthorized",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Unauthorized"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Forbidden"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Post not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Not Found"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Server Error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Failed to restore post: Error message here"
+     *             )
+     *         )
+     *     ),
+     *     security={
+     *         {"bearerAuth": {}}
+     *     }
+     * )
+     */
+    public function destroy_permanent($post_id)
+    {
+        try {
+            Post::withTrashed()->find($post_id)->forceDelete();
+
+            return ApiResponse::success(message: 'Post permanently deleted');
+        } catch (\Exception $e) {
+            return ApiResponse::error(
+                message: "Failed to delete post: {$e->getMessage()}",
                 statusCode: Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }

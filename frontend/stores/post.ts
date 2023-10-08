@@ -23,16 +23,22 @@ export const usePostStore = defineStore("post", () => {
   };
 
   const update = (id: number, body: PostUpdateRequest) => {
-    return useFetchAPI<ApiResponse<PostStoreResponse>>(`/posts/${id.toString()}`, {
-      method: "put",
-      body,
-    });
+    return useFetchAPI<ApiResponse<PostStoreResponse>>(
+      `/posts/${id.toString()}`,
+      {
+        method: "put",
+        body,
+      }
+    );
   };
 
   const destroy = (id: number) => {
-    return $useFetchAPI<ApiResponse<PostDeleteResponse>>(`/posts/${id.toString()}`, {
-      method: "delete",
-    });
+    return $useFetchAPI<ApiResponse<PostDeleteResponse>>(
+      `/posts/${id.toString()}`,
+      {
+        method: "delete",
+      }
+    );
   };
 
   const restore = (id: number) => {
@@ -44,5 +50,14 @@ export const usePostStore = defineStore("post", () => {
     );
   };
 
-  return { get, store, update, restore, destroy };
+  const permanentDestroy = (id: number) => {
+    return $useFetchAPI<ApiResponse<PostRestoreResponse>>(
+      `/posts/${id.toString()}/destroy-permanent`,
+      {
+        method: "delete",
+      }
+    );
+  };
+
+  return { get, store, update, restore, destroy, permanentDestroy };
 });

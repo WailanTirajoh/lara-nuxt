@@ -2,6 +2,13 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: false,
+  vite: {
+    vue: {
+      script: {
+        defineModel: true
+      }
+    }
+  },
   runtimeConfig: {
     public: {
       baseUrl: "https://lara-blog.test/api/v1",
