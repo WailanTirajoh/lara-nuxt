@@ -9,7 +9,6 @@ export interface User {
 export interface UserRequest {
   limit: number;
   page: number;
-  with_trashed: boolean | undefined;
   query: string;
 }
 export interface UserResponse {

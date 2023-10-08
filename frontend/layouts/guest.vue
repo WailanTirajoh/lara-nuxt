@@ -1,8 +1,7 @@
 <template>
-  <div class="">
-    <TheHeader />
-    <main class="pt-12">
-      <div class="container p-4">
+  <div class="bg-[#1a1a1a] h-screen">
+    <main>
+      <div class="container p-4 mx-auto">
         <NuxtPage />
       </div>
     </main>

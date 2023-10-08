@@ -139,6 +139,9 @@ function onPostUpdated() {
     <div class="col-span-12">
       <h1 class="text-3xl font-medium">Posts</h1>
     </div>
+    <div class="col-span-12">
+      <hr />
+    </div>
     <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="bottom">
       <template #headerTitle>
         {{ selectedPost ? "Edit Post" : "Create New Post" }}
@@ -163,7 +166,6 @@ function onPostUpdated() {
         v-model:orderType="datatable.orderType"
         :data="data?.data.posts ?? []"
         :loading="pending"
-        class="shadow-md"
       >
         <template #head>
           <div class="flex gap-2 p-2">

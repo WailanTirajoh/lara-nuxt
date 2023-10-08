@@ -91,7 +91,7 @@ function order(field: string) {
 </script>
 
 <template>
-  <div class="overflow-auto w-full border rounded relative">
+  <div class="overflow-auto w-full rounded relative shadow-lg border border-slate-200">
     <div class="bg-gray-50">
       <slot name="head"> </slot>
     </div>

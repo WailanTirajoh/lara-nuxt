@@ -27,7 +27,7 @@ export const useFetchAPI = async <
   const config = useRuntimeConfig();
   const authStore = useAuthStore();
 
-  return useFetch(request, {
+  return useLazyFetch(request, {
     baseURL: opts?.baseURL ?? config.public.baseUrl,
     headers: {
       Authorization: `Bearer ${authStore.accessToken}`,
