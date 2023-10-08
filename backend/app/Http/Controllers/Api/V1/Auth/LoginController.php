@@ -61,27 +61,34 @@ class LoginController extends Controller
      */
     public function __invoke(LoginRequest $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return ApiResponse::error(
-                message: 'Invalid credentials',
-                data: [
-                    'errors' => [
-                        'email' => [
-                            'Invalid credentials',
-                        ]
+        try {
+            if (!Auth::attempt($request->only('email', 'password'))) {
+                return ApiResponse::error(
+                    message: 'Invalid credentials',
+                    data: [
+                        'errors' => [
+                            'email' => [
+                                'Invalid credentials',
+                            ]
+                        ],
                     ],
-                ],
-                statusCode: Response::HTTP_UNPROCESSABLE_ENTITY
+                    statusCode: Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+
+            $accessToken = Auth::user()->createToken('access_token')->plainTextToken;
+
+            return ApiResponse::success(
+                message: "Success Login",
+                data: [
+                    'access_token' => $accessToken,
+                ]
+            );
+        } catch (\Exception $e) {
+            return ApiResponse::error(
+                message: "Failed to login: {$e->getMessage()}",
+                statusCode: Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
-
-        $accessToken = Auth::user()->createToken('access_token')->plainTextToken;
-
-        return ApiResponse::success(
-            message: "Success Login",
-            data: [
-                'access_token' => $accessToken,
-            ]
-        );
     }
 }

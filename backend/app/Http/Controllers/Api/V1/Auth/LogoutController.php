@@ -30,11 +30,18 @@ class LogoutController extends Controller
      */
     public function __invoke(LogoutRequest $request)
     {
-        Auth::user()->currentAccessToken()->delete();
+        try {
+            Auth::user()->currentAccessToken()->delete();
 
-        return ApiResponse::success(
-            message: "Success Logout",
-            statusCode: Response::HTTP_NO_CONTENT
-        );
+            return ApiResponse::success(
+                message: "Success Logout",
+                statusCode: Response::HTTP_NO_CONTENT
+            );
+        } catch (\Exception $e) {
+            return ApiResponse::error(
+                message: "Failed to logout: {$e->getMessage()}",
+                statusCode: Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }
