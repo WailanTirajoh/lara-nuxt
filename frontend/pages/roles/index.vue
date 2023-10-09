@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { IDatatableProps } from "@/components/Base/Datatable/Datatable.vue";
-import type { User } from "@/types/api/user";
+import type { Role } from "@/types/api/role";
 
 useSeoMeta({
-  title: "User Management",
+  title: "Role Management",
 });
 
 definePageMeta({
@@ -11,12 +11,12 @@ definePageMeta({
 });
 
 const dialog = useDialog();
-const userStore = useUserStore();
+const roleStore = useRoleStore();
 
-const selectedUser = ref<User | null>(null);
+const selectedRole = ref<Role | null>(null);
 const isOpenOffcanvas = ref(false);
 
-const datatable = reactive<IDatatableProps<keyof User | "no" | "action">>({
+const datatable = reactive<IDatatableProps<keyof Role | "no" | "action">>({
   fieldKey: "id",
   columns: [
     {
@@ -38,8 +38,8 @@ const datatable = reactive<IDatatableProps<keyof User | "no" | "action">>({
       sortable: true,
     },
     {
-      field: "email",
-      label: "Email",
+      field: "guard_name",
+      label: "Guard Name",
       advanceInput: false,
       sortable: true,
     },
@@ -83,60 +83,60 @@ const params = computed(() => {
     order_type: datatable.orderType,
   };
 });
-const { data, execute: fetchUser, pending } = await userStore.get(params);
+const { data, execute: fetchRole, pending } = await roleStore.get(params);
 
 const destroy = async (id: number) => {
   const accepted = await dialog.fire({
     title: "Are you sure?",
     description:
-      "This action will permanently delete all the posts associated with this user",
+      "This action will permanently delete all the posts associated with this role",
   });
   if (!accepted) return;
-  await userStore.destroy(id);
-  fetchUser();
+  await roleStore.destroy(id);
+  fetchRole();
 };
 
 function add() {
-  selectedUser.value = null;
+  selectedRole.value = null;
   isOpenOffcanvas.value = !isOpenOffcanvas.value;
 }
 
-function edit(user: User) {
-  selectedUser.value = user;
+function edit(role: Role) {
+  selectedRole.value = role;
   isOpenOffcanvas.value = true;
 }
 
-function onUserCreated() {
+function onRoleCreated() {
   isOpenOffcanvas.value = false;
-  fetchUser();
+  fetchRole();
 }
 
-function onUserUpdated() {
+function onRoleUpdated() {
   isOpenOffcanvas.value = false;
-  fetchUser();
+  fetchRole();
 }
 </script>
 
 <template>
   <div class="grid grid-cols-12 gap-4">
     <div class="col-span-12">
-      <h1 class="text-3xl font-medium">Users</h1>
+      <h1 class="text-3xl font-medium">Roles</h1>
     </div>
     <div class="col-span-12">
       <hr>
     </div>
-    <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="bottom">
+    <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="right">
       <template #headerTitle>
-        {{ selectedUser ? "Edit User" : "Create New User" }}
+        {{ selectedRole ? "Edit Role" : "Create New Role" }}
       </template>
       <div class="p-2 overflow-auto h-full">
         <div class="">
-          <PageUserEdit
-            v-if="selectedUser"
-            :user="selectedUser"
-            @submit="onUserUpdated"
+          <PageRoleEdit
+            v-if="selectedRole"
+            :role="selectedRole"
+            @submit="onRoleUpdated"
           />
-          <PageUserCreate v-else @submit="onUserCreated" />
+          <PageRoleCreate v-else @submit="onRoleCreated" />
         </div>
       </div>
     </BaseOffcanvas>
@@ -147,7 +147,7 @@ function onUserUpdated() {
         v-model:page="datatable.page"
         v-model:orderBy="datatable.orderBy"
         v-model:orderType="datatable.orderType"
-        :data="data?.data.users ?? []"
+        :data="data?.data.roles ?? []"
         :loading="pending"
       >
         <template #head>
@@ -156,13 +156,13 @@ function onUserUpdated() {
               v-model="datatable.search"
               type="text"
               class="p-2 rounded bg-white border w-full focus:bg-white outline-none focus:ring focus:ring-violet-300 duration-300"
-              placeholder="Search by name, or email"
+              placeholder="Search by name"
             />
-            <BaseButton class="w-24" @click="add"> Add User </BaseButton>
+            <BaseButton class="w-24" @click="add"> Add Role </BaseButton>
             <BaseButton
               variant="none"
               class="p-0 text-2xl text-slate-600 rounded-full w-8 h-8 flex items-center justify-center my-auto hover:bg-gray-200"
-              @click="fetchUser"
+              @click="fetchRole"
             >
               <Icon name="ei:refresh" />
             </BaseButton>
@@ -173,8 +173,8 @@ function onUserUpdated() {
             {{ (datatable.page - 1) * datatable.limit + index + 1 }}
           </template>
           <template v-else-if="column.field === 'action'">
-            <div class="flex gap-1 justify-center items-center">
-              <BaseButton @click="edit(data as User)"> Edit </BaseButton>
+            <div v-if="data.name !== 'Super'" class="flex gap-1 justify-center items-center">
+              <BaseButton @click="edit(data as Role)"> Edit </BaseButton>
               <BaseButton variant="danger" @click="destroy(data.id)">
                 Delete
               </BaseButton>

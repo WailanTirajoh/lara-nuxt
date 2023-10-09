@@ -76,6 +76,16 @@ const logout = async () => {
           <div class="">User</div>
         </NuxtLink>
       </li>
+      <li class="relative overflow-hidden">
+        <NuxtLink
+          class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
+          active-class="text-blue-100 bg-blue-600 before:!left-0"
+          to="/roles"
+        >
+          <Icon name="material-symbols:shield-lock" class="text-xl" />
+          <div class="">Roles</div>
+        </NuxtLink>
+      </li>
       <li>
         <div
           class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded"

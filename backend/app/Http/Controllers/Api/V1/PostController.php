@@ -78,8 +78,7 @@ class PostController extends Controller
             message: 'Post updated successfully',
             data: [
                 "post" => PostResource::make($post->load('author'))
-            ],
-            statusCode: Response::HTTP_OK
+            ]
         );
     }
 

@@ -6,8 +6,13 @@ export default defineNuxtConfig({
     vue: {
       script: {
         defineModel: true
+      },
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag === 'Multi'
+        }
       }
-    }
+    },
   },
   runtimeConfig: {
     public: {

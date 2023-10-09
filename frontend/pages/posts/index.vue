@@ -146,7 +146,7 @@ function onPostUpdated() {
       <template #headerTitle>
         {{ selectedPost ? "Edit Post" : "Create New Post" }}
       </template>
-      <div class="p-2 overflow-auto">
+      <div class="p-2 overflow-auto h-full">
         <div class="">
           <PagePostEdit
             v-if="selectedPost"

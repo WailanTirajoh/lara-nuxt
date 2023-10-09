@@ -1,5 +1,5 @@
 export const useAppStore = defineStore("app", () => {
-  const sidebarIsOpen = ref(true);
+  const sidebarIsOpen = ref(false);
 
   return { sidebarIsOpen };
 });

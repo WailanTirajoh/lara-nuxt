@@ -52,7 +52,7 @@ async function submit(body: UserUpdateRequest, node: FormKitNode) {
           label="Email"
           placeholder="wailantirajoh@gmail.com"
           validation="required"
-          disabled
+          :disabled="true"
         />
       </FormKit>
     </div>
