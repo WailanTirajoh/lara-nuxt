@@ -43,6 +43,11 @@ class AppSeeder extends Seeder
             "post-update",
             "post-delete",
             "post-delete-permanent",
+
+            "role-access",
+            "role-store",
+            "role-update",
+            "role-delete",
         ];
 
         foreach ($permissions as $permission) {
