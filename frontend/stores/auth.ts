@@ -5,6 +5,10 @@ export const useAuthStore = defineStore("auth", () => {
   const profile = ref();
   const isAuthenticated = computed(() => !!accessToken.value);
 
+  function clearProfile() {
+    profile.value = null;
+  }
+
   function revokeAccessToken() {
     accessToken.value = null;
   }
@@ -24,7 +28,6 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const logout = () => {
-    profile.value = null;
     return useFetchAPI("/auth/logout", {
       method: "delete",
     });
@@ -36,6 +39,7 @@ export const useAuthStore = defineStore("auth", () => {
     accessToken,
     revokeAccessToken,
     getUserProfile,
+    clearProfile,
     login,
     logout,
   };

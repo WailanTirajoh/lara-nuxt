@@ -8,6 +8,7 @@ useSeoMeta({
 
 definePageMeta({
   middleware: ["auth"],
+  permissions: ["user-access"],
 });
 
 const dialog = useDialog();

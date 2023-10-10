@@ -87,7 +87,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        abort_if(Gate::denies("user-destroy"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        abort_if(Gate::denies("user-delete"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
         abort_if(Auth::user()->id === $user->id, Response::HTTP_UNAUTHORIZED, "You cant delete your own account");
 
         $user->delete();

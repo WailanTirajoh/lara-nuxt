@@ -85,7 +85,7 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         abort_if($role->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be updated");
-        abort_if(Gate::denies("role-destroy"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        abort_if(Gate::denies("role-delete"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
 
         $role->delete();
 

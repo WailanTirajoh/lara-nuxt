@@ -84,7 +84,7 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        abort_if(Gate::denies("post-destroy"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        abort_if(Gate::denies("post-delete"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
 
         $post->delete();
 
@@ -103,7 +103,7 @@ class PostController extends Controller
     public function destroy_permanent($post_id)
     {
         abort_if(
-            Gate::denies("post-destroy-permanent"),
+            Gate::denies("post-delete-permanent"),
             Response::HTTP_FORBIDDEN,
             "You are not allowed to access this"
         );

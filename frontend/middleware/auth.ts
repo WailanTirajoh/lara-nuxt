@@ -1,7 +1,7 @@
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "~/stores/auth";
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   const authStore = useAuthStore();
   const { isAuthenticated, profile } = storeToRefs(authStore);
 
@@ -12,6 +12,13 @@ export default defineNuxtRouteMiddleware((to, from) => {
   }
 
   if (!profile.value) {
-    authStore.getUserProfile();
+    await authStore.getUserProfile();
+
+    const permissions = to.meta.permissions as string[];
+    if (permissions) {
+      if (!hasPermissions(...permissions)) {
+        return navigateTo("/");
+      }
+    }
   }
 });

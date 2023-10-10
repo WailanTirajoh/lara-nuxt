@@ -16,9 +16,37 @@ const logout = async () => {
 
   await authStore.logout();
   authStore.revokeAccessToken();
+  authStore.clearProfile();
 
   navigateTo("/auth/login");
 };
+
+const menus = [
+  {
+    label: "Dashboard",
+    icon: "lucide:home",
+    to: "/",
+    permission: null,
+  },
+  {
+    label: "Post",
+    icon: "mdi:post-outline",
+    to: "/posts",
+    permission: "post-access",
+  },
+  {
+    label: "User",
+    icon: "ph:users-three-duotone",
+    to: "/users",
+    permission: "user-access",
+  },
+  {
+    label: "Roles",
+    icon: "material-symbols:shield-lock",
+    to: "/roles",
+    permission: "role-access",
+  },
+];
 </script>
 
 <template>
@@ -43,66 +71,28 @@ const logout = async () => {
         </div>
       </div>
     </div>
-    <ul
+    <TransitionGroup
+      name="list"
+      tag="ul"
       class="flex flex-col gap-2 px-4 h-[calc(100%-3rem-4rem)] overflow-auto overflow-x-hidden"
     >
-      <li class="relative overflow-hidden">
-        <NuxtLink
-          class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
-          active-class="text-blue-100 bg-blue-600 before:!left-0"
-          to="/"
+      <template v-for="menu in menus">
+        <li
+          v-if="menu.permission === null || hasPermissions(menu.permission)"
+          :key="menu.to"
+          class="relative overflow-hidden"
         >
-          <Icon name="lucide:home" class="text-xl" />
-          <div class="">Dashboard</div>
-        </NuxtLink>
-      </li>
-      <li class="relative overflow-hidden">
-        <NuxtLink
-          class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
-          active-class="text-blue-100 bg-blue-600 before:!left-0"
-          to="/posts"
-        >
-          <Icon name="mdi:post-outline" class="text-xl" />
-          <div class="">Post</div>
-        </NuxtLink>
-      </li>
-      <li class="relative overflow-hidden">
-        <NuxtLink
-          class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
-          active-class="text-blue-100 bg-blue-600 before:!left-0"
-          to="/users"
-        >
-          <Icon name="ph:users-three-duotone" class="text-xl" />
-          <div class="">User</div>
-        </NuxtLink>
-      </li>
-      <li class="relative overflow-hidden">
-        <NuxtLink
-          class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
-          active-class="text-blue-100 bg-blue-600 before:!left-0"
-          to="/roles"
-        >
-          <Icon name="material-symbols:shield-lock" class="text-xl" />
-          <div class="">Roles</div>
-        </NuxtLink>
-      </li>
-      <li>
-        <div
-          class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded"
-        >
-          <Icon name="mdi:tag-outline" class="text-xl" />
-          <div class="">Meta</div>
-        </div>
-      </li>
-      <li>
-        <div
-          class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded"
-        >
-          <Icon name="fluent:color-24-regular" class="text-xl" />
-          <div class="">Color</div>
-        </div>
-      </li>
-    </ul>
+          <NuxtLink
+            class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
+            active-class="text-blue-100 bg-blue-600 before:!left-0"
+            :to="menu.to"
+          >
+            <Icon :name="menu.icon" class="text-xl" />
+            <div>{{ menu.label }}</div>
+          </NuxtLink>
+        </li>
+      </template>
+    </TransitionGroup>
     <div class="h-16">
       <ul class="flex flex-col gap-2 px-4 overflow-auto overflow-x-hidden">
         <li class="relative overflow-hidden">
@@ -119,3 +109,23 @@ const logout = async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+  position: absolute;
+}
+</style>
