@@ -15,7 +15,14 @@ const emit = defineEmits<{
 const userStore = useUserStore();
 
 async function submit(body: UserUpdateRequest, node: FormKitNode) {
-  const { data, error } = await userStore.update(props.user.id, body);
+  const formData = new FormData();
+  formData.append("_method", "PUT");
+  formData.append("name", body.name);
+  formData.append("email", body.email);
+  body.roles.forEach((role) => formData.append("roles[]", role));
+  if (body.image.length > 0) formData.append("image", body.image[0].file);
+
+  const { data, error } = await userStore.update(props.user.id, formData);
 
   if (error.value?.data) {
     node.setErrors(error.value.data.errors);
@@ -66,6 +73,13 @@ onMounted(async () => {
           roles: $props.user.roles,
         }"
       >
+        <FormKit
+          type="file"
+          name="image"
+          label="Profile Picture"
+          accept=".jpg,.png"
+          help="Select your profile picture"
+        />
         <FormKit
           type="text"
           name="name"

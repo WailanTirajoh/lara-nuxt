@@ -42,6 +42,10 @@ class StoreUserRequest extends FormRequest
             'roles.*' => [
                 'nullable',
                 'string',
+            ],
+            'image' => [
+                'nullable',
+                'image',
             ]
         ];
     }

@@ -48,6 +48,10 @@ class UserController extends Controller
         ));
         $user->syncRoles($request->roles ?? []);
 
+        if ($request->image) {
+            $user->addMedia($request->image)->toMediaCollection('images');
+        }
+
         return ApiResponse::success(
             message: 'User created successfully',
             data: [
@@ -75,6 +79,11 @@ class UserController extends Controller
         $validatedData = $request->validated();
         $user->update($validatedData);
         $user->syncRoles($request->roles ?? []);
+
+        if ($request->image) {
+            $user->clearMediaCollection('images');
+            $user->addMedia($request->image)->toMediaCollection('images');
+        }
 
         return ApiResponse::success(
             message: 'User updated successfully',

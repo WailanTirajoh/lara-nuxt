@@ -33,6 +33,12 @@ const datatable = reactive<IDatatableProps<keyof User | "no" | "action">>({
       advanceInput: false,
     },
     {
+      field: "profile_picture",
+      label: "Avatar",
+      advanceInput: false,
+      sortable: false,
+    },
+    {
       field: "name",
       label: "Name",
       advanceInput: false,
@@ -48,7 +54,7 @@ const datatable = reactive<IDatatableProps<keyof User | "no" | "action">>({
       field: "roles",
       label: "Roles",
       advanceInput: false,
-      sortable: true,
+      sortable: false,
     },
     {
       field: "created_at",
@@ -181,6 +187,9 @@ function onUserUpdated() {
           </template>
           <template v-else-if="column.field === 'roles'">
             {{ data[column.field].join(", ") }}
+          </template>
+          <template v-else-if="column.field === 'profile_picture'">
+            <img :src="data[column.field]" alt="" class="w-16 h-16 rounded mx-auto object-cover object-center" />
           </template>
           <template v-else-if="column.field === 'action'">
             <div class="flex gap-1 justify-center items-center">

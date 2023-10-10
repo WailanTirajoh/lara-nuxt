@@ -22,11 +22,11 @@ export const useUserStore = defineStore("user", () => {
     });
   };
 
-  const update = (id: number, body: UserUpdateRequest) => {
+  const update = (id: number, body: FormData) => {
     return useFetchAPI<ApiResponse<UserStoreResponse>>(
       `/users/${id.toString()}`,
       {
-        method: "put",
+        method: "post",
         body,
       }
     );

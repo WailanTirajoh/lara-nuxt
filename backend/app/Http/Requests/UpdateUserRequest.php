@@ -38,6 +38,10 @@ class UpdateUserRequest extends FormRequest
             'roles.*' => [
                 'nullable',
                 'string',
+            ],
+            'image' => [
+                'nullable',
+                'image',
             ]
         ];
     }

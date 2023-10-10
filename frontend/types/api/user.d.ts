@@ -2,6 +2,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  profile_picture: string;
   roles: Array<string>;
   created_at: string;
   updated_at: string;
@@ -29,6 +30,8 @@ export interface UserStoreResponse {
 export interface UserUpdateRequest {
   name: string;
   email: string;
+  image: any;
+  roles: Array<string>;
 }
 export interface UserUpdateResponse {
   user: User;
