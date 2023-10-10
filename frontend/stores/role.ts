@@ -15,6 +15,12 @@ export const useRoleStore = defineStore("role", () => {
     });
   };
 
+  const $get = (params: Ref<RoleRequest>) => {
+    return $useFetchAPI<ApiResponse<RoleResponse>>("/roles", {
+      params,
+    });
+  };
+
   const store = (body: RoleStoreRequest) => {
     return useFetchAPI<ApiResponse<RoleStoreResponse>>("/roles", {
       method: "post",
@@ -59,5 +65,5 @@ export const useRoleStore = defineStore("role", () => {
     );
   };
 
-  return { get, store, update, restore, destroy, permanentDestroy };
+  return { get, $get, store, update, restore, destroy, permanentDestroy };
 });

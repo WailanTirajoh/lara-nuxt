@@ -21,7 +21,7 @@ class ProfileResource extends JsonResource
             'email' => $this->email,
             'permissions' => in_array('Super', $this->getRoleNames()->toArray())
                 ? Permission::all()->pluck('name')
-                : $this->getPermissionNames->toArray()
+                : $this->getPermissionNames()->toArray()
         ];
     }
 }

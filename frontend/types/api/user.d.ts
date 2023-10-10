@@ -2,6 +2,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  roles: Array<string>;
   created_at: string;
   updated_at: string;
 }
@@ -19,6 +20,7 @@ export interface UserStoreRequest {
   name: string;
   email: string;
   password: string;
+  roles: Array<string>;
 }
 export interface UserStoreResponse {
   user: User;

@@ -34,6 +34,14 @@ class StoreUserRequest extends FormRequest
             'password' => [
                 'required',
                 'string'
+            ],
+            'roles' => [
+                'nullable',
+                'array'
+            ],
+            'roles.*' => [
+                'nullable',
+                'string',
             ]
         ];
     }

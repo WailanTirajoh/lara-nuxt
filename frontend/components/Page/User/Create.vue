@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { type FormKitNode } from "@formkit/core";
 import { UserStoreRequest } from "~/types/api/user";
+import { createInput } from "@formkit/vue";
+import BaseSelectMulti from "~/components/Base/Select/Multi.vue";
 
 const emit = defineEmits<{
   submit: [];
@@ -19,6 +21,33 @@ async function submit(body: UserStoreRequest, node: FormKitNode) {
     emit("submit");
   }
 }
+
+const baseSelectMulti = createInput(BaseSelectMulti, {
+  props: ["toptions"],
+});
+
+const roleStore = useRoleStore();
+const roles = ref<
+  Array<{
+    label: string;
+    value: string;
+  }>
+>([]);
+
+const params = ref({
+  limit: 1000,
+  page: 1,
+  query: "",
+});
+onMounted(async () => {
+  const response = await roleStore.$get(params);
+  roles.value = response.data.roles.map((role) => {
+    return {
+      label: role.name,
+      value: role.name,
+    };
+  });
+});
 </script>
 
 <template>
@@ -48,6 +77,13 @@ async function submit(body: UserStoreRequest, node: FormKitNode) {
           label="Password"
           placeholder="**********"
           validation="required"
+        />
+        <FormKit
+          :type="baseSelectMulti"
+          label="Roles"
+          name="roles"
+          help="Select your roles."
+          :toptions="roles"
         />
       </FormKit>
     </div>

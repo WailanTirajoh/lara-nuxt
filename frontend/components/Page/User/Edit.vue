@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { type FormKitNode } from "@formkit/core";
 import { User, UserUpdateRequest } from "~/types/api/user";
+import { createInput } from "@formkit/vue";
+import BaseSelectMulti from "~/components/Base/Select/Multi.vue";
 
 interface IUserEditInterface {
   user: User;
@@ -23,6 +25,33 @@ async function submit(body: UserUpdateRequest, node: FormKitNode) {
     emit("submit");
   }
 }
+
+const baseSelectMulti = createInput(BaseSelectMulti, {
+  props: ["toptions"],
+});
+
+const roleStore = useRoleStore();
+const roles = ref<
+  Array<{
+    label: string;
+    value: string;
+  }>
+>([]);
+
+const params = ref({
+  limit: 1000,
+  page: 1,
+  query: "",
+});
+onMounted(async () => {
+  const response = await roleStore.$get(params);
+  roles.value = response.data.roles.map((role) => {
+    return {
+      label: role.name,
+      value: role.name,
+    };
+  });
+});
 </script>
 
 <template>
@@ -34,7 +63,7 @@ async function submit(body: UserUpdateRequest, node: FormKitNode) {
         :value="{
           name: $props.user.name,
           email: $props.user.email,
-          body: $props.user.body,
+          roles: $props.user.roles,
         }"
       >
         <FormKit
@@ -53,6 +82,13 @@ async function submit(body: UserUpdateRequest, node: FormKitNode) {
           placeholder="wailantirajoh@gmail.com"
           validation="required"
           :disabled="true"
+        />
+        <FormKit
+          :type="baseSelectMulti"
+          label="Roles"
+          name="roles"
+          help="Select your roles."
+          :toptions="roles"
         />
       </FormKit>
     </div>

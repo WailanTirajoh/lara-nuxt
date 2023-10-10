@@ -44,6 +44,12 @@ const datatable = reactive<IDatatableProps<keyof User | "no" | "action">>({
       sortable: true,
     },
     {
+      field: "roles",
+      label: "Roles",
+      advanceInput: false,
+      sortable: true,
+    },
+    {
       field: "created_at",
       format: "datetime",
       label: "Created At",
@@ -123,7 +129,7 @@ function onUserUpdated() {
       <h1 class="text-3xl font-medium">Users</h1>
     </div>
     <div class="col-span-12">
-      <hr>
+      <hr />
     </div>
     <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="bottom">
       <template #headerTitle>
@@ -171,6 +177,9 @@ function onUserUpdated() {
         <template #row="{ column, index, data }">
           <template v-if="column.field === 'no'">
             {{ (datatable.page - 1) * datatable.limit + index + 1 }}
+          </template>
+          <template v-else-if="column.field === 'roles'">
+            {{ data[column.field].join(", ") }}
           </template>
           <template v-else-if="column.field === 'action'">
             <div class="flex gap-1 justify-center items-center">

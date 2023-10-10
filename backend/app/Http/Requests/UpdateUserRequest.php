@@ -31,6 +31,14 @@ class UpdateUserRequest extends FormRequest
                 'email',
                 "unique:users,email,{$this->user->id}"
             ],
+            'roles' => [
+                'nullable',
+                'array'
+            ],
+            'roles.*' => [
+                'nullable',
+                'string',
+            ]
         ];
     }
 }

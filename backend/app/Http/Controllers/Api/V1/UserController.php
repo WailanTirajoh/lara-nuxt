@@ -24,7 +24,7 @@ class UserController extends Controller
         $search = $request->query("query");
         $limit = $request->query('limit', 5);
 
-        $users = User::where(function ($query) use ($search) {
+        $users = User::with('roles')->where(function ($query) use ($search) {
             $query->where("name", 'like', "%{$search}%")
                 ->orWhere("email", 'like', "%{$search}%");
         })
@@ -46,6 +46,7 @@ class UserController extends Controller
             $request->validated(),
             ['password' => bcrypt($request->password)]
         ));
+        $user->syncRoles($request->roles ?? []);
 
         return ApiResponse::success(
             message: 'User created successfully',
@@ -73,6 +74,7 @@ class UserController extends Controller
 
         $validatedData = $request->validated();
         $user->update($validatedData);
+        $user->syncRoles($request->roles ?? []);
 
         return ApiResponse::success(
             message: 'User updated successfully',
