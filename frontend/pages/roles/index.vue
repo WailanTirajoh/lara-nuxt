@@ -8,6 +8,7 @@ useSeoMeta({
 
 definePageMeta({
   middleware: ["auth"],
+  permissions: ["role-access"],
 });
 
 const dialog = useDialog();
@@ -123,7 +124,7 @@ function onRoleUpdated() {
       <h1 class="text-3xl font-medium">Roles</h1>
     </div>
     <div class="col-span-12">
-      <hr>
+      <hr />
     </div>
     <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="right">
       <template #headerTitle>
@@ -158,7 +159,13 @@ function onRoleUpdated() {
               class="p-2 rounded bg-white border w-full focus:bg-white outline-none focus:ring focus:ring-violet-300 duration-300"
               placeholder="Search by name"
             />
-            <BaseButton class="w-24" @click="add"> Add Role </BaseButton>
+            <BaseButton
+              v-if="hasPermissions('role-store')"
+              class="w-24"
+              @click="add"
+            >
+              Add Role
+            </BaseButton>
             <BaseButton
               variant="none"
               class="p-0 text-2xl text-slate-600 rounded-full w-8 h-8 flex items-center justify-center my-auto hover:bg-gray-200"
@@ -173,9 +180,21 @@ function onRoleUpdated() {
             {{ (datatable.page - 1) * datatable.limit + index + 1 }}
           </template>
           <template v-else-if="column.field === 'action'">
-            <div v-if="data.name !== 'Super'" class="flex gap-1 justify-center items-center">
-              <BaseButton @click="edit(data as Role)"> Edit </BaseButton>
-              <BaseButton variant="danger" @click="destroy(data.id)">
+            <div
+              v-if="data.name !== 'Super'"
+              class="flex gap-1 justify-center items-center"
+            >
+              <BaseButton
+                v-if="hasPermissions('role-update')"
+                @click="edit(data as Role)"
+              >
+                Edit
+              </BaseButton>
+              <BaseButton
+                v-if="hasPermissions('role-delete')"
+                variant="danger"
+                @click="destroy(data.id)"
+              >
                 Delete
               </BaseButton>
             </div>

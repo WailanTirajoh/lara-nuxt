@@ -43,6 +43,7 @@ class AppSeeder extends Seeder
             "post-update",
             "post-delete",
             "post-delete-permanent",
+            "post-restore",
 
             "role-access",
             "role-store",

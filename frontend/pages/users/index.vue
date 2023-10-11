@@ -171,7 +171,13 @@ function onUserUpdated() {
               class="p-2 rounded bg-white border w-full focus:bg-white outline-none focus:ring focus:ring-violet-300 duration-300"
               placeholder="Search by name, or email"
             />
-            <BaseButton class="w-24" @click="add"> Add User </BaseButton>
+            <BaseButton
+              v-if="hasPermissions('user-store')"
+              class="w-24"
+              @click="add"
+            >
+              Add User
+            </BaseButton>
             <BaseButton
               variant="none"
               class="p-0 text-2xl text-slate-600 rounded-full w-8 h-8 flex items-center justify-center my-auto hover:bg-gray-200"
@@ -189,12 +195,25 @@ function onUserUpdated() {
             {{ data[column.field].join(", ") }}
           </template>
           <template v-else-if="column.field === 'profile_picture'">
-            <img :src="data[column.field]" alt="" class="w-16 h-16 rounded mx-auto object-cover object-center" />
+            <img
+              :src="data[column.field]"
+              alt=""
+              class="w-16 h-16 rounded mx-auto object-cover object-center"
+            />
           </template>
           <template v-else-if="column.field === 'action'">
             <div class="flex gap-1 justify-center items-center">
-              <BaseButton @click="edit(data as User)"> Edit </BaseButton>
-              <BaseButton variant="danger" @click="destroy(data.id)">
+              <BaseButton
+                v-if="hasPermissions('user-update')"
+                @click="edit(data as User)"
+              >
+                Edit
+              </BaseButton>
+              <BaseButton
+                v-if="hasPermissions('user-delete')"
+                variant="danger"
+                @click="destroy(data.id)"
+              >
                 Delete
               </BaseButton>
             </div>

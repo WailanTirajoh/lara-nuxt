@@ -175,8 +175,15 @@ function onPostUpdated() {
               class="p-2 rounded bg-white border w-full focus:bg-white outline-none focus:ring focus:ring-violet-300 duration-300"
               placeholder="Search by title, or created by"
             />
-            <BaseButton class="w-24" @click="add"> Add Post </BaseButton>
             <BaseButton
+              v-if="hasPermissions('post-store')"
+              class="w-24"
+              @click="add"
+            >
+              Add Post
+            </BaseButton>
+            <BaseButton
+              v-if="hasPermissions('post-delete-permanent')"
               variant="none"
               class="p-0 text-2xl text-slate-600 rounded-full w-8 h-8 flex items-center justify-center my-auto"
               :class="{
@@ -202,18 +209,35 @@ function onPostUpdated() {
           <template v-else-if="column.field === 'action'">
             <template v-if="datatable.trashed">
               <div class="flex gap-1 justify-center items-center">
-                <BaseButton variant="primary" @click="restore(data.id)">
+                <BaseButton
+                  v-if="hasPermissions('post-restore')"
+                  variant="primary"
+                  @click="restore(data.id)"
+                >
                   Restore
                 </BaseButton>
-                <BaseButton variant="danger" @click="permanentDestroy(data.id)">
+                <BaseButton
+                  v-if="hasPermissions('post-delete-permanent')"
+                  variant="danger"
+                  @click="permanentDestroy(data.id)"
+                >
                   Remove
                 </BaseButton>
               </div>
             </template>
             <template v-else>
               <div class="flex gap-1 justify-center items-center">
-                <BaseButton @click="edit(data as Post)"> Edit </BaseButton>
-                <BaseButton variant="danger" @click="destroy(data.id)">
+                <BaseButton
+                  v-if="hasPermissions('post-update')"
+                  @click="edit(data as Post)"
+                >
+                  Edit
+                </BaseButton>
+                <BaseButton
+                  v-if="hasPermissions('post-delete')"
+                  variant="danger"
+                  @click="destroy(data.id)"
+                >
                   Delete
                 </BaseButton>
               </div>
