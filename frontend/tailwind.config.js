@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const formKitTailwind = require("@formkit/themes/tailwindcss");
+const typography = require("@tailwindcss/typography");
 
 module.exports = {
   content: [
@@ -19,5 +20,5 @@ module.exports = {
       },
     },
   },
-  plugins: [formKitTailwind],
+  plugins: [formKitTailwind, typography],
 };

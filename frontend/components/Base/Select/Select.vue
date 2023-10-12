@@ -3,26 +3,15 @@ import type { DropdownItem } from "../../type";
 import { computed, defineComponent, ref } from "vue";
 import TwSelect from "./SelectWrapper.vue";
 
-export interface Props {
-  placeholder?: string;
-  items: Array<DropdownItem>;
-  closeOnSelect?: boolean;
-  disabled?: boolean;
-  context: object;
-}
+import type { FormKitFrameworkContext } from "@formkit/core";
 
-const props = withDefaults(defineProps<Props>(), {
-  placeholder: "",
-  closeOnSelect: false,
-  disabled: false,
-});
+export interface Props {
+  context: FormKitFrameworkContext;
+}
+const props = defineProps<Props>();
 
 const items = computed(() => props.context.options);
 const modelValue = computed(() => props.context.value);
-
-function handleInput(e) {
-  props.context.node.input(e.target.value);
-}
 
 const emit = defineEmits(["click"]);
 

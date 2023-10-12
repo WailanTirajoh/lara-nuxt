@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { getNode, type FormKitNode } from "@formkit/core";
 import { PostStoreRequest } from "~/types/api/post";
+import { createInput } from "@formkit/vue";
+import BaseEditor from "~/components/Base/Editor/Editor.vue";
+
+const baseEditor = createInput(BaseEditor);
 
 const emit = defineEmits<{
   submit: [];
@@ -27,12 +31,14 @@ onMounted(() => {
     slugNode.value.input(stringToSlug(event.payload));
   });
 });
+
+const values = ref()
 </script>
 
 <template>
   <div class="grid grid-cols-12">
     <div class="col-span-12">
-      <FormKit type="form" @submit="submit">
+      <FormKit type="form" @submit="submit" v-model="values">
         <FormKit
           type="text"
           name="title"
@@ -51,7 +57,7 @@ onMounted(() => {
           disabled
         />
         <FormKit
-          type="textarea"
+          :type="baseEditor"
           name="body"
           id="body"
           label="Body"
@@ -59,6 +65,8 @@ onMounted(() => {
           validation="required"
         />
       </FormKit>
+
+      <pre>{{ values }}</pre>
     </div>
   </div>
 </template>

@@ -2,8 +2,10 @@
 import { computed, ref } from "vue";
 import TwSelect from "./SelectWrapper.vue";
 
+import type { FormKitFrameworkContext } from "@formkit/core"
+
 export interface Props {
-  context: object;
+  context: FormKitFrameworkContext;
 }
 const props = defineProps<Props>();
 

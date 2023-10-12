@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { getNode, type FormKitNode } from "@formkit/core";
 import { Post, PostUpdateRequest } from "~/types/api/post";
+import { createInput } from "@formkit/vue";
+import BaseEditor from "~/components/Base/Editor/Editor.vue";
 
 interface IPostEditInterface {
   post: Post;
@@ -10,6 +12,8 @@ const emit = defineEmits<{
   submit: [];
 }>();
 
+
+const baseEditor = createInput(BaseEditor);
 const postStore = usePostStore();
 
 async function submit(body: PostUpdateRequest, node: FormKitNode) {
@@ -59,7 +63,7 @@ onMounted(() => {
           disabled
         />
         <FormKit
-          type="textarea"
+          :type="baseEditor"
           name="body"
           id="body"
           label="Body"
