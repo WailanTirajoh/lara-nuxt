@@ -17,6 +17,9 @@ dependencies:
   '@formkit/zod':
     specifier: ^1.1.0
     version: 1.1.0(zod@3.22.2)
+  '@johmun/vue-tags-input':
+    specifier: https://github.com/WailanTirajoh/vue-tags-input
+    version: github.com/WailanTirajoh/vue-tags-input/294026aeed583154df3aeaf9f8007136404c132e(vue@3.3.4)
   '@nuxt/image':
     specifier: 1.0.0-rc.2
     version: 1.0.0-rc.2
@@ -8468,4 +8471,15 @@ packages:
 
   /zod@3.22.2:
     resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
+    dev: false
+
+  github.com/WailanTirajoh/vue-tags-input/294026aeed583154df3aeaf9f8007136404c132e(vue@3.3.4):
+    resolution: {tarball: https://codeload.github.com/WailanTirajoh/vue-tags-input/tar.gz/294026aeed583154df3aeaf9f8007136404c132e}
+    id: github.com/WailanTirajoh/vue-tags-input/294026aeed583154df3aeaf9f8007136404c132e
+    name: '@johmun/vue-tags-input'
+    version: 2.1.0
+    peerDependencies:
+      vue: 2.x
+    dependencies:
+      vue: 3.3.4
     dev: false

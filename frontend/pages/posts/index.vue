@@ -38,6 +38,12 @@ const datatable = reactive<IDatatableProps<keyof Post | "no" | "action">>({
       sortable: true,
     },
     {
+      field: "tags",
+      label: "Tags",
+      advanceInput: false,
+      sortable: true,
+    },
+    {
       field: "created_at",
       format: "datetime",
       label: "Created At",
@@ -205,6 +211,13 @@ function onPostUpdated() {
         <template #row="{ column, index, data }">
           <template v-if="column.field === 'no'">
             {{ (datatable.page - 1) * datatable.limit + index + 1 }}
+          </template>
+          <template v-else-if="column.field === 'tags'">
+            <div class="flex flex-wrap gap-1">
+              <div class="bg-slate-100 p-1 rounded" v-for="tag in data[column.field]">
+                {{ tag }}
+              </div>
+            </div>
           </template>
           <template v-else-if="column.field === 'action'">
             <template v-if="datatable.trashed">

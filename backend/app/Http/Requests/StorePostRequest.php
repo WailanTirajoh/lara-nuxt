@@ -34,6 +34,13 @@ class StorePostRequest extends FormRequest
             'body' => [
                 'required',
                 'string'
+            ],
+            'tags' => [
+                'nullable',
+                'array'
+            ],
+            'tags.*' => [
+                'string'
             ]
         ];
     }

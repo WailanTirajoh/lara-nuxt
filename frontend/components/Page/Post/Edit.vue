@@ -3,6 +3,7 @@ import { getNode, type FormKitNode } from "@formkit/core";
 import { Post, PostUpdateRequest } from "~/types/api/post";
 import { createInput } from "@formkit/vue";
 import BaseEditor from "~/components/Base/Editor/Editor.vue";
+import BaseInputTag from "~/components/Base/InputTag/InputTag.vue";
 
 interface IPostEditInterface {
   post: Post;
@@ -12,8 +13,8 @@ const emit = defineEmits<{
   submit: [];
 }>();
 
-
 const baseEditor = createInput(BaseEditor);
+const baseInputTag = createInput(BaseInputTag);
 const postStore = usePostStore();
 
 async function submit(body: PostUpdateRequest, node: FormKitNode) {
@@ -40,11 +41,13 @@ onMounted(() => {
 <template>
   <div class="grid grid-cols-12">
     <div class="col-span-12">
-      <FormKit type="form" @submit="submit" :value="{
-        'title': $props.post.title,
-        'slug': $props.post.slug,
-        'body': $props.post.body,
-      }">
+      <FormKit
+        type="form"
+        @submit="submit"
+        :value="{
+          ...$props.post,
+        }"
+      >
         <FormKit
           type="text"
           name="title"
@@ -70,6 +73,7 @@ onMounted(() => {
           placeholder="My great post"
           validation="required"
         />
+        <FormKit :type="baseInputTag" name="tags" id="tags" label="Tags" />
       </FormKit>
     </div>
   </div>

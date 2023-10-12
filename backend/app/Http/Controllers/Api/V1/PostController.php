@@ -47,6 +47,7 @@ class PostController extends Controller
             $request->validated(),
             ['author_id' => Auth::user()->id]
         ));
+        $post->attachTags($request->tags ?? []);
 
         return ApiResponse::success(
             message: 'Post created successfully',
@@ -73,6 +74,7 @@ class PostController extends Controller
         abort_if(Gate::denies("post-update"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
 
         $post->update($request->validated());
+        $post->syncTags($request->tags ?? []);
 
         return ApiResponse::success(
             message: 'Post updated successfully',

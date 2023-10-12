@@ -3,6 +3,7 @@ export interface Post {
   title: string;
   slug: string;
   body: string;
+  tags: string;
   author: {
     id: number;
     name: string;

@@ -19,6 +19,7 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'body' => $this->body,
+            'tags' => $this->tags->pluck('name'),
             'author' => AuthorResource::make($this->author),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

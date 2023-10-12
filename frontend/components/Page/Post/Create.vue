@@ -3,8 +3,10 @@ import { getNode, type FormKitNode } from "@formkit/core";
 import { PostStoreRequest } from "~/types/api/post";
 import { createInput } from "@formkit/vue";
 import BaseEditor from "~/components/Base/Editor/Editor.vue";
+import BaseInputTag from "~/components/Base/InputTag/InputTag.vue";
 
 const baseEditor = createInput(BaseEditor);
+const baseInputTag = createInput(BaseInputTag);
 
 const emit = defineEmits<{
   submit: [];
@@ -32,13 +34,12 @@ onMounted(() => {
   });
 });
 
-const values = ref()
 </script>
 
 <template>
   <div class="grid grid-cols-12">
     <div class="col-span-12">
-      <FormKit type="form" @submit="submit" v-model="values">
+      <FormKit type="form" @submit="submit">
         <FormKit
           type="text"
           name="title"
@@ -63,6 +64,12 @@ const values = ref()
           label="Body"
           placeholder="My great post"
           validation="required"
+        />
+        <FormKit
+          :type="baseInputTag"
+          name="tags"
+          id="tags"
+          label="Tags"
         />
       </FormKit>
     </div>
