@@ -65,8 +65,6 @@ const values = ref()
           validation="required"
         />
       </FormKit>
-
-      <pre>{{ values }}</pre>
     </div>
   </div>
 </template>
