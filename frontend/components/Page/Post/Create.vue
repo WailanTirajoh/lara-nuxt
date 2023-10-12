@@ -54,7 +54,7 @@ const values = ref()
           label="Slug"
           placeholder="slug"
           validation="required"
-          disabled
+          disabled="true"
         />
         <FormKit
           :type="baseEditor"
