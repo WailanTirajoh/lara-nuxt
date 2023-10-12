@@ -41,7 +41,7 @@ const datatable = reactive<IDatatableProps<keyof Post | "no" | "action">>({
       field: "tags",
       label: "Tags",
       advanceInput: false,
-      sortable: true,
+      sortable: false,
     },
     {
       field: "created_at",
