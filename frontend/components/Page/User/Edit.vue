@@ -68,9 +68,7 @@ onMounted(async () => {
         type="form"
         @submit="submit"
         :value="{
-          name: $props.user.name,
-          email: $props.user.email,
-          roles: $props.user.roles,
+          ...$props.user,
         }"
       >
         <FormKit
