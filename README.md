@@ -5,7 +5,7 @@ Monorepo fullstack apps build with Laravel API & Nuxt 3 FE
 ## Installation
 ### Backend Terminal
 ```
-cd backend
+cd api
 composer install
 cp .env.example .env
 php artisan migrate --seed
@@ -14,7 +14,7 @@ php artisan serve
 
 ### Frontend Terminal
 ```
-cd frontend
+cd cms
 pnpm install
 pnpm dev
 ```
