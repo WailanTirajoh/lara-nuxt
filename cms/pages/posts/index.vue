@@ -148,7 +148,7 @@ function onPostUpdated() {
     <div class="col-span-12">
       <hr />
     </div>
-    <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="bottom">
+    <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="bottom" height="90vh">
       <template #headerTitle>
         {{ selectedPost ? "Edit Post" : "Create New Post" }}
       </template>
