@@ -28,7 +28,8 @@ Route::group([
 ], function () {
     // Unauthenticated
     Route::prefix('/auth')->group(function () {
-        Route::post('/login', LoginController::class)->name('login');
+        Route::post('/login', LoginController::class)->name('login')
+            ->middleware('throttle:5,1');
         Route::post('/register', RegisterController::class)->name('register');
     });
 
