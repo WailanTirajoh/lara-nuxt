@@ -59,6 +59,15 @@ onMounted(async () => {
     };
   });
 });
+
+const imagePreview = ref(props.user.profile_picture ?? "");
+function onImageChanged(value: any) {
+  if (value[0]) {
+    imagePreview.value = URL.createObjectURL(value[0].file);
+  } else {
+    imagePreview.value = props.user.profile_picture ?? "";
+  }
+}
 </script>
 
 <template>
@@ -71,12 +80,14 @@ onMounted(async () => {
           ...$props.user,
         }"
       >
+        <img :src="imagePreview" alt="Profile Image" class="h-40 mx-auto" />
         <FormKit
           type="file"
           name="image"
           label="Profile Picture"
           accept=".jpg,.png"
           help="Select your profile picture"
+          @input="onImageChanged"
         />
         <FormKit
           type="text"
