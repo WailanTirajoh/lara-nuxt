@@ -2,14 +2,25 @@
 import { computed, ref } from "vue";
 import TwSelect from "./SelectWrapper.vue";
 
-import type { FormKitFrameworkContext } from "@formkit/core"
+import type { FormKitFrameworkContext } from "@formkit/core";
 
 export interface Props {
   context: FormKitFrameworkContext;
 }
 const props = defineProps<Props>();
 
-const items = computed(() => props.context.toptions);
+const items = computed<
+  Array<{
+    label: string;
+    value: any;
+  }>
+>(
+  () =>
+    props.context.toptions as Array<{
+      label: string;
+      value: any;
+    }>
+);
 const modelValue = computed(() => props.context.value);
 
 const dropdownSelect = ref();
@@ -24,16 +35,16 @@ const filterredItems = computed(() => {
 
 const computedModelValue = computed(() => modelValue.value ?? []);
 
-function updateValue(value: DropdownItemValue) {
-  const tempValue: DropdownItemValue[] = [];
-  computedModelValue.value.forEach((v: DropdownItemValue) => tempValue.push(v));
+function updateValue(value: any) {
+  const tempValue: any[] = [];
+  computedModelValue.value.forEach((v: any) => tempValue.push(v));
   if (tempValue.includes(value)) tempValue.splice(tempValue.indexOf(value), 1);
   else tempValue.push(value);
   props.context.node.input(tempValue);
   closeDropdown();
 }
 
-function removeSelectedValue(value: DropdownItemValue) {
+function removeSelectedValue(value: any) {
   updateValue(value);
 }
 
@@ -43,11 +54,17 @@ function clearData() {
 }
 
 function closeDropdown() {
-  if (props.closeOnSelect) dropdownSelect.value.closeDropdown();
+  dropdownSelect.value.closeDropdown();
 }
 
 function forceCloseDropdown() {
   dropdownSelect.value.closeDropdown();
+}
+
+function labelValue(id: string) {
+  if (!items.value) return "";
+  const item = items.value.find((item) => item.value == id);
+  return item ? item.label : "";
 }
 </script>
 
@@ -79,7 +96,7 @@ function forceCloseDropdown() {
                   <div
                     class="text-xs rounded text-gray-800 dark:text-gray-200 p-1 bg-white dark:bg-gray-800 h-full w-full"
                   >
-                    {{ v }}
+                    {{ labelValue(v) }}
                   </div>
                   <button
                     type="button"
@@ -93,9 +110,7 @@ function forceCloseDropdown() {
               </div>
             </TransitionGroup>
           </div>
-          <div v-else class="p-2 text-gray-400 text-left">
-            Choose something
-          </div>
+          <div v-else class="p-2 text-gray-400 text-left">Choose something</div>
         </slot>
       </template>
       <template #list="{ isOpen }">

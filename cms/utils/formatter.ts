@@ -1,4 +1,4 @@
-import { format, parseISO } from "date-fns";
+import { format, parseISO, formatDistance } from "date-fns";
 
 export const stringToSlug = (str: string) => {
   return str
@@ -12,6 +12,10 @@ export const formatDatetime = (
   datetimeFormat = "MM/dd/yyyy HH:mm:ss"
 ) => {
   return format(parseISO(datetime), datetimeFormat);
+};
+
+export const formatDateDistance = (datetime: string) => {
+  return formatDistance(parseISO(datetime), new Date(), { addSuffix: true });
 };
 
 export const formatDate = (datetime: string) => {

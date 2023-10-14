@@ -47,10 +47,21 @@ const menus = [
     permission: "role-access",
   },
 ];
+
+const showCreateChannelModal = ref(false);
+const channelStore = useChannelStore();
+const { channels } = storeToRefs(channelStore);
+const onChannelCreated = () => {
+  channelStore.fetchChannels();
+  showCreateChannelModal.value = false;
+};
+onMounted(() => {
+  channelStore.fetchChannels();
+});
 </script>
 
 <template>
-  <div class="h-full text-slate-300">
+  <div class="h-full text-slate-300 group">
     <div class="h-16 px-4">
       <div v-if="!profile" class="flex gap-4 items-center">
         <div class="skeleton !w-10 !h-8 rounded"></div>
@@ -60,11 +71,13 @@ const menus = [
         </div>
       </div>
       <div v-else class="flex gap-4 items-center">
-        <NuxtImg
-          :src="profile.profile_picture"
-          class="!w-8 !h-8 object-cover object-center rounded border"
-        />
-        <div class="">
+        <div class="w-8">
+          <NuxtImg
+            :src="profile.profile_picture"
+            class="!w-8 !h-8 object-cover object-center rounded border"
+          />
+        </div>
+        <div class="w-[calc(100%-2rem)]">
           <div class="text-lg text-slate-200">
             {{ profile.name }}
           </div>
@@ -95,6 +108,38 @@ const menus = [
           </NuxtLink>
         </li>
       </template>
+      <li key="sidebar-channel-horizontal-rule">
+        <hr class="border-slate-700" />
+      </li>
+      <li key="channel" class="flex justify-start">
+        <button
+          class="text-xs p-1 px-3 group-hover:px-4 rounded bg-gray-800 flex gap-4 items-center duration-100"
+          @click="showCreateChannelModal = true"
+        >
+          <Icon name="material-symbols:add-rounded" class="text-xl" />
+          <div class="hidden group-hover:block">Channel</div>
+        </button>
+        <BaseModal v-model="showCreateChannelModal" :full-height="false">
+          <template #title>
+            <div class="text-lg">Create a new Channel</div>
+          </template>
+          <PageSidebarChannelCreate @submit="onChannelCreated" />
+        </BaseModal>
+      </li>
+      <li
+        v-for="channel in channels"
+        :key="channel.id"
+        class="relative overflow-hidden"
+      >
+        <NuxtLink
+          class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
+          active-class="text-blue-100 bg-blue-600 before:!left-0"
+          :to="`/channels/${channel.id}`"
+        >
+          <Icon name="uil:channel" class="text-xl" />
+          <div>{{ channel.name }}</div>
+        </NuxtLink>
+      </li>
     </TransitionGroup>
     <div class="h-16">
       <ul class="flex flex-col gap-2 px-4 overflow-auto overflow-x-hidden">
@@ -112,23 +157,3 @@ const menus = [
     </div>
   </div>
 </template>
-
-<style scoped>
-.list-move, /* apply transition to moving elements */
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-/* ensure leaving items are taken out of layout flow so that moving
-   animations can be calculated correctly. */
-.list-leave-active {
-  position: absolute;
-}
-</style>

@@ -92,6 +92,7 @@ onMounted(() => {
               >
                 <slot name="header">
                   <div
+                    v-if="$slots.title"
                     class="flex items-center justify-between p-5 border-b border-solid border-slate-200 dark:border-gray-700 rounded-t px-6"
                     :class="[props.modalHeaderClass]"
                   >
@@ -115,6 +116,7 @@ onMounted(() => {
                   <slot name="default"></slot>
                 </div>
                 <div
+                  v-if="$slots.footer"
                   class="flex items-center p-6 border-t dark:border-gray-700 border-solid border-slate-200 rounded-b"
                   :class="[props.modalFooterClass]"
                 >

@@ -4,9 +4,11 @@ use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
+use App\Http\Controllers\Api\V1\ChannelController;
 use App\Http\Controllers\Api\V1\PermissionController;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\RoleController;
+use App\Http\Controllers\Api\V1\ThreadController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,5 +56,8 @@ Route::group([
         Route::apiResource('roles', RoleController::class);
 
         Route::apiResource('permissions', PermissionController::class)->only('index');
+
+        Route::apiResource('channels', ChannelController::class)->only('index', 'store', 'show', 'update', 'destroy');
+        Route::apiResource('channels.threads', ThreadController::class);
     });
 });

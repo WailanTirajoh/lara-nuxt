@@ -119,7 +119,7 @@ function onRoleUpdated() {
 </script>
 
 <template>
-  <div class="grid grid-cols-12 gap-4">
+  <div class="p-4 sm:p-8 grid grid-cols-12 gap-4">
     <div class="col-span-12">
       <h1 class="text-3xl font-medium">Roles</h1>
     </div>
