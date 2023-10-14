@@ -72,6 +72,7 @@ class ChannelController extends Controller
      */
     public function update(UpdateChannelRequest $request, Channel $channel)
     {
+        abort_if($channel->created_by !== Auth::id(), Response::HTTP_FORBIDDEN, "You're not the channel creator!");
         $this->authorize('channel-update');
 
         DB::beginTransaction();
@@ -93,6 +94,7 @@ class ChannelController extends Controller
      */
     public function destroy(Channel $channel)
     {
+        abort_if($channel->created_by !== Auth::id(), Response::HTTP_FORBIDDEN, "You're not the channel creator!");
         $this->authorize('channel-delete');
 
         $channel->delete();

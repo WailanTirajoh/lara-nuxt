@@ -15,6 +15,8 @@ definePageMeta({
 const route = useRoute();
 const channelId = computed<string>(() => route.params.id as string);
 const channelStore = useChannelStore();
+const authStore = useAuthStore();
+const { profile } = storeToRefs(authStore);
 const dialog = useDialog();
 const threadStore = useThreadStore();
 const { threads } = storeToRefs(threadStore);
@@ -67,18 +69,26 @@ onMounted(async () => {
                   class="w-6 h-6 rounded-full object-cover object-center"
                 />
               </div>
-              <button
-                class="w-6 h-6 rounded-full"
-                @click="showModalEdit = !showModalEdit"
-              >
-                <Icon name="material-symbols:add-circle-rounded" />
-              </button>
-              <BaseModal v-model="showModalEdit">
-                <template #title>
-                  <div class="text-lg">Edit {{ channel.name }}</div>
-                </template>
-                <PageChannelEdit :channel="channel" @submit="onChannelUpdate" />
-              </BaseModal>
+              <template v-if="profile.id === channel.created_by">
+                <button
+                  class="w-6 h-6 rounded-full group"
+                  @click="showModalEdit = !showModalEdit"
+                >
+                  <Icon
+                    name="icon-park-twotone:config"
+                    class="group-hover:animate-spin"
+                  />
+                </button>
+                <BaseModal v-model="showModalEdit">
+                  <template #title>
+                    <div class="text-lg">Edit {{ channel.name }}</div>
+                  </template>
+                  <PageChannelEdit
+                    :channel="channel"
+                    @submit="onChannelUpdate"
+                  />
+                </BaseModal>
+              </template>
             </template>
             <template v-else>
               <div v-for="i in 2" class="skeleton !w-8 !h-8 rounded-full"></div>

@@ -9,6 +9,7 @@ export interface Channel {
   id: number;
   name: string;
   users: Array<ChannelUser>;
+  created_by: number;
   created_at: string;
   updated_at: string;
 }
