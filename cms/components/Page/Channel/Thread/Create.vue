@@ -16,6 +16,7 @@ const threadStore = useThreadStore();
 const onSubmit = async () => {
   await threadStore.store(props.channelId, { ...form.value });
   await threadStore.fetchThreads(props.channelId);
+  form.value.body = "";
 };
 </script>
 
