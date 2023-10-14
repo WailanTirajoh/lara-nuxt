@@ -17,14 +17,19 @@ export const useThreadStore = defineStore("thread", () => {
   };
 
   const get = (channelId: string) => {
-    return $useFetchAPI<ApiResponse<ThreadResponse>>(`/channels/${channelId}/threads`);
+    return $useFetchAPI<ApiResponse<ThreadResponse>>(
+      `/channels/${channelId}/threads`
+    );
   };
 
   const store = (channelId: string, body: ThreadStoreRequest) => {
-    return useFetchAPI<ApiResponse<ThreadStoreResponse>>(`/channels/${channelId}/threads`, {
-      method: "post",
-      body,
-    });
+    return useFetchAPI<ApiResponse<ThreadStoreResponse>>(
+      `/channels/${channelId}/threads`,
+      {
+        method: "post",
+        body,
+      }
+    );
   };
 
   const show = (channelId: string, id: string) => {
@@ -37,7 +42,7 @@ export const useThreadStore = defineStore("thread", () => {
   };
 
   const update = (channelId: string, id: string, body: ThreadUpdateRequest) => {
-    return useFetchAPI<ApiResponse<ThreadStoreResponse>>(
+    return $useFetchAPI<ApiResponse<ThreadStoreResponse>>(
       `/channels/${channelId}/threads/${id}`,
       {
         method: "put",
@@ -54,5 +59,20 @@ export const useThreadStore = defineStore("thread", () => {
       }
     );
   };
-  return { threads, fetchThreads, get, store, show, update, destroy };
+
+  const selectedThread = ref<Thread>();
+  const chooseThread = (thread: Thread) => {
+    selectedThread.value = thread;
+  };
+  return {
+    threads,
+    selectedThread,
+    chooseThread,
+    fetchThreads,
+    get,
+    store,
+    show,
+    update,
+    destroy,
+  };
 });

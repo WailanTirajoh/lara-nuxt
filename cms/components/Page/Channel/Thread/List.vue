@@ -19,7 +19,7 @@ onMounted(async () => {
 <template>
   <div class="h-full overflow-auto">
     <template v-if="initialFetch">
-      <ul class="flex flex-col gap-4 overflow-x-hidden h-full overflow-y-auto">
+      <ul class="flex flex-col gap-4 overflow-x-hidden h-full overflow-y-auto p-4">
         <li :key="`skeleton-${i}`" v-for="i in 2">
           <div class="relative flex gap-2 group overflow-x-hidden">
             <span class="skeleton !w-8 !h-8 rounded-lg"></span>

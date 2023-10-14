@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('reacts', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->morphs('reactable');
             $table->string('name');
             $table->timestamps();

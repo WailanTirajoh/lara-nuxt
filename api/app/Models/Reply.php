@@ -11,6 +11,11 @@ class Reply extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'body',
+        'user_id',
+    ];
+
     public function replyable(): MorphTo
     {
         return $this->morphTo();

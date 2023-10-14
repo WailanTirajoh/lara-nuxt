@@ -24,25 +24,35 @@ const destroy = async () => {
   await threadStore.destroy(props.channelId, props.thread.id);
   await threadStore.fetchThreads(props.channelId);
 };
+
+const select = (thread: Thread) => {
+  threadStore.chooseThread(thread);
+};
 </script>
 <template>
   <div class="relative flex gap-2 group overflow-hidden">
     <div
-      v-if="profile.id === props.thread.user.id"
       class="translate-x-10 group-hover:translate-x-3 py-1 px-2 rounded duration-300 flex flex-col gap-1 justify-center items-center absolute top-2 right-2 bg-slate-700 text-slate-200 z-10"
     >
-      <button class="" @click="isEditting = !isEditting">
+      <button class="" @click="select(thread)">
         <Icon
-          :name="
-            isEditting
-              ? 'material-symbols:edit-off-outline'
-              : 'material-symbols:edit-outline'
-          "
+          name="ic:baseline-remove-red-eye"
         />
       </button>
-      <button class="" @click="destroy">
-        <Icon name="material-symbols:delete-forever-outline" />
-      </button>
+      <template v-if="profile.id === props.thread.user.id">
+        <button class="" @click="isEditting = !isEditting">
+          <Icon
+            :name="
+              isEditting
+                ? 'material-symbols:edit-off-outline'
+                : 'material-symbols:edit-outline'
+            "
+          />
+        </button>
+        <button class="" @click="destroy">
+          <Icon name="material-symbols:delete-forever-outline" />
+        </button>
+      </template>
     </div>
     <img
       :src="thread.user.profile_picture"
@@ -67,3 +77,4 @@ const destroy = async () => {
     </div>
   </div>
 </template>
+~/types/api/thread

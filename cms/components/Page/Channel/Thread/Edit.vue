@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Thread } from "~/types/api/thead";
+import { Thread } from "~/types/api/thread";
 
 interface ChannelThreadCreateProps {
   channelId: string;
@@ -35,3 +35,4 @@ const onSubmit = async () => {
     </div>
   </div>
 </template>
+~/types/api/thread

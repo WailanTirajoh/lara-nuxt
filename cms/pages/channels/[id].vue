@@ -19,7 +19,7 @@ const authStore = useAuthStore();
 const { profile } = storeToRefs(authStore);
 const dialog = useDialog();
 const threadStore = useThreadStore();
-const { threads } = storeToRefs(threadStore);
+const { threads, selectedThread } = storeToRefs(threadStore);
 
 const destroy = async (id: number) => {
   const accepted = await dialog.fire({
@@ -96,17 +96,44 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div class="relative h-[calc(100%-4rem)] bg-red-50 shadow-inner">
-        <div class="h-[calc(100%)] overflow-auto bg-gray-50 shadow-inner">
-          <PageChannelThreadList :channel-id="channelId" />
-        </div>
+      <div class="relative flex h-full">
         <div
-          class="absolute bottom-0 min-h-40 w-full translate-y-32 hover:translate-y-0 duration-300"
+          class="relative h-[calc(100%-4rem)] bg-red-50 shadow-inner w-full duration-300"
+          :class="{
+            'w-full sm:w-1/2': selectedThread,
+          }"
         >
-          <div class="text-center flex items-center justify-center">
-            <div class="bg-white p-1 border border-gray-400 border-b-0 rounded-t-lg z-10">New Thread</div>
+          <div class="h-[calc(100%)] overflow-auto bg-gray-50 shadow-inner">
+            <PageChannelThreadList :channel-id="channelId" />
           </div>
-          <PageChannelThreadCreate :channel-id="channelId" />
+          <div
+            class="absolute bottom-0 min-h-40 w-full translate-y-32 hover:translate-y-0 duration-300"
+          >
+            <div class="text-center flex items-center justify-center">
+              <div
+                class="bg-white p-1 border border-gray-400 border-b-0 rounded-t-lg z-10"
+              >
+                New Thread
+              </div>
+            </div>
+            <PageChannelThreadCreate :channel-id="channelId" />
+          </div>
+        </div>
+        <!-- Thread View -->
+        <div
+          class="absolute right-0 w-full sm:w-1/2 translate-x-full h-[calc(100%-4rem)] bg-white shadow duration-300 z-10"
+          :class="{
+            '!translate-x-0': selectedThread,
+          }"
+        >
+          <button
+            v-if="selectedThread"
+            class="absolute right-0 sm:right-[unset] sm:-left-8 top-5 w-8 h-8 bg-white border-r-0 border sm:rounded-l-lg flex items-center justify-center z-10"
+            @click="selectedThread = undefined"
+          >
+            <Icon name="ic:baseline-close" />
+          </button>
+          <PageChannelThreadShow />
         </div>
       </div>
     </div>
