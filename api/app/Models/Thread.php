@@ -12,8 +12,18 @@ class Thread extends Model
 {
     use HasFactory, HasReacts, HasReplies;
 
+    protected $fillable = [
+        'body',
+        'user_id',
+    ];
+
     public function channel(): BelongsTo
     {
         return $this->belongsTo(Channel::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

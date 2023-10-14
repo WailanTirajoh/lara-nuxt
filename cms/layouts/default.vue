@@ -21,7 +21,7 @@ const isOpen = ref(false);
       >
         <NuxtLoadingIndicator />
         <div
-          class="fixed z-10 p-4 sm:p-8 flex flex-col gap-2 bg-white w-full sm:w-[calc(100%-4rem)] h-full sm:rounded-l-2xl duration-300"
+          class="fixed z-10 flex flex-col gap-2 bg-white w-full sm:w-[calc(100%-4rem)] h-full sm:rounded-l-2xl duration-300"
           :class="{
             'rounded-l-2xl': isOpen
           }"

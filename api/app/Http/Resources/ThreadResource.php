@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ChannelResource extends JsonResource
+class ThreadResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,9 @@ class ChannelResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'users' => ChannelUserResource::collection($this->users)
+            'body' => $this->body,
+            'user' => ThreadUserResource::make($this->user),
+            'created_at' => $this->created_at,
         ];
     }
 }

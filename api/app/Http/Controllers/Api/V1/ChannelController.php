@@ -9,7 +9,8 @@ use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
 use App\Http\Resources\ChannelResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ChannelController extends Controller
 {
@@ -18,9 +19,9 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies("channel-access"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('channel-access');
 
-        $channels = Channel::all();
+        $channels = Auth::user()->channels()->with('users')->get();
 
         return ApiResponse::success(
             data: [
@@ -34,9 +35,14 @@ class ChannelController extends Controller
      */
     public function store(StoreChannelRequest $request)
     {
-        abort_if(Gate::denies("channel-store"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('channel-store');
 
-        $channel = Channel::create($request->validated());
+        DB::beginTransaction();
+        $channel = Channel::create(array_merge($request->validated(), [
+            'created_by' => Auth::id()
+        ]));
+        $channel->users()->attach(Auth::id());
+        DB::commit();
 
         return ApiResponse::success(
             message: 'Channel created successfully',
@@ -52,15 +58,13 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        //
-    }
+        $this->authorize('channel-show');
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Channel $channel)
-    {
-        //
+        return ApiResponse::success(
+            data: [
+                'channel' => ChannelResource::make($channel->load('users'))
+            ]
+        );
     }
 
     /**
@@ -76,6 +80,10 @@ class ChannelController extends Controller
      */
     public function destroy(Channel $channel)
     {
-        //
+        $this->authorize('channel-delete');
+
+        $channel->delete();
+
+        return ApiResponse::success(message: 'Channel permanently deleted', statusCode: Response::HTTP_NO_CONTENT);
     }
 }

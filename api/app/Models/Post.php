@@ -12,11 +12,6 @@ class Post extends Model
 {
     use HasFactory, SoftDeletes, HasTags;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         "title",
         "slug",

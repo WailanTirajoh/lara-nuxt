@@ -11,6 +11,11 @@ class Channel extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'created_by',
+        'name',
+    ];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
