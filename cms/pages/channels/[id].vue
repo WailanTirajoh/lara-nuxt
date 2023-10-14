@@ -29,32 +29,60 @@ const destroy = async (id: number) => {
   navigateTo("/");
 };
 
-onMounted(async () => {
-  threads.value = [];
+const showModalEdit = ref(false);
+const onChannelUpdate = async () => {
+  await fetchChannel();
+};
+const fetchChannel = async () => {
+  showModalEdit.value = false;
+  channelStore.fetchChannels();
   const { data } = await channelStore.show(channelId.value);
   channel.value = data.channel;
+};
+onMounted(async () => {
+  threads.value = [];
+  await fetchChannel();
 });
 </script>
 
 <template>
   <div class="h-[calc(100vh-4rem)]">
-    <div class="h-full" v-if="channel">
+    <div class="h-full">
       <div class="p-4 h-16 flex items-center justify-between">
         <h1 class="text-3xl">
-          {{ channel.name }}
+          <template v-if="channel">
+            {{ channel.name }}
+          </template>
+          <template v-else>
+            <div class="skeleton !w-32 !h-8"></div>
+          </template>
         </h1>
         <div class="">
           <div class="flex gap-1">
-            <div v-for="user in channel.users">
-              <img
-                :src="user.profile_picture"
-                alt=""
-                class="w-6 h-6 rounded-full object-cover object-center"
-              />
-            </div>
-            <button class="w-6 h-6 rounded-full">
-              <Icon name="material-symbols:add-circle-rounded" />
-            </button>
+            <template v-if="channel">
+              <div v-for="user in channel.users">
+                <img
+                  :src="user.profile_picture"
+                  alt=""
+                  class="w-6 h-6 rounded-full object-cover object-center"
+                />
+              </div>
+              <button
+                class="w-6 h-6 rounded-full"
+                @click="showModalEdit = !showModalEdit"
+              >
+                <Icon name="material-symbols:add-circle-rounded" />
+              </button>
+              <BaseModal v-model="showModalEdit">
+                <template #title>
+                  <div class="text-lg">Edit {{ channel.name }}</div>
+                </template>
+                <PageChannelEdit :channel="channel" @submit="onChannelUpdate" />
+              </BaseModal>
+            </template>
+            <template v-else>
+              <div v-for="i in 2" class="skeleton !w-8 !h-8 rounded-full"></div>
+            </template>
           </div>
         </div>
       </div>

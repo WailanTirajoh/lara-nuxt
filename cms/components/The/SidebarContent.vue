@@ -71,11 +71,13 @@ onMounted(() => {
         </div>
       </div>
       <div v-else class="flex gap-4 items-center">
-        <NuxtImg
-          :src="profile.profile_picture"
-          class="!w-8 !h-8 object-cover object-center rounded border"
-        />
-        <div class="">
+        <div class="w-8">
+          <NuxtImg
+            :src="profile.profile_picture"
+            class="!w-8 !h-8 object-cover object-center rounded border"
+          />
+        </div>
+        <div class="w-[calc(100%-2rem)]">
           <div class="text-lg text-slate-200">
             {{ profile.name }}
           </div>

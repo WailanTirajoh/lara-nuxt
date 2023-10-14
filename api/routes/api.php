@@ -57,7 +57,7 @@ Route::group([
 
         Route::apiResource('permissions', PermissionController::class)->only('index');
 
-        Route::apiResource('channels', ChannelController::class)->only('index', 'store', 'show', 'destroy');
+        Route::apiResource('channels', ChannelController::class)->only('index', 'store', 'show', 'update', 'destroy');
         Route::apiResource('channels.threads', ThreadController::class);
     });
 });

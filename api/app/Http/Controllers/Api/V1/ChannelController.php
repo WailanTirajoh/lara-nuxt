@@ -72,7 +72,20 @@ class ChannelController extends Controller
      */
     public function update(UpdateChannelRequest $request, Channel $channel)
     {
-        //
+        $this->authorize('channel-update');
+
+        DB::beginTransaction();
+        $channel->update($request->validated());
+        $channel->users()->sync($request->users);
+        DB::commit();
+
+        return ApiResponse::success(
+            message: 'Channel updated successfully',
+            data: [
+                "channel" => ChannelResource::make($channel)
+            ],
+            statusCode: Response::HTTP_CREATED
+        );
     }
 
     /**

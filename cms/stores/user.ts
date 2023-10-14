@@ -4,13 +4,18 @@ import type {
   UserDeleteResponse,
   UserRestoreResponse,
   UserStoreRequest,
-  UserUpdateRequest,
   UserRequest,
 } from "@/types/api/user";
 
 export const useUserStore = defineStore("user", () => {
   const get = (params: Ref<UserRequest>) => {
     return useFetchAPI<ApiResponse<UserResponse>>("/users", {
+      params,
+    });
+  };
+
+  const $get = (params: UserRequest) => {
+    return $useFetchAPI<ApiResponse<UserResponse>>("/users", {
       params,
     });
   };
@@ -59,5 +64,5 @@ export const useUserStore = defineStore("user", () => {
     );
   };
 
-  return { get, store, update, restore, destroy, permanentDestroy };
+  return { $get, get, store, update, restore, destroy, permanentDestroy };
 });
