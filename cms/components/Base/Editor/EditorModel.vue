@@ -19,13 +19,14 @@ const editor = useEditor({
 });
 
 watch(modelValue, (value) => {
-  editor.value?.commands.setContent(value ?? "");
+  if (!value) {
+    editor.value?.commands.setContent("");
+  }
 });
 </script>
 
 <template>
   <div class="border border-gray-400 rounded-md overflow-hidden">
-    {{ modelValue }}
     <editor-content :editor="editor" />
     <footer class="border-b p-1 bg-gray-200">
       <div class="flex flex-wrap gap-1" v-if="editor">
