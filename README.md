@@ -30,3 +30,4 @@ password: wailan
 ## UI Preview
 ![image](https://github.com/WailanTirajoh/lara-nuxt/assets/53980548/22281f0b-608e-4767-91fd-b86c6f4ef548)
 ![image](https://github.com/WailanTirajoh/lara-nuxt/assets/53980548/d7955974-dbf5-4c48-afdd-c064c260d04f)
+![image](https://github.com/WailanTirajoh/lara-nuxt/assets/53980548/382bcdaa-792b-4764-b692-99c938e127fb)
