@@ -22,6 +22,12 @@ class AppSeeder extends Seeder
             'password' => bcrypt('wailan')
         ]);
 
+        $userPutri = User::create([
+            'email' => 'putririnding@gmail.com',
+            'name' => 'Putri Rinding',
+            'password' => bcrypt('putri')
+        ]);
+
 
         Role::create([
             'name' => 'Super'
@@ -31,6 +37,7 @@ class AppSeeder extends Seeder
         // By default, super can bypass any permission
 
         $user->assignRole('Super');
+        $userPutri->assignRole('Super');
 
         $permissions = [
             "user-access",
@@ -45,10 +52,25 @@ class AppSeeder extends Seeder
             "post-delete-permanent",
             "post-restore",
 
-            "role-access",
-            "role-store",
-            "role-update",
-            "role-delete",
+            "channel-access",
+            "channel-store",
+            "channel-update",
+            "channel-delete",
+
+            "react-access",
+            "react-store",
+            "react-update",
+            "react-delete",
+
+            "thread-access",
+            "thread-store",
+            "thread-update",
+            "thread-delete",
+
+            "reply-access",
+            "reply-store",
+            "reply-update",
+            "reply-delete",
         ];
 
         foreach ($permissions as $permission) {

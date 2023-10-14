@@ -17,11 +17,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="p-4 h-full">
+  <div class="h-full overflow-auto">
     <template v-if="initialFetch">
-      <ul class="flex flex-col gap-4 overflow-hidden h-full">
+      <ul class="flex flex-col gap-4 overflow-x-hidden h-full overflow-y-auto">
         <li :key="`skeleton-${i}`" v-for="i in 2">
-          <div class="relative flex gap-2 group overflow-hidden">
+          <div class="relative flex gap-2 group overflow-x-hidden">
             <span class="skeleton !w-8 !h-8 rounded-lg"></span>
             <div
               class="prose prose-sm bg-white shadow max-w-full w-full p-2 rounded"
@@ -95,7 +95,7 @@ onMounted(async () => {
       <TransitionGroup
         name="list"
         tag="ul"
-        class="flex flex-col gap-4 overflow-hidden h-full"
+        class="flex flex-col gap-4 overflow-x-hidden h-full p-4"
       >
         <li :key="thread.id" v-for="thread in threads">
           <PageChannelThreadListItem

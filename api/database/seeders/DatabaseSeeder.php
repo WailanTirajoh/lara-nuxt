@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AppSeeder::class,
+            PostSeeder::class,
+            ChannelSeeder::class,
+            ThreadSeeder::class,
         ]);
     }
 }

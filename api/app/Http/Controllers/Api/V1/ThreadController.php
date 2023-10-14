@@ -23,8 +23,8 @@ class ThreadController extends Controller
     {
         $this->authorize('thread-access');
 
-        $orderBy = $request->query("order_by", "id");
-        $orderType = $request->query("order_type", "ASC");
+        $orderBy = $request->query("order_by", "created_at");
+        $orderType = $request->query("order_type", "DESC");
         $limit = $request->query('limit', 25);
 
         $threads = $channel->threads()

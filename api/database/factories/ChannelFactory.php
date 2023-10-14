@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,9 @@ class ChannelFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'created_by' => function () {
+                return User::inRandomOrder()->first()->id;
+            },
         ];
     }
 }
