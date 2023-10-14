@@ -48,7 +48,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="h-[calc(100vh-4rem)]">
+  <div class="h-[calc(100vh)]">
     <div class="h-full">
       <div class="p-4 h-16 flex items-center justify-between">
         <h1 class="text-3xl">
@@ -96,11 +96,16 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-      <div class="relative h-[calc(100%-4rem)] bg-gray-50 shadow-inner">
-        <div class="h-[calc(100%-10rem)] overflow-auto bg-gray-50 shadow-inner">
+      <div class="relative h-[calc(100%-4rem)] bg-red-50 shadow-inner">
+        <div class="h-[calc(100%)] overflow-auto bg-gray-50 shadow-inner">
           <PageChannelThreadList :channel-id="channelId" />
         </div>
-        <div class="absolute bottom-0 min-h-40 w-full">
+        <div
+          class="absolute bottom-0 min-h-40 w-full translate-y-32 hover:translate-y-0 duration-300"
+        >
+          <div class="text-center flex items-center justify-center">
+            <div class="bg-white p-1 border border-gray-400 border-b-0 rounded-t-lg z-10">New Thread</div>
+          </div>
           <PageChannelThreadCreate :channel-id="channelId" />
         </div>
       </div>

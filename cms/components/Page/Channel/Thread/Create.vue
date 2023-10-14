@@ -20,7 +20,7 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <div class="grid grid-cols-12 gap-2 p-1">
+  <div class="grid grid-cols-12 gap-2 p-1 pt-0">
     <div class="col-span-12">
       <BaseEditorModel v-model="form.body" />
     </div>

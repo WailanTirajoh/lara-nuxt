@@ -29,7 +29,7 @@ const destroy = async () => {
   <div class="relative flex gap-2 group overflow-hidden">
     <div
       v-if="profile.id === props.thread.user.id"
-      class="translate-x-10 group-hover:translate-x-3 py-1 px-2 rounded duration-300 flex flex-col gap-1 justify-center items-center absolute top-2 right-2 bg-slate-700 text-slate-200"
+      class="translate-x-10 group-hover:translate-x-3 py-1 px-2 rounded duration-300 flex flex-col gap-1 justify-center items-center absolute top-2 right-2 bg-slate-700 text-slate-200 z-10"
     >
       <button class="" @click="isEditting = !isEditting">
         <Icon

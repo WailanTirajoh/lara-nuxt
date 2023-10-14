@@ -17,10 +17,15 @@ const editor = useEditor({
     modelValue.value = editor.value?.getHTML();
   },
 });
+
+watch(modelValue, (value) => {
+  editor.value?.commands.setContent(value ?? "");
+});
 </script>
 
 <template>
   <div class="border border-gray-400 rounded-md overflow-hidden">
+    {{ modelValue }}
     <editor-content :editor="editor" />
     <footer class="border-b p-1 bg-gray-200">
       <div class="flex flex-wrap gap-1" v-if="editor">
