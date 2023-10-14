@@ -14,8 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('channel_user', function (Blueprint $table) {
-            $table->foreignIdFor(Channel::class);
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Channel::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
         });
     }
 
