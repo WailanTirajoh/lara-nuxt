@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\ChannelController;
 use App\Http\Controllers\Api\V1\PermissionController;
 use App\Http\Controllers\Api\V1\PostController;
+use App\Http\Controllers\Api\V1\ReplyController;
 use App\Http\Controllers\Api\V1\RoleController;
 use App\Http\Controllers\Api\V1\ThreadController;
 use App\Http\Controllers\Api\V1\UserController;
@@ -59,5 +60,6 @@ Route::group([
 
         Route::apiResource('channels', ChannelController::class)->only('index', 'store', 'show', 'update', 'destroy');
         Route::apiResource('channels.threads', ThreadController::class);
+        Route::apiResource('threads.replies', ReplyController::class);
     });
 });

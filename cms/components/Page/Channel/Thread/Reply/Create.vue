@@ -1,8 +1,8 @@
 <script setup lang="ts">
-interface ChannelThreadCreateProps {
-  channelId: string;
+interface ChannelThreadReplyCreateProps {
+  threadId: string;
 }
-const props = defineProps<ChannelThreadCreateProps>();
+const props = defineProps<ChannelThreadReplyCreateProps>();
 const emit = defineEmits<{
   submit: [];
 }>();
@@ -11,11 +11,11 @@ const form = ref({
   body: "",
 });
 
-const threadStore = useThreadStore();
+const threadReplyStore = useThreadReplyStore();
 
 const onSubmit = async () => {
-  await threadStore.store(props.channelId, { ...form.value });
-  await threadStore.fetchThreads(props.channelId);
+  await threadReplyStore.store(props.threadId, { ...form.value });
+  threadReplyStore.fetchThreadReplies(props.threadId);
   form.value.body = "";
 };
 </script>
