@@ -29,6 +29,12 @@ const menus = [
     permission: null,
   },
   {
+    label: "Notification",
+    icon: "ic:baseline-notifications-active",
+    to: "/notifications",
+    permission: null,
+  },
+  {
     label: "Post",
     icon: "mdi:post-outline",
     to: "/posts",

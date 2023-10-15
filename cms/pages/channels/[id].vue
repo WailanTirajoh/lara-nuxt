@@ -43,6 +43,7 @@ const fetchChannel = async () => {
 };
 onMounted(async () => {
   threads.value = [];
+  selectedThread.value = undefined;
   await fetchChannel();
 });
 </script>

@@ -28,7 +28,7 @@ class ThreadController extends Controller
         $limit = $request->query('limit', 25);
 
         $threads = $channel->threads()
-            ->with('user')
+            ->with('user', 'replies')
             ->orderBy($orderBy, $orderType)
             ->paginate($limit);
 
