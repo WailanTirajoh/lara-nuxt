@@ -17,6 +17,7 @@ class ThreadResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
+            'replies_count' => $this->replies()->count(),
             'user' => ThreadUserResource::make($this->user),
             'created_at' => $this->created_at,
         ];
