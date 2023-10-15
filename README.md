@@ -3,16 +3,23 @@
 Monorepo fullstack apps build with Laravel API & Nuxt 3 FE
 
 ## Installation
-### Backend Terminal
+### Docker
 ```
+# Copy the env.example to .env
 cd api
-composer install
 cp .env.example .env
-php artisan migrate --seed
-php artisan serve
+cd ..
+
+# Build docker
+docker compose up --build
+
+# Database Migration
+docker compose exec php php /var/www/html/artisan migrate
 ```
 
-### Frontend Terminal
+By following this CLI steps, we can open http://localhost:8080 on browser to see API up and running.
+
+### Development on Frontend Terminal
 ```
 cd cms
 pnpm install
@@ -20,8 +27,8 @@ pnpm dev
 ```
 
 ### Login
-- open UI at http://localhost:3000
-- login credentials _(Look at backend AppSeeder.php)_
+- open CMS UI at http://localhost:3000
+- login credentials _(Look at api AppSeeder.php)_
 ```
 email: wailantirajoh@gmail.com
 password: wailan
