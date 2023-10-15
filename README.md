@@ -22,6 +22,7 @@ By following this CLI steps, we can open http://localhost:8080 on browser to see
 ### Development on Frontend Terminal
 ```
 cd cms
+cp .env.example .env
 pnpm install
 pnpm dev
 ```
