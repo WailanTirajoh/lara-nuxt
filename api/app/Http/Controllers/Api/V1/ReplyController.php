@@ -9,9 +9,13 @@ use App\Http\Requests\StoreReplyRequest;
 use App\Http\Requests\UpdateReplyRequest;
 use App\Http\Resources\ReplyResource;
 use App\Models\Thread;
+use App\Models\User;
+use App\Notifications\ThreadReplied;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class ReplyController extends Controller
 {
@@ -53,9 +57,21 @@ class ReplyController extends Controller
     {
         $this->authorize('reply-store');
 
+        DB::beginTransaction();
         $reply = $thread->replies()->create(
             array_merge($request->validated(), ['user_id' => Auth::id()])
         );
+
+        $userIds = $thread->replies()
+            ->whereNot('user_id', Auth::id())
+            ->select('user_id')
+            ->distinct()
+            ->pluck('user_id');
+        Notification::send(
+            User::whereIn('id', $userIds)->get(),
+            new ThreadReplied($reply)
+        );
+        DB::commit();
 
         return ApiResponse::success([
             'message' => 'Reply created successfully',

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { Thread } from "~/types/api/thead";
+import { Thread } from "~/types/api/thread";
 
 interface PageChannelThreadItemListProps {
   channelId: string;
@@ -13,6 +13,7 @@ const isEditting = ref(false);
 const threadStore = useThreadStore();
 const dialog = useDialog();
 const authStore = useAuthStore();
+const route = useRoute();
 const { profile } = storeToRefs(authStore);
 
 const destroy = async () => {
@@ -28,6 +29,12 @@ const destroy = async () => {
 const select = (thread: Thread) => {
   threadStore.chooseThread(thread);
 };
+
+onMounted(() => {
+  if (route.query.thread === props.thread.id.toString()) {
+    threadStore.chooseThread(props.thread);
+  }
+});
 </script>
 <template>
   <div class="relative flex gap-2 group overflow-hidden">
@@ -78,4 +85,3 @@ const select = (thread: Thread) => {
     </div>
   </div>
 </template>
-~/types/api/thread

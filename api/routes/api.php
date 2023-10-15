@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
+use App\Http\Controllers\Api\V1\Auth\NotificationController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\ChannelController;
@@ -44,6 +45,7 @@ Route::group([
     ], function () {
         Route::prefix('/auth')->group(function () {
             Route::get('/profile', ProfileController::class)->name('profile');
+            Route::get('/notifications', NotificationController::class)->name('notification');
             Route::delete('/logout', LogoutController::class)->name('logout');
         });
 

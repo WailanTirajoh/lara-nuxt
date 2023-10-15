@@ -9,6 +9,7 @@ export interface Thread {
   id: number;
   body: string;
   user: ThreadUser;
+  replies_count: number;
   created_at: string;
   updated_at: string;
 }
