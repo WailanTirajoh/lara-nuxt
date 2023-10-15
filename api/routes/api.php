@@ -45,7 +45,11 @@ Route::group([
     ], function () {
         Route::prefix('/auth')->group(function () {
             Route::get('/profile', ProfileController::class)->name('profile');
-            Route::get('/notifications', NotificationController::class)->name('notification');
+            Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])
+                ->name('notification.count');
+            Route::get('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])
+                ->name('notification.markAsRead');
+            Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');
             Route::delete('/logout', LogoutController::class)->name('logout');
         });
 

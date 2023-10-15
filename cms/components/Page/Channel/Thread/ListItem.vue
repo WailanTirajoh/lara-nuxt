@@ -11,6 +11,7 @@ const props = defineProps<PageChannelThreadItemListProps>();
 const isEditting = ref(false);
 
 const threadStore = useThreadStore();
+const { selectedThread } = storeToRefs(threadStore);
 const dialog = useDialog();
 const authStore = useAuthStore();
 const route = useRoute();
@@ -64,7 +65,12 @@ onMounted(() => {
       alt=""
       class="w-8 h-8 rounded object-cover object-center"
     />
-    <div class="bg-white shadow max-w-full w-full p-2 rounded">
+    <div
+      class="bg-white shadow max-w-full w-full p-2 rounded duration-300"
+      :class="{
+        'border-l-2 border-l-slate-700': selectedThread?.id === props.thread.id,
+      }"
+    >
       <div class="text-lg">
         {{ thread.user.name }}
         <span class="text-base text-slate-600">

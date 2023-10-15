@@ -6,6 +6,9 @@ const dialog = useDialog();
 const authStore = useAuthStore();
 const { profile } = storeToRefs(authStore);
 
+const notificatonStore = useNotificationStore();
+const { unreadNotificationCount } = storeToRefs(notificatonStore);
+
 const logout = async () => {
   const res = await dialog.fire({
     title: "Are you sure you want to logout?",
@@ -21,7 +24,7 @@ const logout = async () => {
   navigateTo("/auth/login");
 };
 
-const menus = [
+const menus = computed(() => [
   {
     label: "Dashboard",
     icon: "lucide:home",
@@ -29,7 +32,8 @@ const menus = [
     permission: null,
   },
   {
-    label: "Notification",
+    label: "Notification ",
+    sub: unreadNotificationCount.value,
     icon: "ic:baseline-notifications-active",
     to: "/notifications",
     permission: null,
@@ -52,7 +56,7 @@ const menus = [
     to: "/roles",
     permission: "role-access",
   },
-];
+]);
 
 const showCreateChannelModal = ref(false);
 const channelStore = useChannelStore();
@@ -105,11 +109,19 @@ onMounted(() => {
           class="relative overflow-hidden"
         >
           <NuxtLink
-            class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
+            class="overflow-hidden px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
             active-class="text-blue-100 bg-blue-600 before:!left-0"
             :to="menu.to"
           >
-            <Icon :name="menu.icon" class="text-xl" />
+            <div class="relative">
+              <Icon :name="menu.icon" class="text-xl" />
+              <div
+                v-if="menu.sub"
+                class="absolute -top-1 -right-1 w-4 h-4 flex justify-center items-center px-2 rounded-full text-xs animate-bounce shadow bg-blue-300 text-slate-900"
+              >
+                {{ menu.sub }}
+              </div>
+            </div>
             <div>{{ menu.label }}</div>
           </NuxtLink>
         </li>
