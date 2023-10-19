@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\PublicEvent;
+use App\Events\ThreadReplied;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\NotificationController;
@@ -52,6 +53,12 @@ Route::group([
             'auth:sanctum'
         ],
     ], function () {
+        Route::get('/test-secret', function () {
+            broadcast(new ThreadReplied('test from private channel'));
+            return response()->json([
+                'message' => "Broadcasted"
+            ]);
+        });
         Route::prefix('/auth')->group(function () {
             Route::get('/profile', ProfileController::class)->name('profile');
             Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])
@@ -64,7 +71,7 @@ Route::group([
 
         Route::put('/posts/{id}/restore', [PostController::class, 'restore'])->name('posts.restore');
         Route::delete('/posts/{id}/destroy-permanent', [PostController::class, 'destroy_permanent'])
-            ->name('posts.restore');
+            ->name('posts.destroy-permanent');
         Route::apiResource('posts', PostController::class);
 
         Route::apiResource('users', UserController::class);
