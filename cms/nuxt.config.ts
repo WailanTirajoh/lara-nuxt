@@ -16,8 +16,9 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseUrl: "https://lara-blog.test/api/v1",
+      baseUrl: "http://localhost:8080/api/v1",
       key: "app-key",
+      wsBaseUrl: "http://localhost:8080",
       wsHost: "localhost",
       wsPort: 6001,
       wssPort: 6001,
