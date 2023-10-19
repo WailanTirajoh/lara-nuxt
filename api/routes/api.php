@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\PublicEvent;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\NotificationController;
@@ -24,6 +25,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::get('/test', function () {
+    PublicEvent::dispatch('test');
+
+    return response()->json([
+        "message" => "Success dispatch Public Event"
+    ]);
+});
 
 Route::group([
     'as' => 'api.',

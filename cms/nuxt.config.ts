@@ -5,20 +5,25 @@ export default defineNuxtConfig({
   vite: {
     vue: {
       script: {
-        defineModel: true
+        defineModel: true,
       },
       template: {
         compilerOptions: {
-          isCustomElement: (tag) => tag === 'Multi'
-        }
-      }
+          isCustomElement: (tag) => tag === "Multi",
+        },
+      },
     },
   },
   runtimeConfig: {
     public: {
       baseUrl: "https://lara-blog.test/api/v1",
+      key: "app-key",
+      wsHost: "localhost",
+      wsPort: 6001,
+      wssPort: 6001,
     },
   },
+  plugins: ["~/plugins/laravel-echo"],
   modules: [
     "@nuxtjs/tailwindcss",
     "nuxt-icon",

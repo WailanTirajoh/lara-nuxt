@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 networks:
   laravel:
@@ -63,5 +63,16 @@ services:
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: secret
+    networks:
+      - laravel
+
+  soketi:
+    image: "quay.io/soketi/soketi:latest-16-alpine"
+    environment:
+      SOKETI_DEBUG: "1"
+      SOKETI_METRICS_SERVER_PORT: "9601"
+    ports:
+      - "${SOKETI_PORT:-6001}:6001"
+      - "${SOKETI_METRICS_SERVER_PORT:-9601}:9601"
     networks:
       - laravel

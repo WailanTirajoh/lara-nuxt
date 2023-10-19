@@ -31,6 +31,8 @@
     "@tiptap/starter-kit": "^2.1.11",
     "@tiptap/vue-3": "^2.1.11",
     "date-fns": "^2.30.0",
+    "laravel-echo": "^1.15.3",
+    "pusher-js": "^8.3.0",
     "zod": "^3.22.2"
   }
 }
