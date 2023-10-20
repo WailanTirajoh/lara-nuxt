@@ -34,6 +34,9 @@ class Reply extends Model
 
     protected static function booted(): void
     {
+        /**
+         * To update frontend Thread Detail.
+         */
         static::created(function (Reply $reply) {
             broadcast(new Thread($reply));
         });

@@ -13,7 +13,7 @@ definePageMeta({
 });
 
 const authStore = useAuthStore();
-const { accessToken } = storeToRefs(authStore);
+const { accessToken, isAuthenticated } = storeToRefs(authStore);
 
 async function submit(loginRequest: LoginRequest, node: FormKitNode) {
   const { data, error } = await authStore.login(loginRequest);
@@ -26,8 +26,16 @@ async function submit(loginRequest: LoginRequest, node: FormKitNode) {
 
   accessToken.value = data.value.data.access_token;
 
-  navigateTo("/");
+  window.location.reload();
 }
+
+onMounted(() => {
+  const { isAuthenticated } = storeToRefs(authStore);
+
+  if (isAuthenticated.value) {
+    return navigateTo("/");
+  }
+});
 </script>
 
 <template>

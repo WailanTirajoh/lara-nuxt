@@ -19,6 +19,19 @@ onMounted(() => {
         lifetime: 5000,
       });
     });
+
+  $echo
+    .private(`App.Models.User.${authStore.profile.id}`)
+    .notification((notification) => {
+      console.log(notification);
+
+      useToast().addToast({
+        id: generateId(),
+        message: notification.info,
+        type: notification.type ?? "info",
+        lifetime: 5000,
+      });
+    });
 });
 onUnmounted(() => {
   $echo.private(`user.${authStore.profile.id}`).stopListening(".notification");

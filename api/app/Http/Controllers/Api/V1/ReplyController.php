@@ -9,13 +9,10 @@ use App\Http\Requests\StoreReplyRequest;
 use App\Http\Requests\UpdateReplyRequest;
 use App\Http\Resources\ReplyResource;
 use App\Models\Thread;
-use App\Models\User;
-use App\Notifications\ThreadReplied;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Notification;
 
 class ReplyController extends Controller
 {
@@ -43,14 +40,6 @@ class ReplyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Thread $thread)
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreReplyRequest $request, Thread $thread)
@@ -67,22 +56,6 @@ class ReplyController extends Controller
             'message' => 'Reply created successfully',
             'data' => ReplyResource::make($reply),
         ], Response::HTTP_CREATED);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Thread $thread, Reply $reply)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Thread $thread, Reply $reply)
-    {
-        //
     }
 
     /**

@@ -15,7 +15,6 @@ const threadReplyStore = useThreadReplyStore();
 
 const onSubmit = async () => {
   await threadReplyStore.store(props.threadId, { ...form.value });
-  threadReplyStore.fetchThreadReplies(props.threadId);
   form.value.body = "";
 };
 </script>
