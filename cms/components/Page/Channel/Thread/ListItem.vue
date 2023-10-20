@@ -11,10 +11,11 @@ const props = defineProps<PageChannelThreadItemListProps>();
 const isEditting = ref(false);
 
 const threadStore = useThreadStore();
-const { selectedThread } = storeToRefs(threadStore);
 const dialog = useDialog();
 const authStore = useAuthStore();
 const route = useRoute();
+
+const { selectedThread, threads } = storeToRefs(threadStore);
 const { profile } = storeToRefs(authStore);
 
 const destroy = async () => {
@@ -31,10 +32,23 @@ const select = (thread: Thread) => {
   threadStore.chooseThread(thread);
 };
 
+const { $echo } = useNuxtApp();
 onMounted(() => {
   if (route.query.thread === props.thread.id.toString()) {
     threadStore.chooseThread(props.thread);
   }
+
+  $echo
+    .private(`thread.${props.thread.id.toString()}`)
+    .listen(".detail", (e: any) => {
+      const index = threads.value.findIndex((t) => t.id === e.thread.id);
+      threads.value[index] = e.thread;
+    });
+});
+onUnmounted(() => {
+  $echo
+    .private(`thread.${props.thread.id.toString()}`)
+    .stopListening(".detail");
 });
 </script>
 <template>

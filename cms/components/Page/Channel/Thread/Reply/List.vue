@@ -7,8 +7,17 @@ const props = defineProps<ChannelThreadReplyListProps>();
 
 const threadReplyStore = useThreadReplyStore();
 const { replies } = storeToRefs(threadReplyStore);
-onMounted(async () => {
+
+const { $echo } = useNuxtApp();
+onMounted(() => {
   threadReplyStore.fetchThreadReplies(props.threadId);
+
+  $echo.private(`thread.${props.threadId}`).listen(".replied", (e: any) => {
+    replies.value = [...replies.value, e.reply];
+  });
+});
+onUnmounted(() => {
+  $echo.private(`thread.${props.threadId}`).stopListening(".replied");
 });
 </script>
 <template>

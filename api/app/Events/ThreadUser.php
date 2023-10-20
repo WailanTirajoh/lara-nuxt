@@ -2,27 +2,26 @@
 
 namespace App\Events;
 
-use App\Http\Resources\Notification\ThreadRepliedResource;
-use App\Http\Resources\ReplyResource;
-use App\Models\Reply;
+use App\Models\Thread;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ThreadReplied implements ShouldBroadcastNow
+class ThreadUser
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public Reply $reply)
+    public function __construct(private Thread $thread)
     {
-        $this->reply = $reply;
+        //
     }
-
 
     /**
      * Get the channels the event should broadcast on.
@@ -32,19 +31,20 @@ class ThreadReplied implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel("thread.{$this->reply->replyable->id}"),
+            new PresenceChannel("thread-presence.{$this->thread->id}"),
         ];
     }
 
     public function broadcastAs()
     {
-        return 'replied';
+        return 'thread';
     }
 
     public function broadcastWith()
     {
         return [
-            'reply' => ReplyResource::make($this->reply),
+            'user' => Auth::user()
         ];
     }
+}
 }

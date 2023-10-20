@@ -2,8 +2,27 @@
 import { storeToRefs } from "pinia";
 
 const appStore = useAppStore();
+const authStore = useAuthStore();
 const { sidebarIsOpen } = storeToRefs(appStore);
 const isOpen = ref(false);
+const { toasts } = useToast();
+const { $echo } = useNuxtApp();
+
+onMounted(() => {
+  $echo
+    .private(`user.${authStore.profile.id}`)
+    .listen(".notification", (e: any) => {
+      useToast().addToast({
+        id: generateId(),
+        message: e.message,
+        type: e.type ?? "info",
+        lifetime: 5000,
+      });
+    });
+});
+onUnmounted(() => {
+  $echo.private(`user.${authStore.profile.id}`).stopListening(".notification");
+});
 </script>
 
 <template>
@@ -23,7 +42,7 @@ const isOpen = ref(false);
         <div
           class="fixed z-10 flex flex-col gap-2 bg-white w-full sm:w-[calc(100%-4rem)] h-full sm:rounded-l-2xl duration-300"
           :class="{
-            'rounded-l-2xl': isOpen
+            'rounded-l-2xl': isOpen,
           }"
         >
           <NuxtPage />
@@ -46,6 +65,7 @@ const isOpen = ref(false);
     </div>
     <Teleport to="body">
       <BaseDialog />
+      <BaseToast position="bottom-right" :toasts="toasts" />
     </Teleport>
   </div>
 </template>

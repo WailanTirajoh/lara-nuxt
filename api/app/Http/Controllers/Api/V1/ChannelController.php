@@ -58,7 +58,7 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        $this->authorize('channel-show');
+        $this->authorize('channel-access');
 
         return ApiResponse::success(
             data: [

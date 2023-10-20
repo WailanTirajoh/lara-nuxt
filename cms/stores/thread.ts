@@ -64,6 +64,7 @@ export const useThreadStore = defineStore("thread", () => {
   const chooseThread = (thread: Thread) => {
     selectedThread.value = thread;
   };
+
   return {
     threads,
     selectedThread,

@@ -9,7 +9,7 @@ import type {
 } from "~/types/api/thread-reply";
 
 export const useThreadReplyStore = defineStore("thread-reply", () => {
-  const replies = ref<Array<ThreadReply>>();
+  const replies = ref<Array<ThreadReply>>([]);
 
   const fetchThreadReplies = async (threadId: string) => {
     const { data } = await get(threadId);
