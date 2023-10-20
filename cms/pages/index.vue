@@ -12,14 +12,8 @@ $echo.channel("public").listen("PublicEvent", (e: any) => {
   console.log(e);
 });
 
-$echo
-  .private(`thread.${authStore.profile.id}`)
-  .listen(".replied", (e: any) => {
-    console.log(e);
-  });
-
 function test() {
-  $useFetchAPI('/test-secret');
+  $useFetchAPI("/test-secret");
 }
 </script>
 
@@ -28,7 +22,9 @@ function test() {
     <div class="col-span-12">
       {{ `thread.${authStore.profile.id}` }}
       <h1 class="text-3xl font-medium">Dashboards</h1>
-      <button @click="test" class="bg-red-600 p-2 rounded text-white">test</button>
+      <button @click="test" class="bg-red-600 p-2 rounded text-white">
+        test
+      </button>
     </div>
   </div>
 </template>

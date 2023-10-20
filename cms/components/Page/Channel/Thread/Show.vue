@@ -1,12 +1,57 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import { User } from "~/types/api/user";
 const threadStore = useThreadStore();
 const { selectedThread } = storeToRefs(threadStore);
+
+const { $echo } = useNuxtApp();
+const roomUsers = ref<Array<User>>([]);
+
+watch(selectedThread, (value, oldValue) => {
+  if (oldValue) {
+    $echo.leave(`thread-presence.${oldValue.id}`);
+  }
+
+  if (value) {
+    $echo
+      .join(`thread-presence.${value.id}`)
+      .here((users: Array<User>) => {
+        roomUsers.value = users;
+      })
+      .joining((user: User) => {
+        roomUsers.value.push(user);
+      })
+      .leaving((user: User) => {
+        const index = roomUsers.value.findIndex(
+          (currentUser) => currentUser.id === user.id
+        );
+        if (index > -1) {
+          roomUsers.value.splice(index, 1);
+        }
+      });
+  }
+});
+onMounted(() => {});
 </script>
 <template>
   <div v-if="selectedThread" class="flex flex-col h-full">
     <div class="h-[calc(100%-11rem)] overflow-auto">
       <div class="bg-white grid gap-2 p-2 sticky top-0">
+        <div class="">
+          <TransitionGroup
+            class="flex gap-1 justify-start"
+            name="list"
+            tag="ul"
+          >
+            <li v-for="user in roomUsers">
+              <img
+                class="w-6 h-6 rounded-full overflow-hidden object-cover"
+                :src="user.profile_picture"
+                alt=""
+              />
+            </li>
+          </TransitionGroup>
+        </div>
         <div class="flex gap-2">
           <img
             :src="selectedThread.user.profile_picture"
