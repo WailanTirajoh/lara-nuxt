@@ -13,7 +13,8 @@ onMounted(() => {
   notificationStore.fetchNotifications();
 });
 
-const markAsRead = (notification) => {
+// TODO: Add Notification interface
+const markAsRead = (notification: any) => {
   if (!notification.read_at) {
     notificationStore.markAsRead(notification.id).then(() => {
       notificationStore.fetchUnreadNotifications();
@@ -22,7 +23,7 @@ const markAsRead = (notification) => {
   }
 };
 
-const view = (notification) => {
+const view = (notification: any) => {
   markAsRead(notification);
   navigateTo(
     `/channels/${notification.data.data.thread.channel_id}?thread=${notification.data.data.thread.id}`
@@ -31,15 +32,17 @@ const view = (notification) => {
 </script>
 
 <template>
-  <div class="p-4 sm:p-8 grid grid-cols-12 gap-4">
-    <div class="col-span-12">
+  <div class="grid grid-cols-12 gap-4">
+    <div class="col-span-12 px-4 sm:px-8 pt-4 sm:pt-8">
       <h1 class="text-3xl font-medium">Notifications</h1>
     </div>
-    <div class="col-span-12">
+    <div class="col-span-12 px-4 sm:px-8">
       <hr />
     </div>
     <div class="col-span-12">
-      <ul class="flex flex-col gap-2">
+      <ul
+        class="flex flex-col gap-4 max-h-[calc(100svh-10rem)] overflow-auto px-4 sm:px-8"
+      >
         <li
           v-for="notification in notifications"
           class="bg-slate-100 rounded-lg p-2 border-l-4 border-l-slate-800 shadow-lg"

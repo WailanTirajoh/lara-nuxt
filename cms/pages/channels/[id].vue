@@ -108,7 +108,7 @@ onMounted(async () => {
             <PageChannelThreadList :channel-id="channelId" />
           </div>
           <div
-            class="absolute bottom-0 min-h-40 w-full translate-y-32 hover:translate-y-0 duration-300"
+            class="absolute bottom-0 min-h-40 w-full duration-300"
           >
             <div class="text-center flex items-center justify-center">
               <div

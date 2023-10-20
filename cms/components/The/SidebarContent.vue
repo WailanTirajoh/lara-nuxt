@@ -21,7 +21,7 @@ const logout = async () => {
   authStore.revokeAccessToken();
   authStore.clearProfile();
 
-  navigateTo("/auth/login");
+  window.location.reload();
 };
 
 const menus = computed(() => [
@@ -81,13 +81,13 @@ onMounted(() => {
         </div>
       </div>
       <div v-else class="flex gap-4 items-center">
-        <div class="w-8">
+        <div class="w-12">
           <NuxtImg
             :src="profile.profile_picture"
-            class="!w-8 !h-8 object-cover object-center rounded border"
+            class="!w-12 !h-8 object-cover object-center rounded border"
           />
         </div>
-        <div class="w-[calc(100%-2rem)]">
+        <div class="w-[calc(100%-3.25rem)]">
           <div class="text-lg text-slate-200">
             {{ profile.name }}
           </div>
@@ -100,13 +100,18 @@ onMounted(() => {
     <TransitionGroup
       name="list"
       tag="ul"
-      class="flex flex-col gap-2 px-4 h-[calc(100%-3rem-4rem)] overflow-auto overflow-x-hidden"
+      class="px-3 h-[calc(100%-3rem-4rem)] overflow-auto overflow-x-hidden"
     >
       <template v-for="menu in menus">
+        <li v-if="menu.separator" key="sidebar-channel-horizontal-rule py-1">
+          <hr class="border-slate-700" />
+        </li>
         <li
-          v-if="menu.permission === null || hasPermissions(menu.permission)"
+          v-else-if="
+            menu.permission === null || hasPermissions(menu.permission)
+          "
           :key="menu.to"
-          class="relative overflow-hidden"
+          class="relative overflow-hidden py-1"
         >
           <NuxtLink
             class="overflow-hidden px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"
@@ -126,10 +131,10 @@ onMounted(() => {
           </NuxtLink>
         </li>
       </template>
-      <li key="sidebar-channel-horizontal-rule">
+      <li key="sidebar-channel-horizontal-rule py-1">
         <hr class="border-slate-700" />
       </li>
-      <li key="channel" class="flex justify-start">
+      <li key="channel" class="flex justify-start pt-2 py-1">
         <button
           class="text-xs p-1 px-3 group-hover:px-4 rounded bg-gray-800 flex gap-4 items-center duration-100"
           @click="showCreateChannelModal = true"
@@ -147,7 +152,7 @@ onMounted(() => {
       <li
         v-for="channel in channels"
         :key="channel.id"
-        class="relative overflow-hidden"
+        class="relative overflow-hidden py-1"
       >
         <NuxtLink
           class="px-4 py-2 flex items-center duration-300 text-md gap-4 hover:bg-blue-600 rounded before:content-[''] before:absolute before:-left-1 before:w-1 before:h-4 before:bg-blue-200 before:rounded-r before:duration-300"

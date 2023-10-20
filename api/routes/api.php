@@ -27,14 +27,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function () {
-    PublicEvent::dispatch('test');
-
-    return response()->json([
-        "message" => "Success dispatch Public Event"
-    ]);
-});
-
 Route::group([
     'as' => 'api.',
     'prefix' => '/v1',
@@ -53,12 +45,6 @@ Route::group([
             'auth:sanctum'
         ],
     ], function () {
-        Route::get('/test-secret', function () {
-            broadcast(new ThreadReplied('test from private channel'));
-            return response()->json([
-                'message' => "Broadcasted"
-            ]);
-        });
         Route::prefix('/auth')->group(function () {
             Route::get('/profile', ProfileController::class)->name('profile');
             Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])

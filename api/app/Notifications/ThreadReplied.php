@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Models\Reply;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -28,7 +29,7 @@ class ThreadReplied extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -45,5 +46,19 @@ class ThreadReplied extends Notification
                 "reply" => $this->reply
             ]
         ];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     */
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'info' => "{$this->reply->user->name} reply a thread.",
+            'data' => [
+                "thread" => $this->reply->replyable,
+                "reply" => $this->reply
+            ]
+        ]);
     }
 }

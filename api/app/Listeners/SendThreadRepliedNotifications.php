@@ -23,9 +23,21 @@ class SendThreadRepliedNotifications
      */
     public function handle(ThreadReplied $event): void
     {
-        $replies = $event->reply->replyable()->replies()
-            ->whereNot('user_id', Auth::id())
+        $replies = $this->getRepliesToThread($event);
+        $this->notifyUsersAboutNewReply($replies, $event);
+    }
+
+    protected function getRepliesToThread(ThreadReplied $event)
+    {
+        return $event->reply
+            ->replyable()
+            ->replies()
+            ->where('user_id', '!=', Auth::id())
             ->get();
+    }
+
+    protected function notifyUsersAboutNewReply($replies, ThreadReplied $event)
+    {
         foreach ($replies as $reply) {
             $reply->user->notify(new NotificationsThreadReplied($event->reply));
         }
