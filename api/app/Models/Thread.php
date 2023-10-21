@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\Thread as EventsThread;
 use App\Traits\HasReacts;
 use App\Traits\HasReplies;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,5 +26,15 @@ class Thread extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function booted(): void
+    {
+        /**
+         * To update frontend Thread Detail.
+         */
+        static::updated(function (Thread $thread) {
+            broadcast(new EventsThread($thread));
+        });
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Http\Resources\ThreadResource;
-use App\Models\Reply;
+use App\Models\Thread as ThreadModel;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -19,9 +19,9 @@ class Thread implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(public Reply $reply)
+    public function __construct(public ThreadModel $thread)
     {
-        $this->reply = $reply;
+        $this->thread = $thread;
     }
 
     /**
@@ -32,7 +32,7 @@ class Thread implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel("thread.{$this->reply->replyable->id}"),
+            new PrivateChannel("thread.{$this->thread->id}"),
         ];
     }
 
@@ -44,7 +44,7 @@ class Thread implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'thread' => ThreadResource::make($this->reply->replyable),
+            'thread' => ThreadResource::make($this->thread),
         ];
     }
 }

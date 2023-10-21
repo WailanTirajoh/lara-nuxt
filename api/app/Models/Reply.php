@@ -38,7 +38,7 @@ class Reply extends Model
          * To update frontend Thread Detail.
          */
         static::created(function (Reply $reply) {
-            broadcast(new Thread($reply));
+            broadcast(new Thread($reply->replyable));
         });
     }
 }
