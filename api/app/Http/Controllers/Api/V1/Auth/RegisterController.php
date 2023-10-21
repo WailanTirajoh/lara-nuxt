@@ -12,24 +12,17 @@ class RegisterController extends Controller
 {
     public function __invoke(RegisterRequest $request)
     {
-        try {
-            $user = User::create(array_merge(
-                $request->validated(),
-                ['password' => bcrypt($request->password)]
-            ));
+        $user = User::create(array_merge(
+            $request->validated(),
+            ['password' => bcrypt($request->password)]
+        ));
 
-            $accessToken = $user->createToken('access_token')->plainTextToken;
+        $accessToken = $user->createToken('access_token')->plainTextToken;
 
-            return ApiResponse::success(
-                message: 'User created successfully',
-                data: ['access_token' => $accessToken],
-                statusCode: Response::HTTP_CREATED
-            );
-        } catch (\Exception $e) {
-            return ApiResponse::error(
-                message: "Failed to register user: {$e->getMessage()}",
-                statusCode: Response::HTTP_INTERNAL_SERVER_ERROR
-            );
-        }
+        return ApiResponse::success(
+            message: 'User created successfully',
+            data: ['access_token' => $accessToken],
+            statusCode: Response::HTTP_CREATED
+        );
     }
 }
