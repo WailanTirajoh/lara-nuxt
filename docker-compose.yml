@@ -17,6 +17,7 @@ services:
     depends_on:
       - php
       - mysql
+      - soketi
     networks:
       - laravel
 
