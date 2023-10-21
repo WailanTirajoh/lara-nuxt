@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class ReplyFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'body' => fake()->paragraph(3, true),
+            'user_id' => function () {
+                return User::inRandomOrder()->first()->id;
+            },
         ];
     }
 }

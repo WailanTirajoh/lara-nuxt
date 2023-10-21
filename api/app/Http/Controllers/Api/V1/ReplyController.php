@@ -53,25 +53,12 @@ class ReplyController extends Controller
         );
         DB::commit();
 
-        return ApiResponse::success([
-            'message' => 'Reply created successfully',
-            'data' => ReplyResource::make($reply),
-        ], Response::HTTP_CREATED);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReplyRequest $request, Thread $thread, Reply $reply)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Thread $thread, Reply $reply)
-    {
-        //
+        return ApiResponse::success(
+            message: 'Reply created successfully',
+            data: [
+                'reply' => ReplyResource::make($reply),
+            ],
+            statusCode: Response::HTTP_CREATED
+        );
     }
 }
