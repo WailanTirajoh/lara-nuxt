@@ -1,2 +1,4 @@
 mysql/*
 !mysql/.keep
+docker/mysql/*
+!docker/mysql/.keep
