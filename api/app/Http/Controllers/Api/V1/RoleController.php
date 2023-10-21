@@ -9,15 +9,13 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
     public function index(Request $request)
     {
-        abort_if(Gate::denies("role-access"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('role-access');
 
         $orderBy = $request->query("order_by", "id");
         $orderType = $request->query("order_type", "ASC");
@@ -39,8 +37,8 @@ class RoleController extends Controller
 
     public function store(StoreRoleRequest $request)
     {
+        $this->authorize('role-store');
         abort_if($request->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be created");
-        abort_if(Gate::denies("role-store"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
 
         $role = Role::create(array_merge($request->validated(), ['guard_name' => 'web']));
         $role->syncPermissions($request->permissions ?? []);
@@ -56,7 +54,7 @@ class RoleController extends Controller
 
     public function show(Role $role)
     {
-        abort_if(Gate::denies("role-show"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('role-show');
 
         return ApiResponse::success(
             data: [
@@ -67,8 +65,8 @@ class RoleController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
+        $this->authorize('role-update');
         abort_if($role->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be updated");
-        abort_if(Gate::denies("role-update"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
 
         $role->update($request->validated());
         $role->syncPermissions($request->permissions ?? []);
@@ -84,8 +82,8 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
+        $this->authorize('role-delete');
         abort_if($role->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be updated");
-        abort_if(Gate::denies("role-delete"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
 
         $role->delete();
 

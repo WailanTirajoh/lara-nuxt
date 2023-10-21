@@ -14,7 +14,7 @@ class PermissionController extends Controller
 {
     public function index(Request $request)
     {
-        abort_if(Gate::denies("permission-access"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('permission-access');
 
         $permissions = Permission::all();
 

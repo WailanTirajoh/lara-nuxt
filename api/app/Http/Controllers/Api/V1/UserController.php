@@ -17,7 +17,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        abort_if(Gate::denies("user-access"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('user-access');
 
         $orderBy = $request->query("order_by", "id");
         $orderType = $request->query("order_type", "ASC");
@@ -40,7 +40,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        abort_if(Gate::denies("user-store"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('user-store');
 
         $user = User::create(array_merge(
             $request->validated(),
@@ -63,7 +63,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        abort_if(Gate::denies("user-show"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('user-show');
 
         return ApiResponse::success(
             data: [
@@ -74,7 +74,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        abort_if(Gate::denies("user-update"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('user-update');
 
         $validatedData = $request->validated();
         $user->update($validatedData);
@@ -96,7 +96,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        abort_if(Gate::denies("user-delete"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('user-delete');
         abort_if(Auth::user()->id === $user->id, Response::HTTP_UNAUTHORIZED, "You cant delete your own account");
 
         $user->delete();
