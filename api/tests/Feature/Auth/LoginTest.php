@@ -1,11 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use App\Models\User;
-use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -35,8 +33,8 @@ class LoginTest extends TestCase
     {
         $this->postJson(route("api.login"), [
             "email" => "wailantirajoh@gmail.com",
-            "password" => "wailan"
+            "password" => "falsypassword"
         ])
-            ->assertUnauthorized();
+            ->assertUnprocessable();
     }
 }

@@ -15,30 +15,30 @@ class AppSeeder extends Seeder
      */
     public function run(): void
     {
-        // Super user
-        $user = User::create([
-            'email' => 'wailantirajoh@gmail.com',
-            'name' => 'Wailan Tirajoh',
-            'password' => bcrypt('wailan')
-        ]);
+        $this->createRoles();
+        $this->createPermissions();
+        $this->syncRolePermissions();
+        $this->createUsers();
+    }
 
-        $userPutri = User::create([
-            'email' => 'putririnding@gmail.com',
-            'name' => 'Putri Rinding',
-            'password' => bcrypt('putri')
-        ]);
+    private function createRoles()
+    {
+        $roles = [
+            'Super',
+            'Administrator',
+            'Writer',
+            'Visitor',
+        ];
 
+        foreach ($roles as $role) {
+            Role::create([
+                'name' => $role
+            ]);
+        }
+    }
 
-        Role::create([
-            'name' => 'Super'
-        ]);
-
-        // Read detail about "Super" role permission at auth service provider
-        // By default, super can bypass any permission
-
-        $user->assignRole('Super');
-        $userPutri->assignRole('Super');
-
+    private function createPermissions()
+    {
         $permissions = [
             'user-viewAny',
             'user-view',
@@ -102,5 +102,119 @@ class AppSeeder extends Seeder
                 'name' => $permission
             ]);
         }
+    }
+
+    private function syncRolePermissions()
+    {
+        $writerRole = Role::findByName('Writer');
+        $writerRole->syncPermissions([
+            'post-viewAny',
+            'post-view',
+            'post-create',
+            'post-update',
+            'post-delete',
+
+            'channel-viewAny',
+            'channel-view',
+            'channel-create',
+            'channel-update',
+            'channel-delete',
+            'channel-restore',
+            'channel-forceDelete',
+
+            'react-viewAny',
+            'react-view',
+            'react-create',
+            'react-update',
+            'react-delete',
+            'react-restore',
+            'react-forceDelete',
+
+            'thread-viewAny',
+            'thread-view',
+            'thread-create',
+            'thread-update',
+            'thread-delete',
+            'thread-restore',
+            'thread-forceDelete',
+
+            'reply-viewAny',
+            'reply-view',
+            'reply-create',
+            'reply-update',
+            'reply-delete',
+            'reply-restore',
+            'reply-forceDelete',
+        ]);
+
+        $visitorRole = Role::findByName('Visitor');
+        $visitorRole->syncPermissions([
+            'channel-viewAny',
+            'channel-view',
+            'channel-create',
+            'channel-update',
+            'channel-delete',
+            'channel-restore',
+            'channel-forceDelete',
+
+            'react-viewAny',
+            'react-view',
+            'react-create',
+            'react-update',
+            'react-delete',
+            'react-restore',
+            'react-forceDelete',
+
+            'thread-viewAny',
+            'thread-view',
+            'thread-create',
+            'thread-update',
+            'thread-delete',
+            'thread-restore',
+            'thread-forceDelete',
+
+            'reply-viewAny',
+            'reply-view',
+            'reply-create',
+            'reply-update',
+            'reply-delete',
+            'reply-restore',
+            'reply-forceDelete',
+        ]);
+    }
+
+    private function createUsers()
+    {
+        // Super user
+        $user = User::create([
+            'email' => 'wailantirajoh@gmail.com',
+            'name' => 'Wailan Tirajoh',
+            'password' => bcrypt('wailan')
+        ]);
+
+        $userPutri = User::create([
+            'email' => 'putririnding@gmail.com',
+            'name' => 'Putri Rinding',
+            'password' => bcrypt('putri')
+        ]);
+
+        $writerUser = User::create([
+            'email' => 'writer@gmail.com',
+            'name' => 'Writer',
+            'password' => bcrypt('writer')
+        ]);
+
+        $visitorUser = User::create([
+            'email' => 'visitor@gmail.com',
+            'name' => 'Visitor',
+            'password' => bcrypt('visitor')
+        ]);
+
+        $writerUser->assignRole('Writer');
+        $visitorUser->assignRole('Visitor');
+        // Read detail about "Super" role permission at auth service provider
+        // By default, super can bypass any permission
+        $user->assignRole('Super');
+        $userPutri->assignRole('Super');
     }
 }
