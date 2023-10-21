@@ -22,6 +22,14 @@ class NotificationController extends Controller
         );
     }
 
+    public function markAllAsRead()
+    {
+        Auth::user()->unreadNotifications->markAsRead();
+        return ApiResponse::success(
+            message: "Successfully marked"
+        );
+    }
+
     public function markAsRead($id)
     {
         Auth::user()->unreadNotifications()->find($id)->markAsRead();

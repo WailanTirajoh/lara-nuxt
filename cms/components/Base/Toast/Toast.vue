@@ -42,7 +42,7 @@ const classPosition = computed(() => {
     <transition-group
       tag="ul"
       name="list"
-      class="w-80 fixed inset-x-0 z-50 grid gap-2 break-words pt-3 px-4"
+      class="w-80 fixed inset-x-0 z-50 grid gap-2 break-words px-4"
       :class="[classPosition, position, wrapperClass]"
       style="overflow-wrap: anywhere"
       appear

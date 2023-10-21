@@ -26,13 +26,20 @@ export const useNotificationStore = defineStore("notification", () => {
 
   const markAsRead = (id: string) => {
     return $useFetchAPI<ApiResponse<NotificationResponse>>(
-      `/auth/notifications/${id}/mark-as-read`,
+      `/auth/notifications/${id}/mark-as-read`
+    );
+  };
+
+  const markAllAsRead = () => {
+    return $useFetchAPI<ApiResponse<NotificationResponse>>(
+      `/auth/notifications/mark-as-read`
     );
   };
 
   return {
     notifications,
     unreadNotificationCount,
+    markAllAsRead,
     fetchUnreadNotifications,
     fetchNotifications,
     markAsRead,

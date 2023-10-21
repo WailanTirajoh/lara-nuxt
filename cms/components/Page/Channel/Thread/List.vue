@@ -25,7 +25,7 @@ onMounted(async () => {
       <TransitionGroup
         name="list"
         tag="ul"
-        class="flex flex-col gap-4 overflow-x-hidden h-full p-4"
+        class="flex flex-col-reverse gap-4 overflow-x-hidden h-full p-4"
       >
         <li :key="thread.id" v-for="thread in threads">
           <PageChannelThreadListItem

@@ -92,7 +92,7 @@ onUnmounted(() => {
         </span>
       </div>
 
-      <div class="prose prose-sm">
+      <div class="prose prose-sm max-w-full">
         <PageChannelThreadEdit
           v-if="isEditting"
           :thread="thread"
