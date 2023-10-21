@@ -11,14 +11,16 @@ use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Post::class);
+    }
+
     public function index(Request $request)
     {
-        $this->authorize('post-access');
-
         $orderBy = $request->query("order_by", "id");
         $orderType = $request->query("order_type", "ASC");
         $search = $request->query("query");
@@ -41,8 +43,6 @@ class PostController extends Controller
 
     public function store(StorePostRequest $request)
     {
-        $this->authorize('post-store');
-
         $post = Post::create(array_merge(
             $request->validated(),
             ['author_id' => Auth::user()->id]
@@ -60,8 +60,6 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        $this->authorize('post-show');
-
         return ApiResponse::success(
             data: [
                 'post' => PostResource::make($post->load("author"))
@@ -71,8 +69,6 @@ class PostController extends Controller
 
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $this->authorize('post-update');
-
         $post->update($request->validated());
         $post->syncTags($request->tags ?? []);
 
@@ -86,8 +82,6 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        $this->authorize('post-delete');
-
         $post->delete();
 
         return ApiResponse::success(message: 'Post deleted successfully', statusCode: Response::HTTP_NO_CONTENT);
@@ -95,18 +89,16 @@ class PostController extends Controller
 
     public function restore($post_id)
     {
-        $this->authorize('post-restore');
-
-        Post::withTrashed()->find($post_id)->restore();
+        $post = Post::withTrashed()->find($post_id);
+        $post->restore();
 
         return ApiResponse::success(message: 'Post restored successfully');
     }
 
     public function destroy_permanent($post_id)
     {
-        $this->authorize('post-delete-permanent');
-
-        Post::withTrashed()->find($post_id)->forceDelete();
+        $post = Post::withTrashed()->find($post_id);
+        $post->forceDelete();
 
         return ApiResponse::success(message: 'Post permanently deleted');
     }

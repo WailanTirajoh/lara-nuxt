@@ -11,14 +11,16 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class);
+    }
+
     public function index(Request $request)
     {
-        $this->authorize('user-access');
-
         $orderBy = $request->query("order_by", "id");
         $orderType = $request->query("order_type", "ASC");
         $search = $request->query("query");
@@ -40,8 +42,6 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $this->authorize('user-store');
-
         $user = User::create(array_merge(
             $request->validated(),
             ['password' => bcrypt($request->password)]
@@ -63,8 +63,6 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $this->authorize('user-show');
-
         return ApiResponse::success(
             data: [
                 'user' => UserResource::make($user)
@@ -74,8 +72,6 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->authorize('user-update');
-
         $validatedData = $request->validated();
         $user->update($validatedData);
         $user->syncRoles($request->roles ?? []);
@@ -96,7 +92,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $this->authorize('user-delete');
         abort_if(Auth::user()->id === $user->id, Response::HTTP_UNAUTHORIZED, "You cant delete your own account");
 
         $user->delete();

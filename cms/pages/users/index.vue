@@ -8,7 +8,7 @@ useSeoMeta({
 
 definePageMeta({
   middleware: ["auth"],
-  permissions: ["user-access"],
+  permissions: ["user-viewAny"],
 });
 
 const dialog = useDialog();
@@ -172,7 +172,7 @@ function onUserUpdated() {
               placeholder="Search by name, or email"
             />
             <BaseButton
-              v-if="hasPermissions('user-store')"
+              v-if="hasPermissions('user-create')"
               class="w-24"
               @click="add"
             >

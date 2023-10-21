@@ -13,10 +13,13 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class);
+    }
+
     public function index(Request $request)
     {
-        $this->authorize('role-access');
-
         $orderBy = $request->query("order_by", "id");
         $orderType = $request->query("order_type", "ASC");
         $search = $request->query("query");
@@ -37,7 +40,6 @@ class RoleController extends Controller
 
     public function store(StoreRoleRequest $request)
     {
-        $this->authorize('role-store');
         abort_if($request->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be created");
 
         $role = Role::create(array_merge($request->validated(), ['guard_name' => 'web']));
@@ -54,8 +56,6 @@ class RoleController extends Controller
 
     public function show(Role $role)
     {
-        $this->authorize('role-show');
-
         return ApiResponse::success(
             data: [
                 'role' => RoleResource::make($role)
@@ -65,7 +65,6 @@ class RoleController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        $this->authorize('role-update');
         abort_if($role->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be updated");
 
         $role->update($request->validated());
@@ -82,7 +81,6 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        $this->authorize('role-delete');
         abort_if($role->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be updated");
 
         $role->delete();

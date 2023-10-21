@@ -9,6 +9,11 @@ use App\Http\Requests\UpdateReactRequest;
 
 class ReactController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(React::class);
+    }
+
     /**
      * Display a listing of the resource.
      */
