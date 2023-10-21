@@ -17,7 +17,7 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        abort_if(Gate::denies("post-access"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('post-access');
 
         $orderBy = $request->query("order_by", "id");
         $orderType = $request->query("order_type", "ASC");
@@ -41,7 +41,7 @@ class PostController extends Controller
 
     public function store(StorePostRequest $request)
     {
-        abort_if(Gate::denies("post-store"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('post-store');
 
         $post = Post::create(array_merge(
             $request->validated(),
@@ -60,7 +60,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        abort_if(Gate::denies("post-show"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('post-show');
 
         return ApiResponse::success(
             data: [
@@ -71,7 +71,7 @@ class PostController extends Controller
 
     public function update(UpdatePostRequest $request, Post $post)
     {
-        abort_if(Gate::denies("post-update"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('post-update');
 
         $post->update($request->validated());
         $post->syncTags($request->tags ?? []);
@@ -86,7 +86,7 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        abort_if(Gate::denies("post-delete"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('post-delete');
 
         $post->delete();
 
@@ -95,7 +95,7 @@ class PostController extends Controller
 
     public function restore($post_id)
     {
-        abort_if(Gate::denies("post-restore"), Response::HTTP_FORBIDDEN, "You are not allowed to access this");
+        $this->authorize('post-restore');
 
         Post::withTrashed()->find($post_id)->restore();
 
@@ -104,11 +104,7 @@ class PostController extends Controller
 
     public function destroy_permanent($post_id)
     {
-        abort_if(
-            Gate::denies("post-delete-permanent"),
-            Response::HTTP_FORBIDDEN,
-            "You are not allowed to access this"
-        );
+        $this->authorize('post-delete-permanent');
 
         Post::withTrashed()->find($post_id)->forceDelete();
 
