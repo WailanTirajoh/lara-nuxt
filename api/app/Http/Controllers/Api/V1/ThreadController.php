@@ -49,26 +49,13 @@ class ThreadController extends Controller
         $threadData = array_merge($request->validated(), ['user_id' => Auth::id()]);
         $thread = $channel->threads()->create($threadData);
 
-        return ApiResponse::success([
-            'message' => 'Thread created successfully',
-            'data' => ThreadResource::make($thread),
-        ], Response::HTTP_CREATED);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Channel $channel, Thread $thread)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Channel $channel, Thread $thread)
-    {
-        //
+        return ApiResponse::success(
+            message: 'Thread created successfully',
+            data: [
+                'thread' => ThreadResource::make($thread),
+            ],
+            statusCode: Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -78,10 +65,13 @@ class ThreadController extends Controller
     {
         $thread->update($request->validated());
 
-        return ApiResponse::success([
-            'message' => 'Thread created successfully',
-            'data' => ThreadResource::make($thread),
-        ], Response::HTTP_CREATED);
+        return ApiResponse::success(
+            message: 'Thread updated successfully',
+            data: [
+                'thread' => ThreadResource::make($thread),
+            ],
+            statusCode: Response::HTTP_OK
+        );
     }
 
     /**
@@ -91,6 +81,6 @@ class ThreadController extends Controller
     {
         $thread->delete();
 
-        return ApiResponse::success(message: 'Post restored successfully');
+        return ApiResponse::success(message: 'Post restored successfully', statusCode: Response::HTTP_NO_CONTENT);
     }
 }
