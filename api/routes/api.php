@@ -49,6 +49,8 @@ Route::group([
             Route::get('/profile', ProfileController::class)->name('profile');
             Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])
                 ->name('notification.count');
+                Route::get('/notifications/mark-as-read', [NotificationController::class, 'markAllAsRead'])
+                    ->name('notification.markAllAsRead');
             Route::get('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])
                 ->name('notification.markAsRead');
             Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');

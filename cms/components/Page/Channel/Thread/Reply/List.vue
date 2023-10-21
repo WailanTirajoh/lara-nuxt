@@ -6,7 +6,7 @@ interface ChannelThreadReplyListProps {
 const props = defineProps<ChannelThreadReplyListProps>();
 
 const threadReplyStore = useThreadReplyStore();
-const { replies } = storeToRefs(threadReplyStore);
+const { replies, isFetchingReplies } = storeToRefs(threadReplyStore);
 
 const { $echo } = useNuxtApp();
 onMounted(() => {
@@ -23,14 +23,24 @@ onUnmounted(() => {
 <template>
   <div class="p-2 h-full">
     <ul class="flex flex-col gap-2">
-      <li v-for="reply in replies" :key="reply.id">
-        <div>
-          <div class="font-medium">
-            {{ reply.user.name }}
+      <template v-if="isFetchingReplies">
+        <li class="text-center">
+          Fetching . . .
+        </li>
+      </template>
+      <tempalte v-else-if="replies.length === 0">
+        <li class="text-center">No Replies</li>
+      </tempalte>
+      <template v-else>
+        <li v-for="reply in replies" :key="reply.id">
+          <div>
+            <div class="font-medium">
+              {{ reply.user.name }}
+            </div>
+            <div class="prose prose-sm" v-html="reply.body"></div>
           </div>
-          <div class="prose prose-sm" v-html="reply.body"></div>
-        </div>
-      </li>
+        </li>
+      </template>
     </ul>
   </div>
 </template>

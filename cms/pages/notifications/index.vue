@@ -23,6 +23,12 @@ const markAsRead = (notification: any) => {
   }
 };
 
+const markAllAsRead = async () => {
+  await notificationStore.markAllAsRead();
+  notificationStore.fetchUnreadNotifications();
+  notificationStore.fetchNotifications();
+};
+
 const view = (notification: any) => {
   markAsRead(notification);
   navigateTo(
@@ -38,6 +44,9 @@ const view = (notification: any) => {
     </div>
     <div class="col-span-12 px-4 sm:px-8">
       <hr />
+    </div>
+    <div class="col-span-12 px-4 sm:px-8 flex justify-end">
+      <BaseButton @click="markAllAsRead"> Mark All as Read </BaseButton>
     </div>
     <div class="col-span-12">
       <ul

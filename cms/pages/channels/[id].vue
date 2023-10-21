@@ -104,19 +104,12 @@ onMounted(async () => {
             'w-full sm:w-1/2': selectedThread,
           }"
         >
-          <div class="h-[calc(100%)] overflow-auto bg-gray-50 shadow-inner">
+          <div class="h-[calc(100%-10rem)] overflow-auto bg-gray-50 shadow-inner">
             <PageChannelThreadList :channel-id="channelId" />
           </div>
           <div
-            class="absolute bottom-0 min-h-40 w-full duration-300"
+            class="absolute bottom-4 min-h-40 w-full duration-300"
           >
-            <div class="text-center flex items-center justify-center">
-              <div
-                class="bg-white p-1 border border-gray-400 border-b-0 rounded-t-lg z-10"
-              >
-                New Thread
-              </div>
-            </div>
             <PageChannelThreadCreate :channel-id="channelId" />
           </div>
         </div>

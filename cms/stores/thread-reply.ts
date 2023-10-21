@@ -10,10 +10,16 @@ import type {
 
 export const useThreadReplyStore = defineStore("thread-reply", () => {
   const replies = ref<Array<ThreadReply>>([]);
+  const isFetchingReplies = ref<boolean>();
 
   const fetchThreadReplies = async (threadId: string) => {
-    const { data } = await get(threadId);
-    replies.value = data.replies;
+    isFetchingReplies.value = true;
+    try {
+      const { data } = await get(threadId);
+      replies.value = data.replies;
+    } finally {
+      isFetchingReplies.value = false;
+    }
   };
 
   const get = (threadId: string) => {
@@ -65,6 +71,7 @@ export const useThreadReplyStore = defineStore("thread-reply", () => {
   };
   return {
     replies,
+    isFetchingReplies,
     fetchThreadReplies,
     get,
     store,
