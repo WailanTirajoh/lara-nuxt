@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { Thread } from "~/types/api/thread";
+import type { Thread } from "~/types/api/thread";
 
 interface PageChannelThreadItemListProps {
   channelId: string;

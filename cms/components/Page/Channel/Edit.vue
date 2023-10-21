@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type FormKitNode } from "@formkit/core";
-import { Channel, ChannelUpdateRequest } from "~/types/api/channel";
+import type { Channel, ChannelUpdateRequest } from "~/types/api/channel";
 import BaseSelectMulti from "~/components/Base/Select/Multi.vue";
 import { createInput } from "@formkit/vue";
 

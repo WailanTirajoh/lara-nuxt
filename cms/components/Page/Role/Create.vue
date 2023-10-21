@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type FormKitNode } from "@formkit/core";
-import { RoleStoreRequest } from "~/types/api/role";
+import type { RoleStoreRequest } from "~/types/api/role";
 import { createInput } from "@formkit/vue";
 import BaseSelectMulti from "~/components/Base/Select/Multi.vue";
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { Toast } from "~/types/component";
+import type { Toast } from "~/types/component";
 
 export type Position =
   | "top-left"

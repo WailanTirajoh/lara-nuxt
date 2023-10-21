@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { User } from "~/types/api/user";
+import type { User } from "~/types/api/user";
 const threadStore = useThreadStore();
 const { selectedThread } = storeToRefs(threadStore);
 

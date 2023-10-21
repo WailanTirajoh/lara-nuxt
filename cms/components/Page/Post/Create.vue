@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getNode, type FormKitNode } from "@formkit/core";
-import { PostStoreRequest } from "~/types/api/post";
+import type { PostStoreRequest } from "~/types/api/post";
 import { createInput } from "@formkit/vue";
 import BaseEditor from "~/components/Base/Editor/Editor.vue";
 import BaseInputTag from "~/components/Base/InputTag/InputTag.vue";

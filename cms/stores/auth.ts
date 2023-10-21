@@ -1,4 +1,4 @@
-import { LoginRequest, LoginResponse, ProfileResponse } from "~/types/api/auth";
+import type { LoginRequest, LoginResponse, ProfileResponse } from "~/types/api/auth";
 
 export const useAuthStore = defineStore("auth", () => {
   const accessToken = useCookie("access_token");

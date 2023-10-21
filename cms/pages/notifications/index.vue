@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { Notification } from "~/types/api/notification";
+import type { Notification } from "~/types/api/notification";
 useSeoMeta({
   title: "Notification",
 });

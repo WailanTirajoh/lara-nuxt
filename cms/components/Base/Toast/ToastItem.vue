@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useToast } from "@/composables/toast";
-import { ToastType } from "~/types/component";
+import type { ToastType } from "~/types/component";
 
 export interface Props {
   id: string;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type FormKitNode } from "@formkit/core";
-import { ChannelStoreRequest } from "~/types/api/channel";
+import type { ChannelStoreRequest } from "~/types/api/channel";
 import { createInput } from "@formkit/vue";
 import BaseEditor from "~/components/Base/Editor/Editor.vue";
 import BaseInputTag from "~/components/Base/InputTag/InputTag.vue";

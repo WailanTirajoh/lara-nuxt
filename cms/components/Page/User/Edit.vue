@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type FormKitNode } from "@formkit/core";
-import { User, UserUpdateRequest } from "~/types/api/user";
+import type { User, UserUpdateRequest } from "~/types/api/user";
 import { createInput } from "@formkit/vue";
 import BaseSelectMulti from "~/components/Base/Select/Multi.vue";
 
