@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
                 $e instanceof AuthenticationException => $this->unauthenticated($request, $e),
                 $e instanceof ValidationException => $this->convertValidationExceptionToResponse($e, $request),
                 default => ApiResponse::error(
-                    message: "{$e->getMessage()}",
+                    message: $e->getMessage(),
                     statusCode: $statusCode
                 ),
             };
