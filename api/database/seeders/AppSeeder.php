@@ -40,47 +40,66 @@ class AppSeeder extends Seeder
         $userPutri->assignRole('Super');
 
         $permissions = [
-            "user-access",
-            "user-store",
-            "user-update",
-            "user-delete",
+            'user-viewAny',
+            'user-view',
+            'user-create',
+            'user-update',
+            'user-delete',
+            'user-restore',
+            'user-forceDelete',
 
-            "post-access",
-            "post-store",
-            "post-update",
-            "post-delete",
-            "post-delete-permanent",
-            "post-restore",
+            'post-viewAny',
+            'post-view',
+            'post-create',
+            'post-update',
+            'post-delete',
+            'post-restore',
+            'post-forceDelete',
 
-            "role-access",
-            "role-store",
-            "role-update",
-            "role-delete",
+            'role-viewAny',
+            'role-view',
+            'role-create',
+            'role-update',
+            'role-delete',
+            'role-restore',
+            'role-forceDelete',
 
-            "channel-access",
-            "channel-store",
-            "channel-update",
-            "channel-delete",
+            'channel-viewAny',
+            'channel-view',
+            'channel-create',
+            'channel-update',
+            'channel-delete',
+            'channel-restore',
+            'channel-forceDelete',
 
-            "react-access",
-            "react-store",
-            "react-update",
-            "react-delete",
+            'react-viewAny',
+            'react-view',
+            'react-create',
+            'react-update',
+            'react-delete',
+            'react-restore',
+            'react-forceDelete',
 
-            "thread-access",
-            "thread-store",
-            "thread-update",
-            "thread-delete",
+            'thread-viewAny',
+            'thread-view',
+            'thread-create',
+            'thread-update',
+            'thread-delete',
+            'thread-restore',
+            'thread-forceDelete',
 
-            "reply-access",
-            "reply-store",
-            "reply-update",
-            "reply-delete",
+            'reply-viewAny',
+            'reply-view',
+            'reply-create',
+            'reply-update',
+            'reply-delete',
+            'reply-restore',
+            'reply-forceDelete',
         ];
 
         foreach ($permissions as $permission) {
             Permission::create([
-                "name" => $permission
+                'name' => $permission
             ]);
         }
     }

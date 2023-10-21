@@ -8,7 +8,7 @@ useSeoMeta({
 
 definePageMeta({
   middleware: ["auth"],
-  permissions: ["role-access"],
+  permissions: ["role-viewAny"],
 });
 
 const dialog = useDialog();
@@ -160,7 +160,7 @@ function onRoleUpdated() {
               placeholder="Search by name"
             />
             <BaseButton
-              v-if="hasPermissions('role-store')"
+              v-if="hasPermissions('role-create')"
               class="w-24"
               @click="add"
             >

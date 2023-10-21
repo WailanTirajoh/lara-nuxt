@@ -14,13 +14,16 @@ use Illuminate\Support\Facades\DB;
 
 class ChannelController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Channel::class);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $this->authorize('channel-access');
-
         $channels = Auth::user()->channels()->with('users')->get();
 
         return ApiResponse::success(
@@ -35,8 +38,6 @@ class ChannelController extends Controller
      */
     public function store(StoreChannelRequest $request)
     {
-        $this->authorize('channel-store');
-
         DB::beginTransaction();
         $channel = Channel::create(array_merge($request->validated(), [
             'created_by' => Auth::id()
@@ -58,8 +59,6 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        $this->authorize('channel-access');
-
         return ApiResponse::success(
             data: [
                 'channel' => ChannelResource::make($channel->load('users'))
@@ -73,7 +72,6 @@ class ChannelController extends Controller
     public function update(UpdateChannelRequest $request, Channel $channel)
     {
         abort_if($channel->created_by !== Auth::id(), Response::HTTP_FORBIDDEN, "You're not the channel creator!");
-        $this->authorize('channel-update');
 
         DB::beginTransaction();
         $channel->update($request->validated());
@@ -95,7 +93,6 @@ class ChannelController extends Controller
     public function destroy(Channel $channel)
     {
         abort_if($channel->created_by !== Auth::id(), Response::HTTP_FORBIDDEN, "You're not the channel creator!");
-        $this->authorize('channel-delete');
 
         $channel->delete();
 

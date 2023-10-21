@@ -12,17 +12,19 @@ use App\Models\Channel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class ThreadController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Thread::class);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request, Channel $channel)
     {
-        $this->authorize('thread-access');
-
         $orderBy = $request->query("order_by", "created_at");
         $orderType = $request->query("order_type", "DESC");
         $limit = $request->query('limit', 25);
@@ -44,8 +46,6 @@ class ThreadController extends Controller
      */
     public function store(StoreThreadRequest $request, Channel $channel)
     {
-        $this->authorize('thread-store');
-
         $threadData = array_merge($request->validated(), ['user_id' => Auth::id()]);
         $thread = $channel->threads()->create($threadData);
 
@@ -76,8 +76,6 @@ class ThreadController extends Controller
      */
     public function update(UpdateThreadRequest $request, Channel $channel, Thread $thread)
     {
-        $this->authorize('thread-store');
-
         $thread->update($request->validated());
 
         return ApiResponse::success([
@@ -91,8 +89,6 @@ class ThreadController extends Controller
      */
     public function destroy(Channel $channel, Thread $thread)
     {
-        $this->authorize('thread-delete');
-
         $thread->delete();
 
         return ApiResponse::success(message: 'Post restored successfully');

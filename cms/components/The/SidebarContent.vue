@@ -42,19 +42,19 @@ const menus = computed(() => [
     label: "Post",
     icon: "mdi:post-outline",
     to: "/posts",
-    permission: "post-access",
+    permission: "post-viewAny",
   },
   {
     label: "User",
     icon: "ph:users-three-duotone",
     to: "/users",
-    permission: "user-access",
+    permission: "user-viewAny",
   },
   {
     label: "Roles",
     icon: "material-symbols:shield-lock",
     to: "/roles",
-    permission: "role-access",
+    permission: "role-viewAny",
   },
 ]);
 

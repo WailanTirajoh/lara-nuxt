@@ -182,14 +182,14 @@ function onPostUpdated() {
               placeholder="Search by title, or created by"
             />
             <BaseButton
-              v-if="hasPermissions('post-store')"
+              v-if="hasPermissions('post-create')"
               class="w-24"
               @click="add"
             >
               Add Post
             </BaseButton>
             <BaseButton
-              v-if="hasPermissions('post-delete-permanent')"
+              v-if="hasPermissions('post-forceDelete', 'post-restore')"
               variant="none"
               class="p-0 text-2xl text-slate-600 rounded-full w-8 h-8 flex items-center justify-center my-auto"
               :class="{
@@ -230,7 +230,7 @@ function onPostUpdated() {
                   Restore
                 </BaseButton>
                 <BaseButton
-                  v-if="hasPermissions('post-delete-permanent')"
+                  v-if="hasPermissions('post-forceDelete')"
                   variant="danger"
                   @click="permanentDestroy(data.id)"
                 >
