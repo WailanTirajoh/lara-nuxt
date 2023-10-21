@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -16,8 +15,8 @@ class RegisterTest extends TestCase
     public function test_register(): void
     {
         $requestBody = [
-            "name" => "Wailan Tirajoh",
-            "email" => "wailantirajoh@gmail.com",
+            "name" => "Wailan Tirajoh New",
+            "email" => "wailantirajohnew@gmail.com",
             "password" => "wailan",
         ];
 

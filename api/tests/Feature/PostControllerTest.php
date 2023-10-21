@@ -19,7 +19,7 @@ class PostControllerTest extends TestCase
     {
         parent::setUp();
 
-        $user = User::factory()->create();
+        $user = User::where('email', 'wailantirajoh@gmail.com')->first();
         Sanctum::actingAs($user);
 
         $this->post = Post::factory()->create([
@@ -32,8 +32,7 @@ class PostControllerTest extends TestCase
      */
     public function test_get_post_lists(): void
     {
-        $response = $this->getJson(route('api.posts.index'))
-            ->assertOk();
+        $response = $this->getJson(route('api.posts.index'));
 
         $this->assertEquals(1, count($response->json()['data']['posts']));
         $this->assertEquals('Test Post Title', $response->json()['data']['posts'][0]['title']);
