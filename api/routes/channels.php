@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Resources\ChannelUserResource;
+use App\Models\Thread;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -19,11 +20,8 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('thread.{id}', function ($user, $id) {
-    return true;
-});
-
-Broadcast::channel('public', function () {
-    return true;
+    $thread = Thread::find($id);
+    return in_array($user->id, $thread->channel->users->pluck('id')->toArray());
 });
 
 Broadcast::channel('thread-presence.{id}', function ($user, $id) {

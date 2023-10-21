@@ -103,13 +103,8 @@ onMounted(() => {
       class="px-3 h-[calc(100%-3rem-4rem)] overflow-auto overflow-x-hidden"
     >
       <template v-for="menu in menus">
-        <li v-if="menu.separator" key="sidebar-channel-horizontal-rule py-1">
-          <hr class="border-slate-700" />
-        </li>
         <li
-          v-else-if="
-            menu.permission === null || hasPermissions(menu.permission)
-          "
+          v-if="menu.permission === null || hasPermissions(menu.permission)"
           :key="menu.to"
           class="relative overflow-hidden py-1"
         >

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ThreadResource extends JsonResource
+class NotificationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,9 @@ class ThreadResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'channel_id' => $this->channel_id,
-            'body' => $this->body,
-            'replies_count' => $this->replies()->count(),
-            'user' => ThreadUserResource::make($this->user),
+            'type' => $this->type,
+            'data' => $this->data,
+            'read_at' => $this->read_at,
             'created_at' => $this->created_at,
         ];
     }

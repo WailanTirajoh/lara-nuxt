@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ApiResponse;
+use App\Http\Resources\NotificationResource;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
@@ -11,7 +12,7 @@ class NotificationController extends Controller
     public function index()
     {
         return ApiResponse::success(
-            data: Auth::user()->notifications
+            data: NotificationResource::collection(Auth::user()->notifications)
         );
     }
 

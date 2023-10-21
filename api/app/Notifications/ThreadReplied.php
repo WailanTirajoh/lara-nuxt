@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Http\Resources\ReplyResource;
+use App\Http\Resources\ThreadResource;
 use App\Models\Reply;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -42,8 +44,8 @@ class ThreadReplied extends Notification
         return [
             'info' => "{$this->reply->user->name} reply a thread.",
             'data' => [
-                "thread" => $this->reply->replyable,
-                "reply" => $this->reply
+                "thread" => ThreadResource::make($this->reply->replyable),
+                "reply" => ReplyResource::make($this->reply)
             ]
         ];
     }

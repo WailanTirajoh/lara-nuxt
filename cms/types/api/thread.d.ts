@@ -10,6 +10,7 @@ export interface Thread {
   body: string;
   user: ThreadUser;
   replies_count: number;
+  channel_id: number;
   created_at: string;
   updated_at: string;
 }
