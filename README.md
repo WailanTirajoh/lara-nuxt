@@ -3,12 +3,23 @@
 Monorepo fullstack apps build with Laravel API & Nuxt 3 FE
 
 ## Installation
-### Clone
+### Requirement
+```
+- wsl (For windows user)
+- docker
+- bun
+- php8.1
+- composer
+```
+- Why php8.1 & composer is required? because we're mounting laravel (api) to nginx.
+- Why Bun? for FE development. (You can choose any for eg pnpm, yarn other than bun. personal preference)
+- **TODO**: Create API & FE Image for production.
+### 1. Git Clone
 ```
 git clone https://github.com/WailanTirajoh/lara-nuxt.git
 cd lara-nuxt
 ```
-### Setup API
+### 2. Setup API
 ```
 cd api
 cp .env.example .env
@@ -16,7 +27,7 @@ composer install
 php artisan key:generate
 cd ..
 ```
-### Docker
+### 3. Build Docker
 ```
 # Build docker
 docker compose up -d
@@ -30,12 +41,12 @@ docker compose exec php chown www-data:www-data -R /var/www/html/storage
 
 By following this CLI steps, we can open http://localhost:8080 on browser to see API up and running.
 
-### Development on Frontend Terminal
+### 4. Setup FE
 ```
 cd cms
 cp .env.example .env
-pnpm install
-pnpm dev
+bun install
+bun run dev -o
 ```
 
 ### Login
@@ -48,8 +59,8 @@ password: wailan
 
 ### phpmyadmin
 open http://localhost:8081
-- Credentials
 ```
+# Login Credentials
 username: homestead
 password: secret
 ```
