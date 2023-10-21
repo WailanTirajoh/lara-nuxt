@@ -3,18 +3,29 @@
 Monorepo fullstack apps build with Laravel API & Nuxt 3 FE
 
 ## Installation
-### Docker
+### Clone
 ```
-# Copy the env.example to .env
+git clone https://github.com/WailanTirajoh/lara-nuxt.git
+cd lara-nuxt
+```
+### Setup API
+```
 cd api
 cp .env.example .env
+composer install
+php artisan key:generate
 cd ..
-
+```
+### Docker
+```
 # Build docker
-docker compose up --build
+docker compose up -d
 
 # Database Migration
-docker compose exec php php /var/www/html/artisan migrate
+docker compose exec php php /var/www/html/artisan migrate --seed
+
+# Chown
+docker compose exec php chown www-data:www-data -R /var/www/html/storage
 ```
 
 By following this CLI steps, we can open http://localhost:8080 on browser to see API up and running.
