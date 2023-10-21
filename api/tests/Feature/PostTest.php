@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class PostControllerTest extends TestCase
+class PostTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -81,7 +81,7 @@ class ChannelController extends Controller
             data: [
                 "channel" => ChannelResource::make($channel)
             ],
-            statusCode: Response::HTTP_CREATED
+            statusCode: Response::HTTP_OK
         );
     }
 
