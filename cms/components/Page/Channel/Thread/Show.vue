@@ -43,7 +43,7 @@ onMounted(() => {});
             name="list"
             tag="ul"
           >
-            <li v-for="user in roomUsers">
+            <li :key="user.id" v-for="user in roomUsers">
               <img
                 class="w-6 h-6 rounded-full overflow-hidden object-cover"
                 :src="user.profile_picture"

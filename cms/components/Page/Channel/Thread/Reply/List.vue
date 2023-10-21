@@ -28,9 +28,9 @@ onUnmounted(() => {
           Fetching . . .
         </li>
       </template>
-      <tempalte v-else-if="replies.length === 0">
+      <template v-else-if="replies.length === 0">
         <li class="text-center">No Replies</li>
-      </tempalte>
+      </template>
       <template v-else>
         <li v-for="reply in replies" :key="reply.id">
           <div>
