@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import { Notification } from "~/types/api/notification";
 useSeoMeta({
   title: "Notification",
 });
@@ -13,8 +14,7 @@ onMounted(() => {
   notificationStore.fetchNotifications();
 });
 
-// TODO: Add Notification interface
-const markAsRead = (notification: any) => {
+const markAsRead = (notification: Notification) => {
   if (!notification.read_at) {
     notificationStore.markAsRead(notification.id).then(() => {
       notificationStore.fetchUnreadNotifications();
@@ -29,7 +29,7 @@ const markAllAsRead = async () => {
   notificationStore.fetchNotifications();
 };
 
-const view = (notification: any) => {
+const view = (notification: Notification) => {
   markAsRead(notification);
   navigateTo(
     `/channels/${notification.data.data.thread.channel_id}?thread=${notification.data.data.thread.id}`
@@ -96,7 +96,6 @@ const view = (notification: any) => {
           </div>
         </li>
       </ul>
-      <!-- {{ notifications }} -->
     </div>
   </div>
 </template>

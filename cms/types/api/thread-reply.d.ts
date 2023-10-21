@@ -1,6 +1,9 @@
+import { ThreadUser } from "./thread";
+
 export interface ThreadReply {
   id: number;
   body: string;
+  user: ThreadUser;
   created_at: string;
   updated_at: string;
 }
