@@ -11,7 +11,7 @@ class AppPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    protected function viewAny(User $user): bool
     {
         return $user->can("{$this->model}-viewAny");
     }
@@ -19,7 +19,7 @@ class AppPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user): bool
+    protected function view(User $user): bool
     {
         return $user->can("{$this->model}-view");
     }
@@ -27,7 +27,7 @@ class AppPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    protected function create(User $user): bool
     {
         return $user->can("{$this->model}-create");
     }
@@ -35,7 +35,7 @@ class AppPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user): bool
+    protected function update(User $user): bool
     {
         return $user->can("{$this->model}-update");
     }
@@ -43,7 +43,7 @@ class AppPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    protected function delete(User $user): bool
     {
         return $user->can("{$this->model}-delete");
     }
@@ -51,7 +51,7 @@ class AppPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user): bool
+    protected function restore(User $user): bool
     {
         return $user->can("{$this->model}-restore");
     }
@@ -59,7 +59,7 @@ class AppPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user): bool
+    protected function forceDelete(User $user): bool
     {
         return $user->can("{$this->model}-forceDelete");
     }

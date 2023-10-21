@@ -71,8 +71,6 @@ class ChannelController extends Controller
      */
     public function update(UpdateChannelRequest $request, Channel $channel)
     {
-        abort_if($channel->created_by !== Auth::id(), Response::HTTP_FORBIDDEN, "You're not the channel creator!");
-
         DB::beginTransaction();
         $channel->update($request->validated());
         $channel->users()->sync($request->users);
@@ -92,8 +90,6 @@ class ChannelController extends Controller
      */
     public function destroy(Channel $channel)
     {
-        abort_if($channel->created_by !== Auth::id(), Response::HTTP_FORBIDDEN, "You're not the channel creator!");
-
         $channel->delete();
 
         return ApiResponse::success(message: 'Channel permanently deleted', statusCode: Response::HTTP_NO_CONTENT);
