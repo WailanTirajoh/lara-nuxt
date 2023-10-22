@@ -67,6 +67,10 @@ username: homestead
 password: secret
 ```
 
+### Entity Relationship Diagram
+![image](https://github.com/WailanTirajoh/lara-nuxt/assets/53980548/66d9a65a-6c74-4e8c-80fa-d3bb9a3c1748)
+
+
 ## UI Preview
 ![image](https://github.com/WailanTirajoh/lara-nuxt/assets/53980548/22281f0b-608e-4767-91fd-b86c6f4ef548)
 ![image](https://github.com/WailanTirajoh/lara-nuxt/assets/53980548/d7955974-dbf5-4c48-afdd-c064c260d04f)
