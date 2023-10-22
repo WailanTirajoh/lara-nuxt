@@ -18,6 +18,10 @@ class Thread extends Model
         'user_id',
     ];
 
+    protected $dispatchesEvents = [
+        'updated' => EventsThread::class,
+    ];
+
     public function channel(): BelongsTo
     {
         return $this->belongsTo(Channel::class);
@@ -26,15 +30,5 @@ class Thread extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    protected static function booted(): void
-    {
-        /**
-         * To update frontend Thread Detail.
-         */
-        static::updated(function (Thread $thread) {
-            broadcast(new EventsThread($thread));
-        });
     }
 }
