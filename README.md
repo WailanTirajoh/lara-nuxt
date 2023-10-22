@@ -2,47 +2,49 @@
 ![image](https://github.com/WailanTirajoh/lara-nuxt/assets/53980548/ab4f28fc-ee63-47d8-aa13-f719544057e1)
 Monorepo fullstack apps build with Laravel API & Nuxt 3 FE
 
+## Requirement
+1. docker + docker compose
+2. npm / pnpm / yarn / bun (for FE package manager) _*this will be replaced latter when fe image created._
+
 ## Installation
-### Requirement
-```
-- wsl (For windows user)
-- docker
-- bun
-- php8.1
-- composer
-```
-- Why php8.1 & composer is required? because we're mounting laravel (api) to nginx.
-- Why Bun? for FE development. (You can choose any for eg pnpm, yarn other than bun. personal preference)
-- **TODO**: Create API & FE Image for production.
 ### 1. Git Clone
 ```
 git clone https://github.com/WailanTirajoh/lara-nuxt.git
 cd lara-nuxt
 ```
-### 2. Setup API
-```
-cd api
-cp .env.example .env
-composer install
-php artisan key:generate
-cd ..
-```
-### 3. Build Docker
+
+### 2. Build Docker Images
 ```
 # Build docker
 docker compose up -d
-
-# Database Migration
-docker compose exec php php /var/www/html/artisan migrate --seed
-
-# Chown
-docker compose exec php chown www-data:www-data -R /var/www/html/storage
 ```
 
+### 3. Setup API
+```
+# Get into php container shell
+docker compose exec php sh
+
+# Setup
+cp .env.example .env
+composer install
+php artisan key:generate
+
+# DB Seed
+php artisan migrate --seed
+
+# Permission
+chown www-data:www-data -R storage
+
+# Quit from php sh
+exit
+```
 By following this CLI steps, we can open http://localhost:8080 on browser to see API up and running.
 
 ### 4. Setup FE
 ```
+# Currently no image for FE, todo latter. We can install FE using any package manager, i'm using bun here since its super fast.
+# You can use npm / pnpm / yarn other than bun.
+
 cd cms
 cp .env.example .env
 bun install
