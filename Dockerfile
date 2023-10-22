@@ -11,5 +11,5 @@ RUN apk update && apk add --no-cache \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd pdo pdo_mysql sockets exif
 
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
+# Get latest Composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
