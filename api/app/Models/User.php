@@ -78,7 +78,7 @@ class User extends Authenticatable implements HasMedia
     public function profilePicture()
     {
         return $this->getFirstMediaUrl('images') === ''
-            ?  env('APP_URL') . '/default/wailan.jpeg'
+            ?  env('APP_URL') . '/default/dummy.jpg'
             : $this->getFirstMediaUrl('images');
     }
 }
