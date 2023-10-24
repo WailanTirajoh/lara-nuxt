@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+
 interface ChannelThreadReplyCreateProps {
   threadId: string;
 }
@@ -10,6 +12,21 @@ const emit = defineEmits<{
 const form = ref({
   body: "",
 });
+
+const authStore = useAuthStore();
+const { profile } = storeToRefs(authStore);
+
+const { $echo } = useNuxtApp();
+
+watchThrottled(
+  () => form.value.body,
+  () => {
+    $echo
+      .join(`thread-presence.${props.threadId}`)
+      .whisper("typing", profile.value);
+  },
+  { throttle: 3000 }
+);
 
 const threadReplyStore = useThreadReplyStore();
 

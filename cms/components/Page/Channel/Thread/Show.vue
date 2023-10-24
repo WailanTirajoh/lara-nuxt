@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
+import type { Profile } from "~/types/api/auth";
 import type { User } from "~/types/api/user";
+
 const threadStore = useThreadStore();
 const { selectedThread } = storeToRefs(threadStore);
 
 const { $echo } = useNuxtApp();
 const roomUsers = ref<Array<User>>([]);
+
+type ActiveUser = Record<number, Profile>;
+const activeUsers = ref<ActiveUser>({});
+
+const resetActiveUser = useDebounceFn((id: number) => {
+  delete activeUsers.value[id];
+}, 3000);
 
 watch(selectedThread, (value, oldValue) => {
   if (oldValue) {
@@ -28,6 +37,13 @@ watch(selectedThread, (value, oldValue) => {
         if (index > -1) {
           roomUsers.value.splice(index, 1);
         }
+      })
+      .listenForWhisper("typing", (response: Profile) => {
+        activeUsers.value = {
+          [response.id]: response,
+          ...toRaw(activeUsers.value),
+        };
+        resetActiveUser(response.id);
       });
   }
 });
@@ -74,6 +90,9 @@ onMounted(() => {});
       </div>
     </div>
     <div class="absolute bottom-0 bg-gray-200 p-1 min-h-44 w-full">
+      <div v-for="activeUser in activeUsers">
+        {{ activeUser.name }} is typing ...
+      </div>
       <PageChannelThreadReplyCreate :thread-id="selectedThread.id.toString()" />
     </div>
   </div>
