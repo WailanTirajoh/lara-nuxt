@@ -3,6 +3,8 @@ import { storeToRefs } from "pinia";
 
 const appStore = useAppStore();
 const authStore = useAuthStore();
+const notificationStore = useNotificationStore();
+const { unreadNotificationCount } = storeToRefs(notificationStore);
 const { sidebarIsOpen } = storeToRefs(appStore);
 const isOpen = ref(false);
 const { toasts } = useToast();
@@ -10,21 +12,9 @@ const { $echo } = useNuxtApp();
 
 onMounted(() => {
   $echo
-    .private(`user.${authStore.profile.id}`)
-    .listen(".notification", (e: any) => {
-      useToast().addToast({
-        id: generateId(),
-        message: e.message,
-        type: e.type ?? "info",
-        lifetime: 5000,
-      });
-    });
-
-  $echo
     .private(`App.Models.User.${authStore.profile.id}`)
     .notification((notification) => {
-      console.log(notification);
-
+      unreadNotificationCount.value = (unreadNotificationCount.value ?? 0) + 1;
       useToast().addToast({
         id: generateId(),
         message: notification.info,
@@ -32,9 +22,6 @@ onMounted(() => {
         lifetime: 5000,
       });
     });
-});
-onUnmounted(() => {
-  $echo.private(`user.${authStore.profile.id}`).stopListening(".notification");
 });
 </script>
 
