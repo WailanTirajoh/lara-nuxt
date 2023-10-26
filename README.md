@@ -38,7 +38,7 @@ chown www-data:www-data -R storage
 # Quit from php sh
 exit
 ```
-By following this CLI steps, we can open http://localhost:8080 on browser to see API up and running.
+By following this CLI steps, we can open http://api.localhost on browser to see API up and running.
 
 ### 4. Setup FE
 ```
@@ -60,7 +60,7 @@ password: wailan
 ```
 
 ### phpmyadmin
-open http://localhost:8081
+open http://phpmyadmin.localhost
 ```
 # Login Credentials
 username: homestead
