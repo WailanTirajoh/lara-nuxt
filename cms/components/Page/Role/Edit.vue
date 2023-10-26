@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { type FormKitNode } from "@formkit/core";
 import type { Role, RoleUpdateRequest } from "~/types/api/role";
-import BaseSelectMulti from "~/components/Base/Select/Multi.vue";
+import BaseInputPermission from "~/components/Base/InputPermission/InputPermission.vue";
 import { createInput } from "@formkit/vue";
 
-const baseSelectMulti = createInput(BaseSelectMulti, {
+const baseInputPermission = createInput(BaseInputPermission, {
   props: ["toptions"],
 });
 
@@ -68,7 +68,7 @@ onMounted(async () => {
           :disabled="role.name === 'Super'"
         />
         <FormKit
-          :type="baseSelectMulti"
+          :type="baseInputPermission"
           label="Permissions"
           name="permissions"
           help="Select your permissions."

@@ -2,9 +2,9 @@
 import { type FormKitNode } from "@formkit/core";
 import type { RoleStoreRequest } from "~/types/api/role";
 import { createInput } from "@formkit/vue";
-import BaseSelectMulti from "~/components/Base/Select/Multi.vue";
+import BaseInputPermission from "~/components/Base/InputPermission/InputPermission.vue";
 
-const baseSelectMulti = createInput(BaseSelectMulti, {
+const baseInputPermission = createInput(BaseInputPermission, {
   props: ["toptions"],
 });
 
@@ -57,7 +57,7 @@ onMounted(async () => {
           validation="required"
         />
         <FormKit
-          :type="baseSelectMulti"
+          :type="baseInputPermission"
           label="Permissions"
           name="permissions"
           help="Select your permissions."
