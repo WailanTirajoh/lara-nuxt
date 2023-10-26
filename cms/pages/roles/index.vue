@@ -15,7 +15,7 @@ const dialog = useDialog();
 const roleStore = useRoleStore();
 
 const selectedRole = ref<Role | null>(null);
-const isOpenOffcanvas = ref(false);
+const isOpenModal = ref(false);
 
 const datatable = reactive<IDatatableProps<keyof Role | "no" | "action">>({
   fieldKey: "id",
@@ -99,21 +99,21 @@ const destroy = async (id: number) => {
 
 function add() {
   selectedRole.value = null;
-  isOpenOffcanvas.value = !isOpenOffcanvas.value;
+  isOpenModal.value = !isOpenModal.value;
 }
 
 function edit(role: Role) {
   selectedRole.value = role;
-  isOpenOffcanvas.value = true;
+  isOpenModal.value = true;
 }
 
 function onRoleCreated() {
-  isOpenOffcanvas.value = false;
+  isOpenModal.value = false;
   fetchRole();
 }
 
 function onRoleUpdated() {
-  isOpenOffcanvas.value = false;
+  isOpenModal.value = false;
   fetchRole();
 }
 </script>
@@ -126,8 +126,8 @@ function onRoleUpdated() {
     <div class="col-span-12">
       <hr />
     </div>
-    <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="right">
-      <template #headerTitle>
+    <BaseModal v-model="isOpenModal" position="bottom" backdrop="static">
+      <template #title>
         {{ selectedRole ? "Edit Role" : "Create New Role" }}
       </template>
       <div class="p-2 overflow-auto h-full">
@@ -140,7 +140,7 @@ function onRoleUpdated() {
           <PageRoleCreate v-else @submit="onRoleCreated" />
         </div>
       </div>
-    </BaseOffcanvas>
+    </BaseModal>
     <div class="col-span-12">
       <BaseDatatable
         v-bind="datatable"

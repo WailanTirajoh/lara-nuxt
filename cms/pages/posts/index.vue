@@ -14,7 +14,7 @@ const dialog = useDialog();
 const postStore = usePostStore();
 
 const selectedPost = ref<Post | null>(null);
-const isOpenOffcanvas = ref(false);
+const isOpenModal = ref(false);
 
 const datatable = reactive<IDatatableProps<keyof Post | "no" | "action">>({
   fieldKey: "id",
@@ -121,21 +121,21 @@ const restore = async (id: number) => {
 
 function add() {
   selectedPost.value = null;
-  isOpenOffcanvas.value = !isOpenOffcanvas.value;
+  isOpenModal.value = !isOpenModal.value;
 }
 
 function edit(post: Post) {
   selectedPost.value = post;
-  isOpenOffcanvas.value = true;
+  isOpenModal.value = true;
 }
 
 function onPostCreated() {
-  isOpenOffcanvas.value = false;
+  isOpenModal.value = false;
   fetchPost();
 }
 
 function onPostUpdated() {
-  isOpenOffcanvas.value = false;
+  isOpenModal.value = false;
   fetchPost();
 }
 </script>
@@ -148,8 +148,8 @@ function onPostUpdated() {
     <div class="col-span-12">
       <hr />
     </div>
-    <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="bottom" height="90vh">
-      <template #headerTitle>
+    <BaseModal v-model="isOpenModal" position="bottom" backdrop="static">
+      <template #title>
         {{ selectedPost ? "Edit Post" : "Create New Post" }}
       </template>
       <div class="p-2 overflow-auto h-full">
@@ -162,7 +162,7 @@ function onPostUpdated() {
           <PagePostCreate v-else @submit="onPostCreated" />
         </div>
       </div>
-    </BaseOffcanvas>
+    </BaseModal>
     <div class="col-span-12">
       <BaseDatatable
         v-bind="datatable"

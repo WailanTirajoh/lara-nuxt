@@ -15,7 +15,7 @@ const dialog = useDialog();
 const userStore = useUserStore();
 
 const selectedUser = ref<User | null>(null);
-const isOpenOffcanvas = ref(false);
+const isOpenModal = ref(false);
 
 const datatable = reactive<IDatatableProps<keyof User | "no" | "action">>({
   fieldKey: "id",
@@ -111,21 +111,21 @@ const destroy = async (id: number) => {
 
 function add() {
   selectedUser.value = null;
-  isOpenOffcanvas.value = !isOpenOffcanvas.value;
+  isOpenModal.value = !isOpenModal.value;
 }
 
 function edit(user: User) {
   selectedUser.value = user;
-  isOpenOffcanvas.value = true;
+  isOpenModal.value = true;
 }
 
 function onUserCreated() {
-  isOpenOffcanvas.value = false;
+  isOpenModal.value = false;
   fetchUser();
 }
 
 function onUserUpdated() {
-  isOpenOffcanvas.value = false;
+  isOpenModal.value = false;
   fetchUser();
 }
 </script>
@@ -138,8 +138,8 @@ function onUserUpdated() {
     <div class="col-span-12">
       <hr />
     </div>
-    <BaseOffcanvas v-model:is-open="isOpenOffcanvas" position="bottom">
-      <template #headerTitle>
+    <BaseModal v-model="isOpenModal" position="bottom" backdrop="static">
+      <template #title>
         {{ selectedUser ? "Edit User" : "Create New User" }}
       </template>
       <div class="p-2 overflow-auto h-full">
@@ -152,7 +152,7 @@ function onUserUpdated() {
           <PageUserCreate v-else @submit="onUserCreated" />
         </div>
       </div>
-    </BaseOffcanvas>
+    </BaseModal>
     <div class="col-span-12">
       <BaseDatatable
         v-bind="datatable"
