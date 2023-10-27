@@ -45,52 +45,64 @@ const view = (notification: Notification) => {
     <div class="col-span-12 px-4 sm:px-8">
       <hr />
     </div>
-    <div v-if="notifications.some((notification) => !notification.read_at)" class="col-span-12 px-4 sm:px-8 flex justify-end">
+    <div
+      v-if="notifications.some((notification) => !notification.read_at)"
+      class="col-span-12 px-4 sm:px-8 flex justify-end"
+    >
       <BaseButton @click="markAllAsRead"> Mark All as Read </BaseButton>
     </div>
     <div class="col-span-12">
       <ul
         class="flex flex-col gap-4 max-h-[calc(100svh-10rem)] overflow-auto px-4 sm:px-8"
       >
-        <li
-          v-for="notification in notifications"
-          class="bg-slate-100 rounded-lg p-2 border-l-4 border-l-slate-800 border"
-          :class="{
-            'bg-transparent border-l-slate-300': notification.read_at,
-          }"
-        >
-          <div
-            class="flex flex-col gap-4"
-            v-if="notification.type === 'App\\Notifications\\ThreadReplied'"
+        <template v-if="notifications.length === 0">
+          <li class="text-center">
+            No notifications
+          </li>
+        </template>
+        <template v-else>
+          <li
+            v-for="notification in notifications"
+            class="bg-slate-100 rounded-lg p-2 border-l-4 border-l-slate-800 border"
+            :class="{
+              'bg-transparent border-l-slate-300': notification.read_at,
+            }"
           >
-            <div class="text-sm">
-              <Icon name="material-symbols:quickreply" /> ~
-              {{ notification.data.info }}
-            </div>
-            <div class="flex flex-col gap-3">
-              <div class="">
-                <div class="italic">Reply:</div>
-                <div class="prose prose-sm bg-gray-200 p-1 rounded max-w-full">
-                  <div v-html="notification.data.data.reply.body"></div>
+            <div
+              class="flex flex-col gap-4"
+              v-if="notification.type === 'App\\Notifications\\ThreadReplied'"
+            >
+              <div class="text-sm">
+                <Icon name="material-symbols:quickreply" /> ~
+                {{ notification.data.info }}
+              </div>
+              <div class="flex flex-col gap-3">
+                <div class="">
+                  <div class="italic">Reply:</div>
+                  <div
+                    class="prose prose-sm bg-gray-200 p-1 rounded max-w-full"
+                  >
+                    <div v-html="notification.data.data.reply.body"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex gap-2 justify-between">
+                <div class="text-slate-600 text-xs">
+                  {{ formatDateDistance(notification.created_at) }}
+                </div>
+                <div class="">
+                  <BaseButton
+                    v-if="!notification.read_at"
+                    @click="markAsRead(notification)"
+                  >
+                    Mark As Read
+                  </BaseButton>
+                  <BaseButton @click="view(notification)"> View </BaseButton>
                 </div>
               </div>
             </div>
-            <div class="flex gap-2 justify-between">
-              <div class="text-slate-600 text-xs">
-                {{ formatDateDistance(notification.created_at) }}
-              </div>
-              <div class="">
-                <BaseButton
-                  v-if="!notification.read_at"
-                  @click="markAsRead(notification)"
-                >
-                  Mark As Read
-                </BaseButton>
-                <BaseButton @click="view(notification)"> View </BaseButton>
-              </div>
-            </div>
-          </div>
-        </li>
+          </li>
+        </template>
       </ul>
     </div>
   </div>
