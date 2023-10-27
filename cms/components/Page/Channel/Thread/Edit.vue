@@ -20,7 +20,6 @@ const onSubmit = async () => {
   await threadStore.update(props.channelId, props.thread.id.toString(), {
     ...form.value,
   });
-  await threadStore.fetchThreads(props.channelId);
   emit("submit");
 };
 </script>

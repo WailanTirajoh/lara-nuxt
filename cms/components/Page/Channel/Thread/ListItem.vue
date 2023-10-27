@@ -90,6 +90,12 @@ onUnmounted(() => {
         <span class="text-base text-slate-600">
           - {{ formatDateDistance(thread.created_at) }}
         </span>
+        <span
+          v-if="thread.histories.length > 0"
+          class="text-base text-slate-600"
+        >
+          (Edited)
+        </span>
       </div>
 
       <div class="prose prose-sm max-w-full">

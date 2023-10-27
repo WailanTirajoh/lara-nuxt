@@ -21,6 +21,7 @@ class ThreadResource extends JsonResource
             'replies_count' => $this->replies()->count(),
             'user' => ThreadUserResource::make($this->user),
             'created_at' => $this->created_at,
+            'histories' => ThreadUpdateHistoryResource::collection($this->activities),
         ];
     }
 }
