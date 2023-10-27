@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Resources\ChannelUserResource;
+use App\Models\Channel;
 use App\Models\Thread;
 use Illuminate\Support\Facades\Broadcast;
 
@@ -17,6 +18,11 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('channel.{id}', function ($user, $id) {
+    $channel = Channel::find($id);
+    return in_array($user->id, $channel->users->pluck('id')->toArray());
 });
 
 Broadcast::channel('thread.{id}', function ($user, $id) {

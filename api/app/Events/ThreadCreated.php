@@ -4,15 +4,13 @@ namespace App\Events;
 
 use App\Http\Resources\ThreadResource;
 use App\Models\Thread;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ThreadUpdated implements ShouldBroadcast
+class ThreadCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -32,13 +30,13 @@ class ThreadUpdated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel("thread.{$this->thread->id}"),
+            new PrivateChannel("channel.{$this->thread->channel_id}"),
         ];
     }
 
     public function broadcastAs()
     {
-        return 'updated';
+        return 'thread.created';
     }
 
     public function broadcastWith()

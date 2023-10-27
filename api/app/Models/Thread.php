@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ThreadCreated;
 use App\Events\ThreadUpdated;
 use App\Traits\HasReacts;
 use App\Traits\HasReplies;
@@ -19,6 +20,7 @@ class Thread extends Model
     ];
 
     protected $dispatchesEvents = [
+        'created' => ThreadCreated::class,
         'updated' => ThreadUpdated::class,
     ];
 

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\Thread;
 use App\Events\ThreadReplied;
+use App\Events\ThreadUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,11 +34,9 @@ class Reply extends Model
 
     protected static function booted(): void
     {
-        /**
-         * To update frontend Thread Detail.
-         */
         static::created(function (Reply $reply) {
-            broadcast(new Thread($reply->replyable));
+            // We're updating thread whenever reply is added.
+            broadcast(new ThreadUpdated($reply->replyable));
         });
     }
 }

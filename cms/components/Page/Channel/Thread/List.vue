@@ -6,13 +6,25 @@ interface ChannelThreadCreateProps {
 }
 const props = defineProps<ChannelThreadCreateProps>();
 
+const initialFetch = ref(false);
 const threadStore = useThreadStore();
 const { threads } = storeToRefs(threadStore);
-const initialFetch = ref(false);
+const { $echo } = useNuxtApp();
+
 onMounted(async () => {
   initialFetch.value = true;
   await threadStore.fetchThreads(props.channelId);
   initialFetch.value = false;
+
+  $echo
+    .private(`channel.${props.channelId}`)
+    .listen(".thread.created", (e: any) => {
+      threads.value = [...threads.value, e.thread];
+    });
+});
+
+onUnmounted(() => {
+  $echo.private(`channel.${props.channelId}`).stopListening(".thread.created");
 });
 </script>
 
