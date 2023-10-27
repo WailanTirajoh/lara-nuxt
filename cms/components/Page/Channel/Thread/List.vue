@@ -19,7 +19,7 @@ onMounted(async () => {
   $echo
     .private(`channel.${props.channelId}`)
     .listen(".thread.created", (e: any) => {
-      threads.value = [...threads.value, e.thread];
+      threads.value = [e.thread, ...threads.value];
     });
 });
 
