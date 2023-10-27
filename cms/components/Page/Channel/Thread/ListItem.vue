@@ -40,7 +40,7 @@ onMounted(() => {
 
   $echo
     .private(`thread.${props.thread.id.toString()}`)
-    .listen(".detail", (e: any) => {
+    .listen(".updated", (e: any) => {
       const index = threads.value.findIndex((t) => t.id === e.thread.id);
       threads.value[index] = e.thread;
     });
@@ -48,7 +48,7 @@ onMounted(() => {
 onUnmounted(() => {
   $echo
     .private(`thread.${props.thread.id.toString()}`)
-    .stopListening(".detail");
+    .stopListening(".updated");
 });
 </script>
 <template>

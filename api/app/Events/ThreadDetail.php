@@ -12,7 +12,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class Thread implements ShouldBroadcast
+class ThreadUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -38,7 +38,7 @@ class Thread implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'detail';
+        return 'updated';
     }
 
     public function broadcastWith()

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\Thread as EventsThread;
+use App\Events\ThreadUpdated;
 use App\Traits\HasReacts;
 use App\Traits\HasReplies;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +19,7 @@ class Thread extends Model
     ];
 
     protected $dispatchesEvents = [
-        'updated' => EventsThread::class,
+        'updated' => ThreadUpdated::class,
     ];
 
     public function channel(): BelongsTo
