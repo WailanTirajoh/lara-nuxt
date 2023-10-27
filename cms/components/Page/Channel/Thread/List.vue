@@ -6,16 +6,22 @@ interface ChannelThreadCreateProps {
 }
 const props = defineProps<ChannelThreadCreateProps>();
 
-const initialFetch = ref(false);
 const threadStore = useThreadStore();
 const { threads } = storeToRefs(threadStore);
 const { $echo } = useNuxtApp();
 
-onMounted(async () => {
-  initialFetch.value = true;
-  await threadStore.fetchThreads(props.channelId);
-  initialFetch.value = false;
+const { pending, execute } = await useAsyncData(
+  `channel-${props.channelId}:thread-list`,
+  () => {
+    return threadStore.fetchThreads(props.channelId);
+  },
+  {
+    immediate: false,
+  }
+);
 
+onMounted(async () => {
+  execute();
   $echo
     .private(`channel.${props.channelId}`)
     .listen(".thread.created", (e: any) => {
@@ -30,7 +36,7 @@ onUnmounted(() => {
 
 <template>
   <div class="h-full overflow-auto">
-    <template v-if="initialFetch">
+    <template v-if="pending">
       <PageChannelThreadListSkeleton />
     </template>
     <template v-else>
