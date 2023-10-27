@@ -48,7 +48,7 @@ const items = computed<
         </template>
         <template v-else-if="items.length === 0">
           <tr>
-            <td colspan="4">No Data</td>
+            <td colspan="4" class="border p-1 text-center">No Data</td>
           </tr>
         </template>
         <template v-else>
