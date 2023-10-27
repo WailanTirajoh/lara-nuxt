@@ -26,7 +26,10 @@ onMounted(async () => {
     .private(`channel.${props.channelId}`)
     .listen(".thread.created", (e: any) => {
       threads.value = [e.thread, ...threads.value];
-    });
+    })
+    .listen(".thread.deleted", (e: any) => {
+      threads.value = threads.value.filter((thread) => thread.id !== e.thread_id);
+    })
 });
 
 onUnmounted(() => {

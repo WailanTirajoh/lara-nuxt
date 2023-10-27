@@ -6,6 +6,7 @@ networks:
 services:
   nginx:
     image: nginx:stable-alpine
+    restart: always
     container_name: nginx
     ports:
       - "8085:80"
@@ -46,6 +47,7 @@ services:
 
   php:
     image: php:8.1-fpm-alpine
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile
@@ -79,6 +81,7 @@ services:
 
   soketi:
     image: "quay.io/soketi/soketi:latest-16-alpine"
+    restart: always
     environment:
       SOKETI_DEBUG: "1"
       SOKETI_METRICS_SERVER_PORT: "9601"

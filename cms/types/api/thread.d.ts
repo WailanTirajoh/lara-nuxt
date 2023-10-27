@@ -5,11 +5,25 @@ export interface ThreadUser {
   profile_picture: string;
 }
 
+export interface ThreadHistory {
+  id: number;
+  event: "updated";
+  changes: {
+    old: {
+      body: string;
+    };
+    attributes: {
+      body: string;
+    };
+  };
+}
+
 export interface Thread {
   id: number;
   body: string;
   user: ThreadUser;
   replies_count: number;
+  histories: Array<ThreadHistory>;
   channel_id: number;
   created_at: string;
   updated_at: string;

@@ -25,7 +25,6 @@ const destroy = async () => {
   if (!accepted) return;
 
   await threadStore.destroy(props.channelId, props.thread.id);
-  await threadStore.fetchThreads(props.channelId);
 };
 
 const select = (thread: Thread) => {
