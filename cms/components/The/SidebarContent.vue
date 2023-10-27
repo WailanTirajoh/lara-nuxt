@@ -21,7 +21,7 @@ const logout = async () => {
   authStore.revokeAccessToken();
   authStore.clearProfile();
 
-  window.location.reload();
+  window.location.href = "/auth/login";
 };
 
 const menus = computed(() => [

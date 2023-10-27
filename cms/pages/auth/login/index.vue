@@ -26,16 +26,8 @@ async function submit(loginRequest: LoginRequest, node: FormKitNode) {
 
   accessToken.value = data.value.data.access_token;
 
-  window.location.reload();
+  window.location.href = "/";
 }
-
-onMounted(() => {
-  const { isAuthenticated } = storeToRefs(authStore);
-
-  if (isAuthenticated.value) {
-    return navigateTo("/");
-  }
-});
 </script>
 
 <template>
