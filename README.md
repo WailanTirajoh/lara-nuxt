@@ -62,6 +62,15 @@ email: wailantirajoh@gmail.com
 password: wailan
 ```
 
+## API Tests
+```
+php artisan test --coverage --testsuite=Feature
+
+# OR
+
+vendor/bin/phpunit --coverage-html reports/ --testsuite Feature
+```
+
 ### phpmyadmin
 open http://phpmyadmin.localhost
 ```
