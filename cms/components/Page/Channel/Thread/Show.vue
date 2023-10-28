@@ -16,12 +16,31 @@ const resetActiveUser = useDebounceFn((id: number) => {
   delete activeUsers.value[id];
 }, 3000);
 
+const threadShowContainer = ref<HTMLElement>();
+
+const scrollToBottomChat = async () => {
+  if (threadShowContainer.value) {
+    await nextTick();
+    threadShowContainer.value.scrollTop =
+      threadShowContainer.value.scrollHeight;
+  }
+};
+
+const threadReplyStore = useThreadReplyStore();
+const { replies } = storeToRefs(threadReplyStore);
 watch(selectedThread, (value, oldValue) => {
   if (oldValue) {
+    $echo.private(`thread.${oldValue.id}`).stopListening(".replied");
+
     $echo.leave(`thread-presence.${oldValue.id}`);
   }
 
   if (value) {
+    $echo.private(`thread.${value.id}`).listen(".replied", async (e: any) => {
+      replies.value = [...replies.value, e.reply];
+      scrollToBottomChat();
+    });
+
     $echo
       .join(`thread-presence.${value.id}`)
       .here((users: Array<User>) => {
@@ -47,11 +66,13 @@ watch(selectedThread, (value, oldValue) => {
       });
   }
 });
-onMounted(() => {});
 </script>
 <template>
   <div v-if="selectedThread" class="flex flex-col h-full">
-    <div class="h-[calc(100%-13.5rem)] overflow-auto">
+    <div
+      ref="threadShowContainer"
+      class="h-[calc(100%-13.5rem)] overflow-auto scroll-smooth"
+    >
       <div class="bg-white grid gap-2 p-2 sticky top-0">
         <div class="">
           <TransitionGroup
@@ -86,7 +107,10 @@ onMounted(() => {});
         <div class="prose prose-sm" v-html="selectedThread.body"></div>
       </div>
       <div :key="`reply-list-${selectedThread.id}`" class="bg-gray-50">
-        <PageChannelThreadReplyList :thread-id="selectedThread.id.toString()" />
+        <PageChannelThreadReplyList
+          :thread-id="selectedThread.id.toString()"
+          @reply-fetched="() => scrollToBottomChat()"
+        />
       </div>
     </div>
     <div class="absolute bottom-0 bg-gray-200 p-1 min-h-44 w-full">

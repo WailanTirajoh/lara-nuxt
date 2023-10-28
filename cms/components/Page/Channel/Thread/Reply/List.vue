@@ -4,20 +4,16 @@ interface ChannelThreadReplyListProps {
   threadId: string;
 }
 const props = defineProps<ChannelThreadReplyListProps>();
+const emit = defineEmits<{
+  "reply-fetched": [];
+}>();
 
 const threadReplyStore = useThreadReplyStore();
 const { replies, isFetchingReplies } = storeToRefs(threadReplyStore);
 
-const { $echo } = useNuxtApp();
-onMounted(() => {
-  threadReplyStore.fetchThreadReplies(props.threadId);
-
-  $echo.private(`thread.${props.threadId}`).listen(".replied", (e: any) => {
-    replies.value = [...replies.value, e.reply];
-  });
-});
-onUnmounted(() => {
-  $echo.private(`thread.${props.threadId}`).stopListening(".replied");
+onMounted(async () => {
+  await threadReplyStore.fetchThreadReplies(props.threadId);
+  emit("reply-fetched");
 });
 </script>
 <template>
@@ -33,8 +29,12 @@ onUnmounted(() => {
         <li v-for="reply in replies" :key="reply.id" class="mb-2">
           <div>
             <div class="flex gap-2 mb-1">
-              <img :src="reply.user.profile_picture" alt="user-profile" class="w-6 h-6 rounded-full"/>
-              <div class="">
+              <img
+                :src="reply.user.profile_picture"
+                alt="user-profile"
+                class="w-6 h-6 rounded-full"
+              />
+              <div class="w-full">
                 <div class="font-medium">
                   {{ reply.user.name }}
                 </div>
