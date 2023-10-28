@@ -35,6 +35,9 @@ php artisan migrate --seed
 # Permission
 chown www-data:www-data -R storage
 
+# Storage Link
+php artisan storage:link
+
 # Quit from php sh
 exit
 ```
