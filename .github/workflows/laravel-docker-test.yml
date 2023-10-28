@@ -17,19 +17,19 @@ jobs:
         run: docker-compose up -d
 
       - name: Install Composer Dependencies
-        run: docker-compose exec php composer install
+        run: docker-compose exec -T php composer install
 
       - name: Copy .env
-        run: docker-compose exec php cp .env.example .env
+        run: docker-compose exec -T php cp .env.example .env
 
       - name: Generate Application Key
-        run: docker-compose exec php php artisan key:generate
+        run: docker-compose exec -T php php artisan key:generate
 
       - name: Storage Link
-        run: docker-compose exec php php artisan storage:link
+        run: docker-compose exec -T php php artisan storage:link
 
       - name: Run Migrations and Seed the Database
-        run: docker-compose exec php php artisan migrate --seed
+        run: docker-compose exec -T php php artisan migrate --seed
 
       - name: Run Tests
-        run: docker-compose exec php php artisan test --coverage --testsuite=Feature
+        run: docker-compose exec -T php php artisan test --coverage --testsuite=Feature
