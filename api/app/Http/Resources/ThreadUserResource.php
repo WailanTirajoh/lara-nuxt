@@ -18,7 +18,7 @@ class ThreadUserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'profile_picture' => $this->profilePicture()
+            'profile_picture' => $this->profilePicture(),
         ];
     }
 }

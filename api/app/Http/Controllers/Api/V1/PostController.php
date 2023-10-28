@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ApiResponse;
-use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -21,22 +21,22 @@ class PostController extends Controller
 
     public function index(Request $request)
     {
-        $orderBy = $request->query("order_by", "id");
-        $orderType = $request->query("order_type", "ASC");
-        $search = $request->query("query");
+        $orderBy = $request->query('order_by', 'id');
+        $orderType = $request->query('order_type', 'ASC');
+        $search = $request->query('query');
         $limit = $request->query('limit', 5);
 
         $posts = Post::when($request->with_trashed == 'true', fn ($query) => $query->onlyTrashed())
-            ->with("author")
+            ->with('author')
             ->where(function ($query) use ($search) {
-                $query->where("title", 'like', "%{$search}%");
+                $query->where('title', 'like', "%{$search}%");
             })
             ->orderBy($orderBy, $orderType)
             ->paginate($limit);
 
         return ApiResponse::success(
             data: [
-                'posts' => PostResource::collection($posts)
+                'posts' => PostResource::collection($posts),
             ]
         );
     }
@@ -52,7 +52,7 @@ class PostController extends Controller
         return ApiResponse::success(
             message: 'Post created successfully',
             data: [
-                "post" => PostResource::make($post->load('author'))
+                'post' => PostResource::make($post->load('author')),
             ],
             statusCode: Response::HTTP_CREATED
         );
@@ -62,7 +62,7 @@ class PostController extends Controller
     {
         return ApiResponse::success(
             data: [
-                'post' => PostResource::make($post->load("author"))
+                'post' => PostResource::make($post->load('author')),
             ]
         );
     }
@@ -75,7 +75,7 @@ class PostController extends Controller
         return ApiResponse::success(
             message: 'Post updated successfully',
             data: [
-                "post" => PostResource::make($post->load('author'))
+                'post' => PostResource::make($post->load('author')),
             ]
         );
     }

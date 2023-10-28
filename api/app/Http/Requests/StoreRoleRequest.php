@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
 class StoreRoleRequest extends FormRequest
 {
@@ -25,15 +24,15 @@ class StoreRoleRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'string'
+                'string',
             ],
             'permissions' => [
                 'array',
-                'nullable'
+                'nullable',
             ],
             'permissions.*' => [
-                'string'
-            ]
+                'string',
+            ],
         ];
     }
 }

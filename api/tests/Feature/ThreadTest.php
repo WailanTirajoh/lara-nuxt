@@ -14,6 +14,7 @@ class ThreadTest extends TestCase
     use RefreshDatabase;
 
     private $thread;
+
     private $channel;
 
     public function setUp(): void
@@ -51,7 +52,7 @@ class ThreadTest extends TestCase
             'channel' => $this->channel,
         ]), [
             'body' => $thread->body,
-            'user_id' => $thread->user_id
+            'user_id' => $thread->user_id,
         ])
             ->assertCreated()
             ->json();
@@ -59,7 +60,7 @@ class ThreadTest extends TestCase
         $this->assertEquals($thread->body, $response['data']['thread']['body']);
 
         $this->assertDatabaseHas('threads', [
-            'body' => $thread->body
+            'body' => $thread->body,
         ]);
     }
 
@@ -88,7 +89,7 @@ class ThreadTest extends TestCase
             ->assertNoContent();
 
         $this->assertDatabaseMissing('threads', [
-            'id' => $this->thread->id
+            'id' => $this->thread->id,
         ]);
     }
 
@@ -98,13 +99,13 @@ class ThreadTest extends TestCase
             'channel' => $this->channel,
             'thread' => $this->thread->id,
         ]), [
-            'body' => "Updated thread body",
+            'body' => 'Updated thread body',
         ])
             ->assertOk();
 
         $this->assertDatabaseHas('threads', [
             'id' => $this->thread->id,
-            'body' => 'Updated thread body'
+            'body' => 'Updated thread body',
         ]);
     }
 }

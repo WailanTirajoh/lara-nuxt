@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -23,7 +22,7 @@ class PostTest extends TestCase
         Sanctum::actingAs($user);
 
         $this->post = Post::factory()->create([
-            'title' => 'Test Post Title'
+            'title' => 'Test Post Title',
         ]);
     }
 
@@ -54,7 +53,7 @@ class PostTest extends TestCase
             'title' => $post->title,
             'slug' => $post->slug,
             'body' => $post->body,
-            'author_id' => $post->author_id
+            'author_id' => $post->author_id,
         ])
             ->assertCreated()
             ->json();
@@ -62,7 +61,7 @@ class PostTest extends TestCase
         $this->assertEquals($post->slug, $response['data']['post']['slug']);
 
         $this->assertDatabaseHas('posts', [
-            'slug' => $post->slug
+            'slug' => $post->slug,
         ]);
     }
 
@@ -73,7 +72,7 @@ class PostTest extends TestCase
             'title' => $post->title,
             'slug' => '',
             'body' => $post->body,
-            'author_id' => $post->author_id
+            'author_id' => $post->author_id,
         ])
             ->assertUnprocessable()
             ->assertJsonValidationErrors('slug')
@@ -90,7 +89,7 @@ class PostTest extends TestCase
             ->assertNoContent();
 
         $this->assertSoftDeleted('posts', [
-            'id' => $this->post->id
+            'id' => $this->post->id,
         ]);
     }
 
@@ -106,7 +105,7 @@ class PostTest extends TestCase
 
         $this->assertDatabaseHas('posts', [
             'id' => $this->post->id,
-            'title' => 'Updated post title'
+            'title' => 'Updated post title',
         ]);
     }
 }

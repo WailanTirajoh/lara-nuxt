@@ -21,7 +21,7 @@ class PermissionController extends Controller
 
         return ApiResponse::success(
             data: [
-                'permissions' => PermissionResource::collection($permissions)
+                'permissions' => PermissionResource::collection($permissions),
             ]
         );
     }

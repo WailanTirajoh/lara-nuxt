@@ -23,8 +23,8 @@ class StoreReplyRequest extends FormRequest
     {
         return [
             'body' => [
-                'required'
-            ]
+                'required',
+            ],
         ];
     }
 }

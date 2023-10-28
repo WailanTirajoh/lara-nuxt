@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Http\Resources\ThreadResource;
 use App\Models\Thread;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;

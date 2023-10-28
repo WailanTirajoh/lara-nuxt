@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         Thread::class => ThreadPolicy::class,
         Role::class => RolePolicy::class,
         Permission::class => PermissionPolicy::class,
-        User::class => UserPolicy::class
+        User::class => UserPolicy::class,
     ];
 
     /**

@@ -1,7 +1,5 @@
 <?php
 
-use App\Events\PublicEvent;
-use App\Events\ThreadReplied;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\NotificationController;
@@ -30,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'as' => 'api.',
     'prefix' => '/v1',
-    'middleware' => ['cors']
+    'middleware' => ['cors'],
 ], function () {
     // Unauthenticated
     Route::prefix('/auth')->group(function () {
@@ -42,15 +40,15 @@ Route::group([
     // Authtenticated
     Route::group([
         'middleware' => [
-            'auth:sanctum'
+            'auth:sanctum',
         ],
     ], function () {
         Route::prefix('/auth')->group(function () {
             Route::get('/profile', ProfileController::class)->name('profile');
             Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])
                 ->name('notification.count');
-                Route::get('/notifications/mark-as-read', [NotificationController::class, 'markAllAsRead'])
-                    ->name('notification.markAllAsRead');
+            Route::get('/notifications/mark-as-read', [NotificationController::class, 'markAllAsRead'])
+                ->name('notification.markAllAsRead');
             Route::get('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])
                 ->name('notification.markAsRead');
             Route::get('/notifications', [NotificationController::class, 'index'])->name('notification');

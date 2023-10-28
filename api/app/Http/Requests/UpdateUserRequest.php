@@ -24,16 +24,16 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'string'
+                'string',
             ],
             'email' => [
                 'required',
                 'email',
-                "unique:users,email,{$this->user->id}"
+                "unique:users,email,{$this->user->id}",
             ],
             'roles' => [
                 'nullable',
-                'array'
+                'array',
             ],
             'roles.*' => [
                 'nullable',
@@ -42,7 +42,7 @@ class UpdateUserRequest extends FormRequest
             'image' => [
                 'nullable',
                 'image',
-            ]
+            ],
         ];
     }
 }

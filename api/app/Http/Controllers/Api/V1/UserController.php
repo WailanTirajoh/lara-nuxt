@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ApiResponse;
-use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -21,21 +21,21 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $orderBy = $request->query("order_by", "id");
-        $orderType = $request->query("order_type", "ASC");
-        $search = $request->query("query");
+        $orderBy = $request->query('order_by', 'id');
+        $orderType = $request->query('order_type', 'ASC');
+        $search = $request->query('query');
         $limit = $request->query('limit', 5);
 
         $users = User::with('roles')->where(function ($query) use ($search) {
-            $query->where("name", 'like', "%{$search}%")
-                ->orWhere("email", 'like', "%{$search}%");
+            $query->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
         })
             ->orderBy($orderBy, $orderType)
             ->paginate($limit);
 
         return ApiResponse::success(
             data: [
-                'users' => UserResource::collection($users)
+                'users' => UserResource::collection($users),
             ]
         );
     }
@@ -55,7 +55,7 @@ class UserController extends Controller
         return ApiResponse::success(
             message: 'User created successfully',
             data: [
-                "user" => UserResource::make($user)
+                'user' => UserResource::make($user),
             ],
             statusCode: Response::HTTP_CREATED
         );
@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         return ApiResponse::success(
             data: [
-                'user' => UserResource::make($user)
+                'user' => UserResource::make($user),
             ]
         );
     }
@@ -84,7 +84,7 @@ class UserController extends Controller
         return ApiResponse::success(
             message: 'User updated successfully',
             data: [
-                "user" => UserResource::make($user)
+                'user' => UserResource::make($user),
             ],
             statusCode: Response::HTTP_OK
         );
@@ -92,7 +92,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        abort_if(Auth::user()->id === $user->id, Response::HTTP_UNAUTHORIZED, "You cant delete your own account");
+        abort_if(Auth::user()->id === $user->id, Response::HTTP_UNAUTHORIZED, 'You cant delete your own account');
 
         $user->delete();
 

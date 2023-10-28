@@ -15,7 +15,7 @@ class LogoutController extends Controller
         Auth::user()->currentAccessToken()->delete();
 
         return ApiResponse::success(
-            message: "Success Logout",
+            message: 'Success Logout',
             statusCode: Response::HTTP_NO_CONTENT
         );
     }

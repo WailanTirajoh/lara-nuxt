@@ -15,16 +15,16 @@ class RegisterTest extends TestCase
     public function test_register(): void
     {
         $requestBody = [
-            "name" => "Wailan Tirajoh New",
-            "email" => "wailantirajohnew@gmail.com",
-            "password" => "wailan",
+            'name' => 'Wailan Tirajoh New',
+            'email' => 'wailantirajohnew@gmail.com',
+            'password' => 'wailan',
         ];
 
-        $this->postJson(route("api.register"), $requestBody)
+        $this->postJson(route('api.register'), $requestBody)
             ->assertCreated();
 
-        $this->assertDatabaseHas("users", [
-            "email" => $requestBody["email"]
+        $this->assertDatabaseHas('users', [
+            'email' => $requestBody['email'],
         ]);
     }
 }

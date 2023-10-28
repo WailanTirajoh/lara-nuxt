@@ -54,7 +54,7 @@ class RoleTest extends TestCase
         $this->assertEquals($roleName, $response['data']['role']['name']);
 
         $this->assertDatabaseHas('roles', [
-            'name' => $roleName
+            'name' => $roleName,
         ]);
     }
 
@@ -78,21 +78,21 @@ class RoleTest extends TestCase
             ->assertNoContent();
 
         $this->assertDatabaseMissing('roles', [
-            'id' => $this->role->id
+            'id' => $this->role->id,
         ]);
     }
 
     public function test_update_role_by_id(): void
     {
         $this->putJson(route('api.roles.update', $this->role->id), [
-            'name' => "Updated role name"
+            'name' => 'Updated role name',
         ])
             ->assertOk()
             ->json();
 
         $this->assertDatabaseHas('roles', [
             'id' => $this->role->id,
-            'name' => 'Updated role name'
+            'name' => 'Updated role name',
         ]);
     }
 }

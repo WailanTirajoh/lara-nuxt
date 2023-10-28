@@ -22,7 +22,6 @@ class ThreadReplied implements ShouldBroadcastNow
         $this->reply = $reply;
     }
 
-
     /**
      * Get the channels the event should broadcast on.
      *
@@ -33,7 +32,7 @@ class ThreadReplied implements ShouldBroadcastNow
         $channel = '';
 
         if ($this->reply->replyable_type === "App\Models\Thread") {
-            $channel = "thread";
+            $channel = 'thread';
         }
 
         return [

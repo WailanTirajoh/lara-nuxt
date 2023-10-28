@@ -12,8 +12,6 @@ class Controller extends BaseController
 
     /**
      * Get the map of resource methods to ability names.
-     *
-     * @return array
      */
     protected function resourceAbilityMap(): array
     {

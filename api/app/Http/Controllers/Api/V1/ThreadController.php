@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ApiResponse;
-use App\Models\Thread;
 use App\Http\Requests\StoreThreadRequest;
 use App\Http\Requests\UpdateThreadRequest;
 use App\Http\Resources\ThreadResource;
 use App\Models\Channel;
+use App\Models\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -25,8 +25,8 @@ class ThreadController extends Controller
      */
     public function index(Request $request, Channel $channel)
     {
-        $orderBy = $request->query("order_by", "created_at");
-        $orderType = $request->query("order_type", "DESC");
+        $orderBy = $request->query('order_by', 'created_at');
+        $orderType = $request->query('order_type', 'DESC');
         $limit = $request->query('limit', 5);
         $threadIds = $request->query('thread_ids', []);
 
@@ -38,7 +38,7 @@ class ThreadController extends Controller
 
         return ApiResponse::success(
             data: [
-                'threads' => ThreadResource::collection($threads)
+                'threads' => ThreadResource::collection($threads),
             ]
         );
     }
@@ -89,7 +89,7 @@ class ThreadController extends Controller
     private function associatedThread()
     {
         return [
-            'user', 'replies', 'activities', 'user.media'
+            'user', 'replies', 'activities', 'user.media',
         ];
     }
 }

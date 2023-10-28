@@ -23,8 +23,8 @@ class UpdateReplyRequest extends FormRequest
     {
         return [
             'body' => [
-                'required'
-            ]
+                'required',
+            ],
         ];
     }
 }
