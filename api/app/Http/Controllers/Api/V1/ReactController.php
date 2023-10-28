@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\React;
 use App\Http\Requests\StoreReactRequest;
 use App\Http\Requests\UpdateReactRequest;
+use App\Models\React;
 
 class ReactController extends Controller
 {

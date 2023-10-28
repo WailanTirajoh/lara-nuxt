@@ -17,7 +17,7 @@ class ThreadUpdateHistoryResource extends JsonResource
         return [
             'id' => $this->id,
             'event' => $this->event,
-            'changes' => $this->changes()
+            'changes' => $this->changes(),
         ];
     }
 }

@@ -50,7 +50,7 @@ class ChannelTest extends TestCase
         $channel = Channel::factory()->make();
         $response = $this->postJson(route('api.channels.store'), [
             'name' => $channel->name,
-            'created_by' => $channel->created_by
+            'created_by' => $channel->created_by,
         ])
             ->assertCreated()
             ->json();
@@ -58,7 +58,7 @@ class ChannelTest extends TestCase
         $this->assertEquals($channel->name, $response['data']['channel']['name']);
 
         $this->assertDatabaseHas('channels', [
-            'name' => $channel->name
+            'name' => $channel->name,
         ]);
     }
 
@@ -82,21 +82,21 @@ class ChannelTest extends TestCase
             ->assertNoContent();
 
         $this->assertDatabaseMissing('channels', [
-            'id' => $this->channel->id
+            'id' => $this->channel->id,
         ]);
     }
 
     public function test_update_channel_by_id(): void
     {
         $this->putJson(route('api.channels.update', $this->channel->id), [
-            'name' => "Updated channel name",
+            'name' => 'Updated channel name',
             'users' => [],
         ])
             ->assertOk();
 
         $this->assertDatabaseHas('channels', [
             'id' => $this->channel->id,
-            'name' => 'Updated channel name'
+            'name' => 'Updated channel name',
         ]);
         $this->assertDatabaseEmpty('channel_user');
     }

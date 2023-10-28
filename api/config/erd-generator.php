@@ -7,7 +7,7 @@ return [
      * By default, the `app` directory will be scanned recursively for models.
      */
     'directories' => [
-        base_path('app' . DIRECTORY_SEPARATOR . 'Models'),
+        base_path('app'.DIRECTORY_SEPARATOR.'Models'),
         base_path('vendor/spatie/laravel-permission/src/Models/'),
         base_path('vendor/spatie/laravel-activitylog/src/Models/'),
         base_path('vendor/spatie/laravel-medialibrary/src/MediaCollections/Models/'),
@@ -91,19 +91,19 @@ return [
         'pad' => 0.5,
         'ranksep' => 2,
         'esep' => true,
-        'fontname' => 'Helvetica Neue'
+        'fontname' => 'Helvetica Neue',
     ],
 
     'node' => [
         'margin' => 0,
         'shape' => 'rectangle',
-        'fontname' => 'Helvetica Neue'
+        'fontname' => 'Helvetica Neue',
     ],
 
     'edge' => [
         'color' => '#003049',
         'penwidth' => 1.8,
-        'fontname' => 'Helvetica Neue'
+        'fontname' => 'Helvetica Neue',
     ],
 
     'relations' => [
@@ -125,6 +125,6 @@ return [
             'arrowhead' => 'crow',
             'arrowtail' => 'none',
         ],
-    ]
+    ],
 
 ];

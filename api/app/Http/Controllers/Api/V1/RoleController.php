@@ -20,27 +20,27 @@ class RoleController extends Controller
 
     public function index(Request $request)
     {
-        $orderBy = $request->query("order_by", "id");
-        $orderType = $request->query("order_type", "ASC");
-        $search = $request->query("query");
+        $orderBy = $request->query('order_by', 'id');
+        $orderType = $request->query('order_type', 'ASC');
+        $search = $request->query('query');
         $limit = $request->query('limit', 5);
 
         $roles = Role::with($this->associatedRole())->where(function ($query) use ($search) {
-            $query->where("name", 'like', "%{$search}%");
+            $query->where('name', 'like', "%{$search}%");
         })
             ->orderBy($orderBy, $orderType)
             ->paginate($limit);
 
         return ApiResponse::success(
             data: [
-                'roles' => RoleResource::collection($roles)
+                'roles' => RoleResource::collection($roles),
             ]
         );
     }
 
     public function store(StoreRoleRequest $request)
     {
-        abort_if($request->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be created");
+        abort_if($request->name === 'Super', Response::HTTP_FORBIDDEN, 'Super role cannot be created');
 
         $role = Role::create(array_merge($request->validated(), ['guard_name' => 'web']));
         $role->syncPermissions($request->permissions ?? []);
@@ -48,7 +48,7 @@ class RoleController extends Controller
         return ApiResponse::success(
             message: 'Role created successfully',
             data: [
-                "role" => RoleResource::make($role->load($this->associatedRole()))
+                'role' => RoleResource::make($role->load($this->associatedRole())),
             ],
             statusCode: Response::HTTP_CREATED
         );
@@ -58,14 +58,14 @@ class RoleController extends Controller
     {
         return ApiResponse::success(
             data: [
-                'role' => RoleResource::make($role->load($this->associatedRole()))
+                'role' => RoleResource::make($role->load($this->associatedRole())),
             ]
         );
     }
 
     public function update(UpdateRoleRequest $request, Role $role)
     {
-        abort_if($role->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be updated");
+        abort_if($role->name === 'Super', Response::HTTP_FORBIDDEN, 'Super role cannot be updated');
 
         $role->update($request->validated());
         $role->syncPermissions($request->permissions ?? []);
@@ -73,7 +73,7 @@ class RoleController extends Controller
         return ApiResponse::success(
             message: 'Role updated successfully',
             data: [
-                "role" => RoleResource::make($role->load($this->associatedRole()))
+                'role' => RoleResource::make($role->load($this->associatedRole())),
             ],
             statusCode: Response::HTTP_OK
         );
@@ -81,7 +81,7 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        abort_if($role->name === 'Super', Response::HTTP_FORBIDDEN, "Super role cannot be updated");
+        abort_if($role->name === 'Super', Response::HTTP_FORBIDDEN, 'Super role cannot be updated');
 
         $role->delete();
 
@@ -91,7 +91,7 @@ class RoleController extends Controller
     private function associatedRole()
     {
         return [
-            "permissions"
+            'permissions',
         ];
     }
 }

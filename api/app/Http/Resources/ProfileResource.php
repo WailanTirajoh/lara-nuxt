@@ -22,7 +22,7 @@ class ProfileResource extends JsonResource
             'profile_picture' => $this->profilePicture(),
             'permissions' => in_array('Super', $this->getRoleNames()->toArray())
                 ? Permission::all()->pluck('name')
-                : $this->getAllPermissions()->pluck('name')
+                : $this->getAllPermissions()->pluck('name'),
         ];
     }
 }

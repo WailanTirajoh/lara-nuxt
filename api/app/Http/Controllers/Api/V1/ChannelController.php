@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Helpers\ApiResponse;
-use App\Models\Channel;
 use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
 use App\Http\Resources\ChannelResource;
+use App\Models\Channel;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +28,7 @@ class ChannelController extends Controller
 
         return ApiResponse::success(
             data: [
-                'channels' => ChannelResource::collection($channels)
+                'channels' => ChannelResource::collection($channels),
             ]
         );
     }
@@ -40,7 +40,7 @@ class ChannelController extends Controller
     {
         DB::beginTransaction();
         $channel = Channel::create(array_merge($request->validated(), [
-            'created_by' => Auth::id()
+            'created_by' => Auth::id(),
         ]));
         $channel->users()->attach(Auth::id());
         DB::commit();
@@ -48,7 +48,7 @@ class ChannelController extends Controller
         return ApiResponse::success(
             message: 'Channel created successfully',
             data: [
-                "channel" => ChannelResource::make($channel)
+                'channel' => ChannelResource::make($channel),
             ],
             statusCode: Response::HTTP_CREATED
         );
@@ -61,7 +61,7 @@ class ChannelController extends Controller
     {
         return ApiResponse::success(
             data: [
-                'channel' => ChannelResource::make($channel->load($this->associatedChannel()))
+                'channel' => ChannelResource::make($channel->load($this->associatedChannel())),
             ]
         );
     }
@@ -79,7 +79,7 @@ class ChannelController extends Controller
         return ApiResponse::success(
             message: 'Channel updated successfully',
             data: [
-                "channel" => ChannelResource::make($channel->load($this->associatedChannel()))
+                'channel' => ChannelResource::make($channel->load($this->associatedChannel())),
             ],
             statusCode: Response::HTTP_OK
         );
@@ -98,7 +98,7 @@ class ChannelController extends Controller
     private function associatedChannel()
     {
         return [
-            'users'
+            'users',
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -32,7 +31,7 @@ class AppSeeder extends Seeder
 
         foreach ($roles as $role) {
             Role::create([
-                'name' => $role
+                'name' => $role,
             ]);
         }
     }
@@ -99,7 +98,7 @@ class AppSeeder extends Seeder
 
         foreach ($permissions as $permission) {
             Permission::create([
-                'name' => $permission
+                'name' => $permission,
             ]);
         }
     }
@@ -189,25 +188,25 @@ class AppSeeder extends Seeder
         $user = User::create([
             'email' => 'wailantirajoh@gmail.com',
             'name' => 'Wailan Tirajoh',
-            'password' => bcrypt('wailan')
+            'password' => bcrypt('wailan'),
         ]);
 
         $userPutri = User::create([
             'email' => 'putririnding@gmail.com',
             'name' => 'Putri Rinding',
-            'password' => bcrypt('putri')
+            'password' => bcrypt('putri'),
         ]);
 
         $writerUser = User::create([
             'email' => 'writer@gmail.com',
             'name' => 'Writer',
-            'password' => bcrypt('writer')
+            'password' => bcrypt('writer'),
         ]);
 
         $visitorUser = User::create([
             'email' => 'visitor@gmail.com',
             'name' => 'Visitor',
-            'password' => bcrypt('visitor')
+            'password' => bcrypt('visitor'),
         ]);
 
         $writerUser->assignRole('Writer');

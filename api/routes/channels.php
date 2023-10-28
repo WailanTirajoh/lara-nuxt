@@ -22,11 +22,13 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
 Broadcast::channel('channel.{id}', function ($user, $id) {
     $channel = Channel::find($id);
+
     return in_array($user->id, $channel->users->pluck('id')->toArray());
 });
 
 Broadcast::channel('thread.{id}', function ($user, $id) {
     $thread = Thread::find($id);
+
     return in_array($user->id, $thread->channel->users->pluck('id')->toArray());
 });
 

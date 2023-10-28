@@ -24,24 +24,24 @@ class UpdatePostRequest extends FormRequest
         return [
             'title' => [
                 'required',
-                'string'
+                'string',
             ],
             'slug' => [
                 'required',
                 'string',
-                "unique:posts,slug,{$this->post->id}"
+                "unique:posts,slug,{$this->post->id}",
             ],
             'body' => [
                 'required',
-                'string'
+                'string',
             ],
             'tags' => [
                 'nullable',
-                'array'
+                'array',
             ],
             'tags.*' => [
-                'string'
-            ]
+                'string',
+            ],
         ];
     }
 }

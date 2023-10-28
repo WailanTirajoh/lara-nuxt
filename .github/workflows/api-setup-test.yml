@@ -31,6 +31,9 @@ jobs:
       - name: Storage Link
         run: docker-compose exec -T php php artisan storage:link
 
+      - name: Lint
+        run: docker compose exec php ./vendor/bin/pint --test
+
       - name: Run Migrations and Seed the Database
         run: docker-compose exec -T php php artisan migrate --seed
 

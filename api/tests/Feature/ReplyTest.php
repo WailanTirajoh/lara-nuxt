@@ -17,6 +17,7 @@ class ReplyTest extends TestCase
     use RefreshDatabase;
 
     private $thread;
+
     private $channel;
 
     public function setUp(): void
@@ -55,7 +56,7 @@ class ReplyTest extends TestCase
             'thread' => $this->thread,
         ]), [
             'body' => $reply->body,
-            'user_id' => $reply->user_id
+            'user_id' => $reply->user_id,
         ])
             ->assertCreated()
             ->json();
@@ -65,7 +66,7 @@ class ReplyTest extends TestCase
         $this->assertEquals($reply->body, $response['data']['reply']['body']);
 
         $this->assertDatabaseHas('replies', [
-            'body' => $reply->body
+            'body' => $reply->body,
         ]);
     }
 

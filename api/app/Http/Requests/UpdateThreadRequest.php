@@ -23,8 +23,8 @@ class UpdateThreadRequest extends FormRequest
     {
         return [
             'body' => [
-                'required'
-            ]
+                'required',
+            ],
         ];
     }
 }

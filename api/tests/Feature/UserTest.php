@@ -27,7 +27,7 @@ class UserTest extends TestCase
         // For image upload
         config()->set('filesystems.disks.media', [
             'driver' => 'local',
-            'root' => __DIR__ . '/../../temp', // choose any path...
+            'root' => __DIR__.'/../../temp', // choose any path...
         ]);
         config()->set('medialibrary.default_filesystem', 'media');
     }
@@ -57,7 +57,7 @@ class UserTest extends TestCase
             'email' => $user->email,
             'password' => $user->password,
             'created_by' => $user->created_by,
-            'image' => $photo
+            'image' => $photo,
         ])
             ->assertCreated()
             ->json();
@@ -69,7 +69,7 @@ class UserTest extends TestCase
         $this->assertEquals($user->name, $response['data']['user']['name']);
 
         $this->assertDatabaseHas('users', [
-            'name' => $user->name
+            'name' => $user->name,
         ]);
     }
 
@@ -93,7 +93,7 @@ class UserTest extends TestCase
             ->assertNoContent();
 
         $this->assertDatabaseMissing('users', [
-            'id' => $this->user->id
+            'id' => $this->user->id,
         ]);
     }
 
@@ -101,7 +101,7 @@ class UserTest extends TestCase
     {
         $photo = \Illuminate\Http\Testing\File::image('photo.jpg');
         $response = $this->putJson(route('api.users.update', $this->user->id), [
-            'name' => "Updated user name",
+            'name' => 'Updated user name',
             'email' => $this->user->email,
             'users' => [],
             'image' => $photo,
@@ -111,7 +111,7 @@ class UserTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'id' => $this->user->id,
-            'name' => 'Updated user name'
+            'name' => 'Updated user name',
         ]);
 
         $photos = User::find($response['data']['user']['id'])->getMedia('images');

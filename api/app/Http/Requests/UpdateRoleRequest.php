@@ -24,15 +24,15 @@ class UpdateRoleRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'string'
+                'string',
             ],
             'permissions' => [
                 'array',
-                'nullable'
+                'nullable',
             ],
             'permissions.*' => [
-                'string'
-            ]
+                'string',
+            ],
         ];
     }
 }

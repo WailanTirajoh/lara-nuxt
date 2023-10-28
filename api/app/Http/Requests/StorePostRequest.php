@@ -24,24 +24,24 @@ class StorePostRequest extends FormRequest
         return [
             'title' => [
                 'required',
-                'string'
+                'string',
             ],
             'slug' => [
                 'required',
                 'string',
-                'unique:posts,slug'
+                'unique:posts,slug',
             ],
             'body' => [
                 'required',
-                'string'
+                'string',
             ],
             'tags' => [
                 'nullable',
-                'array'
+                'array',
             ],
             'tags.*' => [
-                'string'
-            ]
+                'string',
+            ],
         ];
     }
 }

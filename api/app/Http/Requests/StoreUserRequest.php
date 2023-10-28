@@ -24,20 +24,20 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => [
                 'required',
-                'string'
+                'string',
             ],
             'email' => [
                 'required',
                 'email',
-                'unique:users,email'
+                'unique:users,email',
             ],
             'password' => [
                 'required',
-                'string'
+                'string',
             ],
             'roles' => [
                 'nullable',
-                'array'
+                'array',
             ],
             'roles.*' => [
                 'nullable',
@@ -46,7 +46,7 @@ class StoreUserRequest extends FormRequest
             'image' => [
                 'nullable',
                 'image',
-            ]
+            ],
         ];
     }
 }

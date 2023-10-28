@@ -29,7 +29,7 @@ class SendThreadRepliedNotifications
             ->when(
                 Auth::id() !== $thread->user_id,
                 function (Collection $userIds) use ($thread) {
-                    if (!$userIds->contains($thread->user_id)) {
+                    if (! $userIds->contains($thread->user_id)) {
                         $userIds->push($thread->user_id);
                     }
                 }

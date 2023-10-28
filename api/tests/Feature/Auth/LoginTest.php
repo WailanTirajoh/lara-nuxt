@@ -9,6 +9,7 @@ use Tests\TestCase;
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
      */
@@ -16,14 +17,14 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->postJson(route("api.login"), [
-            "email" => $user->email,
-            "password" => "password"
+        $response = $this->postJson(route('api.login'), [
+            'email' => $user->email,
+            'password' => 'password',
         ])
             ->assertOk();
 
-        $this->assertArrayHasKey("data", $response->json());
-        $this->assertArrayHasKey("access_token", $response->json()["data"]);
+        $this->assertArrayHasKey('data', $response->json());
+        $this->assertArrayHasKey('access_token', $response->json()['data']);
     }
 
     /**
@@ -31,9 +32,9 @@ class LoginTest extends TestCase
      */
     public function test_if_user_email_is_unavailable_then_it_return_error(): void
     {
-        $this->postJson(route("api.login"), [
-            "email" => "wailantirajoh@gmail.com",
-            "password" => "falsypassword"
+        $this->postJson(route('api.login'), [
+            'email' => 'wailantirajoh@gmail.com',
+            'password' => 'falsypassword',
         ])
             ->assertUnprocessable();
     }

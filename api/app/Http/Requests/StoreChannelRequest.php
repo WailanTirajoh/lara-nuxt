@@ -23,8 +23,8 @@ class StoreChannelRequest extends FormRequest
     {
         return [
             'name' => [
-                'required'
-            ]
+                'required',
+            ],
         ];
     }
 }

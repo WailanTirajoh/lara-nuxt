@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use Spatie\Tags\HasTags as Spatie;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Tags\HasTags as Spatie;
 
 trait HasTags
 {
@@ -12,7 +12,7 @@ trait HasTags
     public static function bootHasTags()
     {
         static::deleted(function (Model $deletedModel) {
-            if (method_exists($deletedModel, 'isForceDeleting') && !$deletedModel->isForceDeleting()) {
+            if (method_exists($deletedModel, 'isForceDeleting') && ! $deletedModel->isForceDeleting()) {
                 return;
             }
 

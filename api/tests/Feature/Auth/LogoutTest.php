@@ -10,6 +10,7 @@ use Tests\TestCase;
 class LogoutTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * A basic feature test example.
      */
@@ -17,32 +18,32 @@ class LogoutTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $responseLogin = $this->postJson(route("api.login"), [
-            "email" => $user->email,
-            "password" => "password"
+        $responseLogin = $this->postJson(route('api.login'), [
+            'email' => $user->email,
+            'password' => 'password',
         ])
             ->assertOk();
 
         $responseLoginJson = $responseLogin->json();
 
-        $this->assertArrayHasKey("data", $responseLoginJson);
-        $this->assertArrayHasKey("access_token", $responseLoginJson["data"]);
+        $this->assertArrayHasKey('data', $responseLoginJson);
+        $this->assertArrayHasKey('access_token', $responseLoginJson['data']);
 
-        $accessToken = $responseLoginJson["data"]["access_token"];
+        $accessToken = $responseLoginJson['data']['access_token'];
 
         Sanctum::actingAs($user);
 
         $this
-            ->withHeader("Authorization", "Bearer $accessToken")
-            ->deleteJson(route("api.logout"))
+            ->withHeader('Authorization', "Bearer $accessToken")
+            ->deleteJson(route('api.logout'))
             ->assertNoContent();
 
         $this->refreshApplication();
         $this->refreshDatabase();
 
         $this
-            ->withHeader("Authorization", "Bearer $accessToken")
-            ->getJson(route("api.posts.index"))
+            ->withHeader('Authorization', "Bearer $accessToken")
+            ->getJson(route('api.posts.index'))
             ->assertUnauthorized();
     }
 }

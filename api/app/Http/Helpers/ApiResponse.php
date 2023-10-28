@@ -2,13 +2,12 @@
 
 namespace App\Http\Helpers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class ApiResponse
 {
     public static function success(
-        $message = "Success",
+        $message = 'Success',
         $data = null,
         $statusCode = Response::HTTP_OK
     ) {
@@ -16,7 +15,7 @@ class ApiResponse
     }
 
     public static function error(
-        $message = "Something went wrong",
+        $message = 'Something went wrong',
         $data = null,
         $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR
     ) {

@@ -10,17 +10,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes, HasTags;
+    use HasFactory, HasTags, SoftDeletes;
 
     protected $fillable = [
-        "title",
-        "slug",
-        "body",
-        "author_id",
+        'title',
+        'slug',
+        'body',
+        'author_id',
     ];
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, "author_id");
+        return $this->belongsTo(User::class, 'author_id');
     }
 }

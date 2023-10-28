@@ -23,8 +23,8 @@ class StoreThreadRequest extends FormRequest
     {
         return [
             'body' => [
-                'required'
-            ]
+                'required',
+            ],
         ];
     }
 }

@@ -23,14 +23,14 @@ class UpdateChannelRequest extends FormRequest
     {
         return [
             'name' => [
-                'required'
+                'required',
             ],
             'users' => [
-                'array'
+                'array',
             ],
             'users.*' => [
-                'integer'
-            ]
+                'integer',
+            ],
         ];
     }
 }
