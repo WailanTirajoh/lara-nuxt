@@ -24,7 +24,7 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        $channels = Auth::user()->channels()->with('users')->get();
+        $channels = Auth::user()->channels()->with($this->associatedChannel())->get();
 
         return ApiResponse::success(
             data: [
@@ -61,7 +61,7 @@ class ChannelController extends Controller
     {
         return ApiResponse::success(
             data: [
-                'channel' => ChannelResource::make($channel->load('users'))
+                'channel' => ChannelResource::make($channel->load($this->associatedChannel()))
             ]
         );
     }
@@ -79,7 +79,7 @@ class ChannelController extends Controller
         return ApiResponse::success(
             message: 'Channel updated successfully',
             data: [
-                "channel" => ChannelResource::make($channel)
+                "channel" => ChannelResource::make($channel->load($this->associatedChannel()))
             ],
             statusCode: Response::HTTP_OK
         );
@@ -93,5 +93,12 @@ class ChannelController extends Controller
         $channel->delete();
 
         return ApiResponse::success(message: 'Channel permanently deleted', statusCode: Response::HTTP_NO_CONTENT);
+    }
+
+    private function associatedChannel()
+    {
+        return [
+            'users'
+        ];
     }
 }

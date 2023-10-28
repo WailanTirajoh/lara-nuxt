@@ -31,7 +31,7 @@ class ThreadController extends Controller
         $threadIds = $request->query('thread_ids', []);
 
         $threads = $channel->threads()
-            ->with('user', 'replies', 'activities')
+            ->with($this->associatedThread())
             ->orderBy($orderBy, $orderType)
             ->whereNotIn('id', $threadIds)
             ->paginate($limit);
@@ -54,7 +54,7 @@ class ThreadController extends Controller
         return ApiResponse::success(
             message: 'Thread created successfully',
             data: [
-                'thread' => ThreadResource::make($thread),
+                'thread' => ThreadResource::make($thread->load($this->associatedThread())),
             ],
             statusCode: Response::HTTP_CREATED
         );
@@ -70,7 +70,7 @@ class ThreadController extends Controller
         return ApiResponse::success(
             message: 'Thread updated successfully',
             data: [
-                'thread' => ThreadResource::make($thread),
+                'thread' => ThreadResource::make($thread->load($this->associatedThread())),
             ],
             statusCode: Response::HTTP_OK
         );
@@ -84,5 +84,12 @@ class ThreadController extends Controller
         $thread->delete();
 
         return ApiResponse::success(message: 'Post restored successfully', statusCode: Response::HTTP_NO_CONTENT);
+    }
+
+    private function associatedThread()
+    {
+        return [
+            'user', 'replies', 'activities', 'user.media'
+        ];
     }
 }

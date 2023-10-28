@@ -25,7 +25,7 @@ class RoleController extends Controller
         $search = $request->query("query");
         $limit = $request->query('limit', 5);
 
-        $roles = Role::where(function ($query) use ($search) {
+        $roles = Role::with($this->associatedRole())->where(function ($query) use ($search) {
             $query->where("name", 'like', "%{$search}%");
         })
             ->orderBy($orderBy, $orderType)
@@ -48,7 +48,7 @@ class RoleController extends Controller
         return ApiResponse::success(
             message: 'Role created successfully',
             data: [
-                "role" => RoleResource::make($role)
+                "role" => RoleResource::make($role->load($this->associatedRole()))
             ],
             statusCode: Response::HTTP_CREATED
         );
@@ -58,7 +58,7 @@ class RoleController extends Controller
     {
         return ApiResponse::success(
             data: [
-                'role' => RoleResource::make($role)
+                'role' => RoleResource::make($role->load($this->associatedRole()))
             ]
         );
     }
@@ -73,7 +73,7 @@ class RoleController extends Controller
         return ApiResponse::success(
             message: 'Role updated successfully',
             data: [
-                "role" => RoleResource::make($role)
+                "role" => RoleResource::make($role->load($this->associatedRole()))
             ],
             statusCode: Response::HTTP_OK
         );
@@ -86,5 +86,12 @@ class RoleController extends Controller
         $role->delete();
 
         return ApiResponse::success(message: 'Role deleted successfully', statusCode: Response::HTTP_NO_CONTENT);
+    }
+
+    private function associatedRole()
+    {
+        return [
+            "permissions"
+        ];
     }
 }

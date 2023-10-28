@@ -18,7 +18,7 @@ class ThreadResource extends JsonResource
             'id' => $this->id,
             'channel_id' => $this->channel_id,
             'body' => $this->body,
-            'replies_count' => $this->replies()->count(),
+            'replies_count' => $this->replies->count(),
             'user' => ThreadUserResource::make($this->user),
             'created_at' => $this->created_at,
             'histories' => ThreadUpdateHistoryResource::collection($this->activities),
