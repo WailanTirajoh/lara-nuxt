@@ -9,16 +9,10 @@ import type {
 } from "@/types/api/thread";
 
 export const useThreadStore = defineStore("thread", () => {
-  const threads = ref<Array<Thread>>([]);
-
-  const fetchThreads = async (channelId: string) => {
-    const { data } = await get(channelId);
-    threads.value = data.threads;
-  };
-
-  const get = (channelId: string) => {
+  const get = (channelId: string, options) => {
     return $useFetchAPI<ApiResponse<ThreadResponse>>(
-      `/channels/${channelId}/threads`
+      `/channels/${channelId}/threads`,
+      options
     );
   };
 
@@ -66,10 +60,8 @@ export const useThreadStore = defineStore("thread", () => {
   };
 
   return {
-    threads,
     selectedThread,
     chooseThread,
-    fetchThreads,
     get,
     store,
     show,

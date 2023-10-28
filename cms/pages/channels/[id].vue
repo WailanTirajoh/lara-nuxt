@@ -19,7 +19,7 @@ const authStore = useAuthStore();
 const { profile } = storeToRefs(authStore);
 const dialog = useDialog();
 const threadStore = useThreadStore();
-const { threads, selectedThread } = storeToRefs(threadStore);
+const { selectedThread } = storeToRefs(threadStore);
 
 const destroy = async (id: number) => {
   const accepted = await dialog.fire({
@@ -42,10 +42,10 @@ const fetchChannel = async () => {
   channel.value = data.channel;
 };
 onMounted(async () => {
-  threads.value = [];
   selectedThread.value = undefined;
   await fetchChannel();
 });
+
 </script>
 
 <template>
@@ -104,12 +104,10 @@ onMounted(async () => {
             'w-full sm:w-1/2': selectedThread,
           }"
         >
-          <div class="h-[calc(100%-12rem)] overflow-auto bg-gray-50 shadow-inner">
+          <div class="h-[calc(100%-12rem)]">
             <PageChannelThreadList :channel-id="channelId" />
           </div>
-          <div
-            class="absolute bottom-4 min-h-40 w-full duration-300"
-          >
+          <div class="absolute bottom-4 min-h-40 w-full duration-300">
             <PageChannelThreadCreate :channel-id="channelId" />
           </div>
         </div>

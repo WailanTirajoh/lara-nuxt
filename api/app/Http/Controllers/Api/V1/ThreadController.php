@@ -27,11 +27,13 @@ class ThreadController extends Controller
     {
         $orderBy = $request->query("order_by", "created_at");
         $orderType = $request->query("order_type", "DESC");
-        $limit = $request->query('limit', 25);
+        $limit = $request->query('limit', 5);
+        $threadIds = $request->query('thread_ids', []);
 
         $threads = $channel->threads()
             ->with('user', 'replies', 'activities')
             ->orderBy($orderBy, $orderType)
+            ->whereNotIn('id', $threadIds)
             ->paginate($limit);
 
         return ApiResponse::success(

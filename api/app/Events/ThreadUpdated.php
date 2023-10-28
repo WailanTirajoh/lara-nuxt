@@ -32,13 +32,13 @@ class ThreadUpdated implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel("thread.{$this->thread->id}"),
+            new PrivateChannel("channel.{$this->thread->channel_id}"),
         ];
     }
 
     public function broadcastAs()
     {
-        return 'updated';
+        return 'thread.updated';
     }
 
     public function broadcastWith()
