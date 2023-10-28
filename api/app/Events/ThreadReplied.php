@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Http\Resources\Notification\ThreadRepliedResource;
 use App\Http\Resources\ReplyResource;
 use App\Models\Reply;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -31,8 +30,14 @@ class ThreadReplied implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
+        $channel = '';
+
+        if ($this->reply->replyable_type === "App\Models\Thread") {
+            $channel = "thread";
+        }
+
         return [
-            new PrivateChannel("thread.{$this->reply->replyable->id}"),
+            new PrivateChannel("{$channel}.{$this->reply->replyable->id}"),
         ];
     }
 
