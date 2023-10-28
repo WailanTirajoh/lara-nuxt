@@ -1,7 +1,10 @@
-name: Laravel Docker Test
+name: API Setup & Test
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
