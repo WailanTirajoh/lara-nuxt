@@ -51,7 +51,7 @@ onMounted(() => {});
 </script>
 <template>
   <div v-if="selectedThread" class="flex flex-col h-full">
-    <div class="h-[calc(100%-11rem)] overflow-auto">
+    <div class="h-[calc(100%-13.5rem)] overflow-auto">
       <div class="bg-white grid gap-2 p-2 sticky top-0">
         <div class="">
           <TransitionGroup
