@@ -19,6 +19,7 @@ class ThreadReplied extends Notification
     public function __construct(private Reply $reply)
     {
         $this->reply = $reply;
+        $this->afterCommit();
     }
 
     /**

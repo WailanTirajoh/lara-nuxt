@@ -3,43 +3,29 @@
 namespace App\Listeners;
 
 use App\Events\ThreadReplied;
+use App\Models\User;
 use App\Notifications\ThreadReplied as NotificationsThreadReplied;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class SendThreadRepliedNotifications
 {
-    /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     */
     public function handle(ThreadReplied $event): void
     {
-        $replies = $this->getRepliesToThread($event);
-        $this->notifyUsersAboutNewReply($replies, $event);
+        Notification::send(
+            $this->getAssociatedUsers($event),
+            new NotificationsThreadReplied($event->reply)
+        );
     }
 
-    protected function getRepliesToThread(ThreadReplied $event)
+    private function getAssociatedUsers(ThreadReplied $event)
     {
-        return $event->reply
-            ->replyable()
-            ->replies()
-            ->where('user_id', '!=', Auth::id())
+        $userIds = $event->reply->replyable->replies()
+            ->whereNot('user_id', Auth::id())
+            ->distinct('user_id')
+            ->pluck('user_id');
+
+        return User::whereIn('id', $userIds)
             ->get();
-    }
-
-    protected function notifyUsersAboutNewReply($replies, ThreadReplied $event)
-    {
-        foreach ($replies as $reply) {
-            $reply->user->notify(new NotificationsThreadReplied($event->reply));
-        }
     }
 }
