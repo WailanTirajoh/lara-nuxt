@@ -104,7 +104,7 @@ onMounted(async () => {
             'w-full sm:w-1/2': selectedThread,
           }"
         >
-          <div class="h-[calc(100%-10rem)] overflow-auto bg-gray-50 shadow-inner">
+          <div class="h-[calc(100%-12rem)] overflow-auto bg-gray-50 shadow-inner">
             <PageChannelThreadList :channel-id="channelId" />
           </div>
           <div

@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { reset } from "@formkit/core";
+import { createInput } from "@formkit/vue";
+import BaseEditor from "~/components/Base/Editor/Editor.vue";
+import type { ThreadStoreRequest } from "~/types/api/thread";
+
 interface ChannelThreadCreateProps {
   channelId: string;
 }
@@ -7,25 +12,39 @@ const emit = defineEmits<{
   submit: [];
 }>();
 
-const form = ref({
-  body: "",
-});
-
+const baseEditor = createInput(BaseEditor);
 const threadStore = useThreadStore();
 
-const onSubmit = async () => {
-  await threadStore.store(props.channelId, { ...form.value });
-  form.value.body = "";
-};
+async function submit(body: ThreadStoreRequest) {
+  await threadStore.store(props.channelId, { ...body });
+  reset("thread-create-form");
+}
 </script>
 
 <template>
-  <div class="grid grid-cols-12 gap-2 p-1 pt-0">
-    <div class="col-span-12">
-      <BaseEditorModel v-model="form.body" />
-    </div>
-    <div class="col-span-12 flex justify-end">
-      <BaseButton @click="onSubmit"> Send </BaseButton>
-    </div>
+  <div class="p-1 pt-0">
+    <FormKit
+      type="form"
+      id="thread-create-form"
+      :actions="false"
+      :wrapper-class="{
+        'p-1 pt-0': true,
+      }"
+      @submit="submit"
+    >
+      <FormKit
+        :type="baseEditor"
+        name="body"
+        id="body"
+        validation="required"
+      />
+      <FormKit
+        type="submit"
+        label="Send"
+        :wrapper-class="{
+          'flex justify-end': true,
+        }"
+      />
+    </FormKit>
   </div>
 </template>
