@@ -17,6 +17,8 @@
         "spatie/laravel-tags": "^4.5"
     },
     "require-dev": {
+        "beyondcode/laravel-er-diagram-generator": "^2.0",
+        "beyondcode/laravel-query-detector": "*",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
