@@ -71,7 +71,7 @@ password: secret
 ```
 
 ### Entity Relationship Diagram
-![image](https://github.com/WailanTirajoh/lara-nuxt/assets/53980548/66d9a65a-6c74-4e8c-80fa-d3bb9a3c1748)
+![image](https://github.com/WailanTirajoh/lara-nuxt/assets/53980548/aaa4167c-2e17-4b87-9503-12d317073f2d)
 
 
 ## UI Preview
