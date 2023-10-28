@@ -18,7 +18,7 @@
     },
     "require-dev": {
         "beyondcode/laravel-er-diagram-generator": "^2.0",
-        "beyondcode/laravel-query-detector": "*",
+        "beyondcode/laravel-query-detector": "^1.7",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
