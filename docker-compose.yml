@@ -54,11 +54,11 @@ services:
     container_name: php
     volumes:
       - ./api:/var/www/html
-      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
       - ./docker/php/conf.d/php.ini:/usr/local/etc/php/php.ini
+      - ./docker/php/conf.d/pcov.ini:/usr/local/etc/php/conf.d/pcov.ini
     ports:
       - "9000:9000"
+      # - "9003:9003"
     networks:
       - laravel
 
