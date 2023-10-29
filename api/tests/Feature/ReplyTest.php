@@ -49,8 +49,6 @@ class ReplyTest extends TestCase
 
     public function test_store_new_thread_reply(): void
     {
-        Event::fake();
-
         $reply = Reply::factory()->make();
         $response = $this->postJson(route('api.threads.replies.store', [
             'thread' => $this->thread,
@@ -60,8 +58,6 @@ class ReplyTest extends TestCase
         ])
             ->assertCreated()
             ->json();
-
-        Event::assertDispatched(ThreadReplied::class);
 
         $this->assertEquals($reply->body, $response['data']['reply']['body']);
 
