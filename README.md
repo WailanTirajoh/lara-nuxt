@@ -62,13 +62,18 @@ email: wailantirajoh@gmail.com
 password: wailan
 ```
 
-## API Tests
+### API Tests
 ```
-php artisan test --coverage --testsuite=Feature
+docker compose exec php php artisan test --coverage --testsuite=Feature
 
-# OR
+# OR with php unit
 
-vendor/bin/phpunit --coverage-html reports/ --testsuite Feature
+docker compose exec php vendor/bin/phpunit --coverage-html reports/ --testsuite Feature
+```
+
+### Lint Fix
+```
+docker compose exec php vendor/bin/pint
 ```
 
 ### phpmyadmin
