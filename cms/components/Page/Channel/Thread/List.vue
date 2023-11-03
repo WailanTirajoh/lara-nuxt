@@ -7,6 +7,7 @@ interface ChannelThreadCreateProps {
 const props = defineProps<ChannelThreadCreateProps>();
 
 const { $echo } = useNuxtApp();
+const isEndOfThread = ref(false);
 const threadStore = useThreadStore();
 const threads = ref<Array<Thread>>([]);
 const page = ref(1);
@@ -22,12 +23,20 @@ const { pending, execute } = await useAsyncData(
 );
 
 const fetchThreads = async () => {
+  if (isEndOfThread.value) return;
+
   const { data } = await threadStore.get(props.channelId, {
     params: {
       page: page.value,
       "thread_ids[]": threads.value.map((thread) => thread.id),
     },
   });
+
+  if (data.threads.length === 0) {
+    isEndOfThread.value = true;
+    return;
+  }
+
   threads.value = [...threads.value, ...data.threads];
 };
 
