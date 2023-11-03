@@ -41,6 +41,9 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["stores"],
   },
+  alias: {
+    pinia: "/node_modules/@pinia/nuxt/node_modules/pinia/dist/pinia.mjs",
+  },
   googleFonts: {
     families: {
       Roboto: true,

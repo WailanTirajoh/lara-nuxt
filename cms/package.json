@@ -25,7 +25,6 @@
     "@formkit/icons": "^1.1.0",
     "@formkit/themes": "^1.1.0",
     "@formkit/zod": "^1.1.0",
-    "@johmun/vue-tags-input": "https://github.com/WailanTirajoh/vue-tags-input",
     "@nuxt/image": "1.0.0-rc.2",
     "@tiptap/pm": "^2.1.11",
     "@tiptap/starter-kit": "^2.1.11",
