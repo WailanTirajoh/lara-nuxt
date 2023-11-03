@@ -4,6 +4,27 @@ networks:
   laravel:
 
 services:
+  cms:
+    container_name: "cms"
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.cms
+    ports:
+      - "3000:3000"
+    environment:
+      NUXT_PUBLIC_BASE_URL: http://api.localhost/api/v1
+      NUXT_PUBLIC_WS_BASE_URL: http://api.localhost
+      NUXT_PUBLIC_WS_HOST: api.localhost
+      NUXT_PUBLIC_WS_PORT: 6001
+      NUXT_PUBLIC_WSS_PORT: 6001
+      NUXT_PUBLIC_KEY: app-key
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cms.rule=Host(`cms.localhost`)"
+    networks:
+      - laravel
+
   nginx:
     image: nginx:stable-alpine
     restart: always
@@ -58,7 +79,6 @@ services:
       - ./docker/php/conf.d/pcov.ini:/usr/local/etc/php/conf.d/pcov.ini
     ports:
       - "9000:9000"
-      # - "9003:9003"
     networks:
       - laravel
 
