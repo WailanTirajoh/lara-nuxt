@@ -43,7 +43,7 @@ exit
 ```
 By following this CLI steps, we can open http://api.localhost on browser to see API up and running.
 
-### 4. Setup FE
+### 4. Setup FE for development
 ```
 # Currently no image for FE, todo latter. We can install FE using any package manager, i'm using bun here since its super fast.
 # You can use npm / pnpm / yarn other than bun.
@@ -54,8 +54,10 @@ bun install
 bun run dev -o
 ```
 
+And then open localhost:3000 for development, for production we have image running at http://cms.localhost
+
 ### Login
-- open CMS UI at http://localhost:3000
+- open CMS UI at localhost:3000 or http://cms.localhost
 - login credentials _(Look at api AppSeeder.php)_
 ```
 email: wailantirajoh@gmail.com
