@@ -12,7 +12,7 @@ RUN apk update && apk add --no-cache \
 
 # Configure and install additional PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd pdo pdo_mysql sockets exif
+RUN docker-php-ext-install gd pdo pdo_mysql sockets exif pcntl
 
 # Expose the PCOV port for coverage data collection
 EXPOSE 9000
