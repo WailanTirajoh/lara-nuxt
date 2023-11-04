@@ -25,9 +25,10 @@ class RoleController extends Controller
         $search = $request->query('query');
         $limit = $request->query('limit', 5);
 
-        $roles = Role::with($this->associatedRole())->where(function ($query) use ($search) {
-            $query->where('name', 'like', "%{$search}%");
-        })
+        $roles = Role::with($this->associatedRole())
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
             ->orderBy($orderBy, $orderType)
             ->paginate($limit);
 
