@@ -4,7 +4,6 @@ Monorepo fullstack apps build with Laravel API & Nuxt 3 FE
 
 ## Requirement
 1. docker + docker compose
-2. npm / pnpm / yarn / bun (for FE package manager) _*this will be replaced latter when fe image created._
 
 ## Installation
 ### 1. Git Clone
