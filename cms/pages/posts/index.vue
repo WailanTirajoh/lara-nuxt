@@ -8,6 +8,7 @@ useSeoMeta({
 
 definePageMeta({
   middleware: ["auth"],
+  permissions: ["post-viewAny"],
 });
 
 const dialog = useDialog();
@@ -214,7 +215,10 @@ function onPostUpdated() {
           </template>
           <template v-else-if="column.field === 'tags'">
             <div class="flex flex-wrap gap-1">
-              <div class="bg-slate-100 p-1 rounded" v-for="tag in data[column.field]">
+              <div
+                class="bg-slate-100 p-1 rounded"
+                v-for="tag in data[column.field]"
+              >
                 {{ tag }}
               </div>
             </div>

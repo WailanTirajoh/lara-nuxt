@@ -10,6 +10,7 @@ useSeoMeta({
 
 definePageMeta({
   middleware: ["auth"],
+  permissions: ["channel-viewAny"],
 });
 
 const route = useRoute();
@@ -45,7 +46,6 @@ onMounted(async () => {
   selectedThread.value = undefined;
   await fetchChannel();
 });
-
 </script>
 
 <template>
