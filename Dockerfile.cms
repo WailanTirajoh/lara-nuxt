@@ -4,9 +4,6 @@ FROM node:21-alpine AS build
 # Set Workdir to /app
 WORKDIR /app
 
-# Install git
-RUN apk add --no-cache git
-
 # Install dependencies
 RUN npm install -g npm@10.2.3
 

@@ -10,9 +10,6 @@ RUN apk update && apk add --no-cache \
     build-base \
     linux-headers
 
-# Install PCOV for code coverage
-RUN pecl install pcov && docker-php-ext-enable pcov
-
 # Configure and install additional PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd pdo pdo_mysql sockets exif
