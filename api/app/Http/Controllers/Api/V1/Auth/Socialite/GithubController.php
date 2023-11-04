@@ -36,6 +36,6 @@ class GithubController extends Controller
 
         $accessToken = Auth::user()->createToken('access_token')->plainTextToken;
 
-        return Redirect::to(config('app.cms_url') . '/auth/sso?access_token=' . $accessToken);
+        return Redirect::to(config('app.cms_url').'/auth/sso?access_token='.$accessToken);
     }
 }
