@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use BeyondCode\QueryDetector\Outputs\Output;
-use Illuminate\Support\Facades\Log as LaravelLog;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log as LaravelLog;
 use Symfony\Component\HttpFoundation\Response;
 
 class Log implements Output
@@ -20,16 +20,16 @@ class Log implements Output
         $this->log('Detected N+1 Query');
 
         foreach ($detectedQueries as $detectedQuery) {
-            $logOutput = 'Model: ' . $detectedQuery['model'] . PHP_EOL;
+            $logOutput = 'Model: '.$detectedQuery['model'].PHP_EOL;
 
-            $logOutput .= 'Relation: ' . $detectedQuery['relation'] . PHP_EOL;
+            $logOutput .= 'Relation: '.$detectedQuery['relation'].PHP_EOL;
 
-            $logOutput .= 'Num-Called: ' . $detectedQuery['count'] . PHP_EOL;
+            $logOutput .= 'Num-Called: '.$detectedQuery['count'].PHP_EOL;
 
-            $logOutput .= 'Call-Stack:' . PHP_EOL;
+            $logOutput .= 'Call-Stack:'.PHP_EOL;
 
             foreach ($detectedQuery['sources'] as $source) {
-                $logOutput .= '#' . $source->index . ' ' . $source->name . ':' . $source->line . PHP_EOL;
+                $logOutput .= '#'.$source->index.' '.$source->name.':'.$source->line.PHP_EOL;
             }
 
             $this->log($logOutput);

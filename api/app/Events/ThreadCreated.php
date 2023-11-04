@@ -42,7 +42,11 @@ class ThreadCreated implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'thread' => ThreadResource::make($this->thread),
+            'thread' => ThreadResource::make($this->thread->load(
+                'user.media',
+                'activities',
+                'replies'
+            )),
         ];
     }
 }

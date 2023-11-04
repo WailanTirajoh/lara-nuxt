@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class ThreadPolicy extends AppPolicy
 {
     protected $model = 'thread';
+
     private Channel $channel;
 
     public function __construct(Request $request)
@@ -44,7 +45,7 @@ class ThreadPolicy extends AppPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, ?Thread $thread = null): bool
+    public function update(User $user, Thread $thread = null): bool
     {
         return parent::update($user)
             && $this->isUserInChannel($user)
@@ -54,7 +55,7 @@ class ThreadPolicy extends AppPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, ?Thread $thread = null): bool
+    public function delete(User $user, Thread $thread = null): bool
     {
         return parent::delete($user)
             && $this->isUserInChannel($user)
@@ -64,7 +65,7 @@ class ThreadPolicy extends AppPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, ?Thread $thread = null): bool
+    public function restore(User $user, Thread $thread = null): bool
     {
         return parent::restore($user)
             && $this->isUserInChannel($user)
@@ -74,7 +75,7 @@ class ThreadPolicy extends AppPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, ?Thread $thread = null): bool
+    public function forceDelete(User $user, Thread $thread = null): bool
     {
         return parent::forceDelete($user)
             && $this->isUserInChannel($user)
