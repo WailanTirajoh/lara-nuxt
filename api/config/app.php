@@ -59,6 +59,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'cms_url' => env('CMS_BASE_URL', 'http://cms.localhost'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

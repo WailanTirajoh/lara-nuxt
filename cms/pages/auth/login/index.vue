@@ -12,6 +12,7 @@ definePageMeta({
   layout: "guest",
 });
 
+const config = useRuntimeConfig();
 const authStore = useAuthStore();
 const { accessToken, isAuthenticated } = storeToRefs(authStore);
 
@@ -32,7 +33,7 @@ async function submit(loginRequest: LoginRequest, node: FormKitNode) {
 
 <template>
   <div class="p-4 border rounded max-w-lg mx-auto bg-white shadow">
-    <div class="grid grid-cols-12">
+    <div class="grid grid-cols-12 gap-2">
       <div class="col-span-12">
         <FormKit type="form" submit-label="Login" @submit="submit">
           <FormKit
@@ -55,6 +56,17 @@ async function submit(loginRequest: LoginRequest, node: FormKitNode) {
           />
         </FormKit>
       </div>
+    </div>
+    <div class="col-span-12">
+      <hr />
+    </div>
+    <div class="col-span-12">
+      <NuxtLink
+        :to="`${config.public.wsBaseUrl}/sign-in/github`"
+        :external="true"
+      >
+        <BaseButton class="w-full"> Login with Github </BaseButton>
+      </NuxtLink>
     </div>
   </div>
 </template>

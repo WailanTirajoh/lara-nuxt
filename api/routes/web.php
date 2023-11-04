@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Auth\Socialite\GithubController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +20,9 @@ Route::get('/', function () {
         'status' => 'Running',
     ]);
 });
+
+Route::get('/sign-in/github', function () {
+    return Socialite::driver('github')->redirect();
+});
+
+Route::get('/sign-in/github/callback', GithubController::class);
