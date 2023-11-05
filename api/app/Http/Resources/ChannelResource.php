@@ -17,7 +17,7 @@ class ChannelResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'users' => ChannelUserResource::collection($this->users),
+            'users' => ChannelUserResource::collection($this->whenLoaded('users')),
             'created_by' => $this->created_by,
         ];
     }

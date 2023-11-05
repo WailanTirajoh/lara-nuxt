@@ -8,6 +8,7 @@ use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
 use App\Http\Resources\ChannelResource;
 use App\Models\Channel;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,13 +23,16 @@ class ChannelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $channels = Auth::user()->channels()->with($this->associatedChannel())->get();
-
         return ApiResponse::success(
             data: [
-                'channels' => ChannelResource::collection($channels),
+                'channels' => ChannelResource::collection(
+                    $request->user()
+                        ->channels()
+                        ->withAssociatedResources()
+                        ->get()
+                ),
             ]
         );
     }
@@ -48,7 +52,9 @@ class ChannelController extends Controller
         return ApiResponse::success(
             message: 'Channel created successfully',
             data: [
-                'channel' => ChannelResource::make($channel),
+                'channel' => ChannelResource::make(
+                    $channel->loadAssociatedResources()
+                ),
             ],
             statusCode: Response::HTTP_CREATED
         );
@@ -61,7 +67,7 @@ class ChannelController extends Controller
     {
         return ApiResponse::success(
             data: [
-                'channel' => ChannelResource::make($channel->load($this->associatedChannel())),
+                'channel' => ChannelResource::make($channel->loadAssociatedResources()),
             ]
         );
     }
@@ -79,7 +85,7 @@ class ChannelController extends Controller
         return ApiResponse::success(
             message: 'Channel updated successfully',
             data: [
-                'channel' => ChannelResource::make($channel->load($this->associatedChannel())),
+                'channel' => ChannelResource::make($channel->loadAssociatedResources()),
             ],
             statusCode: Response::HTTP_OK
         );
@@ -93,12 +99,5 @@ class ChannelController extends Controller
         $channel->delete();
 
         return ApiResponse::success(message: 'Channel permanently deleted', statusCode: Response::HTTP_NO_CONTENT);
-    }
-
-    private function associatedChannel()
-    {
-        return [
-            'users',
-        ];
     }
 }
