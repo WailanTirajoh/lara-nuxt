@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\ThreadReplied;
 use App\Events\ThreadUpdated;
+use App\Traits\WithResources;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Reply extends Model
 {
-    use HasFactory;
+    use HasFactory, WithResources;
 
     protected $fillable = [
         'body',
@@ -38,5 +39,13 @@ class Reply extends Model
             // We're updating thread whenever reply is added.
             broadcast(new ThreadUpdated($reply->replyable));
         });
+    }
+
+    protected function associatedResources(): array
+    {
+        return [
+            'user',
+            'user.media'
+        ];
     }
 }

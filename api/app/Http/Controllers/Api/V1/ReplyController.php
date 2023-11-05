@@ -30,7 +30,7 @@ class ReplyController extends Controller
         $limit = $request->query('limit', 25);
 
         $replies = $thread->replies()
-            ->with('user')
+            ->withResources()
             ->orderBy($orderBy, $orderType)
             ->paginate($limit);
 
@@ -55,7 +55,7 @@ class ReplyController extends Controller
         return ApiResponse::success(
             message: 'Reply created successfully',
             data: [
-                'reply' => ReplyResource::make($reply),
+                'reply' => ReplyResource::make($reply->loadResources()),
             ],
             statusCode: Response::HTTP_CREATED
         );

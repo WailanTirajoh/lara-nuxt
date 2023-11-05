@@ -17,7 +17,7 @@ class ReplyResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'user' => ThreadUserResource::make($this->user),
+            'user' => ThreadUserResource::make($this->whenLoaded('user')),
             'created_at' => $this->created_at,
         ];
     }

@@ -48,7 +48,7 @@ class ThreadReplied implements ShouldBroadcastNow
     public function broadcastWith()
     {
         return [
-            'reply' => ReplyResource::make($this->reply->load('user.media')),
+            'reply' => ReplyResource::make($this->reply->loadResources()),
         ];
     }
 }

@@ -60,7 +60,7 @@ class ThreadReplied extends Notification
                         ->load('replies', 'activities')
                         ->loadCount('replies')
                 ),
-                'reply' => ReplyResource::make($this->reply),
+                'reply' => ReplyResource::make($this->reply->loadResources()),
             ],
         ];
     }
