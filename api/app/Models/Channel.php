@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\WithResources;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Channel extends Model
 {
-    use HasFactory;
+    use HasFactory, WithResources;
 
     protected $fillable = [
         'created_by',
@@ -33,18 +34,7 @@ class Channel extends Model
         return $this->hasMany(Thread::class);
     }
 
-
-    public function scopeWithAssociatedResources(Builder $query): void
-    {
-        $query->with($this->associatedResources());
-    }
-
-    public function loadAssociatedResources(): self
-    {
-        return $this->load($this->associatedResources());
-    }
-
-    private function associatedResources(): array
+    protected function associatedResources(): array
     {
         return [
             'users'

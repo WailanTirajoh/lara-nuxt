@@ -30,7 +30,7 @@ class ChannelController extends Controller
                 'channels' => ChannelResource::collection(
                     $request->user()
                         ->channels()
-                        ->withAssociatedResources()
+                        ->withResources()
                         ->get()
                 ),
             ]
@@ -53,7 +53,7 @@ class ChannelController extends Controller
             message: 'Channel created successfully',
             data: [
                 'channel' => ChannelResource::make(
-                    $channel->loadAssociatedResources()
+                    $channel->loadResources()
                 ),
             ],
             statusCode: Response::HTTP_CREATED
@@ -67,7 +67,7 @@ class ChannelController extends Controller
     {
         return ApiResponse::success(
             data: [
-                'channel' => ChannelResource::make($channel->loadAssociatedResources()),
+                'channel' => ChannelResource::make($channel->loadResources()),
             ]
         );
     }
@@ -85,7 +85,7 @@ class ChannelController extends Controller
         return ApiResponse::success(
             message: 'Channel updated successfully',
             data: [
-                'channel' => ChannelResource::make($channel->loadAssociatedResources()),
+                'channel' => ChannelResource::make($channel->loadResources()),
             ],
             statusCode: Response::HTTP_OK
         );
