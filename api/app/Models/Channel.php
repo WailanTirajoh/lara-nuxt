@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,5 +31,23 @@ class Channel extends Model
     public function threads(): HasMany
     {
         return $this->hasMany(Thread::class);
+    }
+
+
+    public function scopeWithAssociatedResources(Builder $query): void
+    {
+        $query->with($this->associatedResources());
+    }
+
+    public function loadAssociatedResources(): self
+    {
+        return $this->load($this->associatedResources());
+    }
+
+    private function associatedResources(): array
+    {
+        return [
+            'users'
+        ];
     }
 }
