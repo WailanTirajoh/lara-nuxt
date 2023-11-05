@@ -27,7 +27,7 @@ class PostController extends Controller
         $limit = $request->query('limit', 5);
 
         $posts = Post::when($request->with_trashed == 'true', fn ($query) => $query->onlyTrashed())
-            ->with('author')
+            ->withResources()
             ->where(function ($query) use ($search) {
                 $query->where('title', 'like', "%{$search}%");
             })
@@ -52,7 +52,7 @@ class PostController extends Controller
         return ApiResponse::success(
             message: 'Post created successfully',
             data: [
-                'post' => PostResource::make($post->load('author')),
+                'post' => PostResource::make($post->loadResources()),
             ],
             statusCode: Response::HTTP_CREATED
         );
@@ -62,7 +62,7 @@ class PostController extends Controller
     {
         return ApiResponse::success(
             data: [
-                'post' => PostResource::make($post->load('author')),
+                'post' => PostResource::make($post->loadResources()),
             ]
         );
     }
@@ -75,7 +75,7 @@ class PostController extends Controller
         return ApiResponse::success(
             message: 'Post updated successfully',
             data: [
-                'post' => PostResource::make($post->load('author')),
+                'post' => PostResource::make($post->loadResources()),
             ]
         );
     }
