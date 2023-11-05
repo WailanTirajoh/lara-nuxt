@@ -32,6 +32,7 @@ class ThreadController extends Controller
 
         $threads = $channel->threads()
             ->with($this->associatedThread())
+            ->withCount('replies')
             ->orderBy($orderBy, $orderType)
             ->whereNotIn('id', $threadIds)
             ->paginate($limit);
@@ -54,7 +55,10 @@ class ThreadController extends Controller
         return ApiResponse::success(
             message: 'Thread created successfully',
             data: [
-                'thread' => ThreadResource::make($thread->load($this->associatedThread())),
+                'thread' => ThreadResource::make(
+                    $thread->load($this->associatedThread())
+                        ->loadCount('replies')
+                ),
             ],
             statusCode: Response::HTTP_CREATED
         );
@@ -70,7 +74,10 @@ class ThreadController extends Controller
         return ApiResponse::success(
             message: 'Thread updated successfully',
             data: [
-                'thread' => ThreadResource::make($thread->load($this->associatedThread())),
+                'thread' => ThreadResource::make(
+                    $thread->load($this->associatedThread())
+                        ->loadCount('replies')
+                ),
             ],
             statusCode: Response::HTTP_OK
         );
@@ -89,7 +96,7 @@ class ThreadController extends Controller
     private function associatedThread()
     {
         return [
-            'user', 'replies', 'activities', 'user.media',
+            'user', 'activities', 'user.media',
         ];
     }
 }

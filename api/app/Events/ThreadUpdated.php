@@ -43,11 +43,12 @@ class ThreadUpdated implements ShouldBroadcast
     {
         return [
             'thread' => ThreadResource::make(
-                $this->thread->load(
-                    'user.media',
-                    'activities',
-                    'replies'
-                )
+                $this->thread
+                    ->load(
+                        'user.media',
+                        'activities'
+                    )
+                    ->loadCount('replies')
             ),
         ];
     }

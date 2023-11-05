@@ -55,7 +55,11 @@ class ThreadReplied extends Notification
         return [
             'info' => "{$this->reply->user->name} reply a thread.",
             'data' => [
-                'thread' => ThreadResource::make($this->reply->replyable->load('replies', 'activities')),
+                'thread' => ThreadResource::make(
+                    $this->reply->replyable
+                        ->load('replies', 'activities')
+                        ->loadCount('replies')
+                ),
                 'reply' => ReplyResource::make($this->reply),
             ],
         ];
