@@ -28,7 +28,7 @@ class Post extends Model
     protected function associatedResources(): array
     {
         return [
-            'author'
+            'author',
         ];
     }
 }

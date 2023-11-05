@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Traits\WithResources;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,7 +36,7 @@ class Channel extends Model
     protected function associatedResources(): array
     {
         return [
-            'users'
+            'users',
         ];
     }
 }

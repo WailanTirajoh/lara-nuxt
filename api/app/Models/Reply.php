@@ -45,7 +45,7 @@ class Reply extends Model
     {
         return [
             'user',
-            'user.media'
+            'user.media',
         ];
     }
 }
