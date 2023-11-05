@@ -4,38 +4,39 @@ namespace App\Http\Controllers\Api\V1\Auth\Socialite;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 
 class GithubController extends Controller
 {
-    public function __invoke()
+    public function __invoke(): RedirectResponse
     {
         $userGithub = Socialite::driver('github')->stateless()->user();
 
-        $user = User::updateOrCreate(['email' => $userGithub->email], [
-            'name' => $userGithub->name,
-            'email' => $userGithub->email,
-            'password' => Hash::make($userGithub->email),
-        ]);
+        $user = User::firstOrNew(['email' => $userGithub->email]);
+        $user->name = $userGithub->name;
+        $user->email = $userGithub->email;
 
-        if ($userGithub->avatar) {
-            $user
-                ->clearMediaCollection('images')
-                ->addMediaFromUrl($userGithub->avatar)
-                ->toMediaCollection('images');
+        if (! $user->exists) {
+            $user->password = Hash::make($userGithub->email);
+            $user->save();
+            $user->assignRole('visitor');
+        } else {
+            $user->save();
         }
 
-        if ($user->roles->count() === 0) {
-            $user->assignRole('visitor');
+        if ($userGithub->avatar) {
+            $user->clearMediaCollection('images')
+                ->addMediaFromUrl($userGithub->avatar)
+                ->toMediaCollection('images');
         }
 
         Auth::login($user);
 
         $accessToken = Auth::user()->createToken('access_token')->plainTextToken;
 
-        return Redirect::to(config('app.cms_url').'/auth/sso?access_token='.$accessToken);
+        return redirect()->to(config('app.cms_url').'/auth/sso?access_token='.$accessToken);
     }
 }
