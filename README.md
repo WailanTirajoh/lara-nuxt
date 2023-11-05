@@ -44,9 +44,6 @@ By following this CLI steps, we can open http://api.localhost on browser to see 
 
 ### 4. Setup FE for development
 ```
-# Currently no image for FE, todo latter. We can install FE using any package manager, i'm using bun here since its super fast.
-# You can use npm / pnpm / yarn other than bun.
-
 cd cms
 cp .env.example .env
 bun install
