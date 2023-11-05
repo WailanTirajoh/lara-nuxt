@@ -30,12 +30,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.cms-dev
-    ports:
-      - "3000:3000"
     command: npm run dev:host
     volumes:
       - ./cms:/app
-      - ./cms/node_modules:/app/node_modules
+      - /app/node_modules
+    working_dir: /app
+    ports:
+      - "3000:3000"
     environment:
       NUXT_PUBLIC_BASE_URL: http://api.localhost/api/v1
       NUXT_PUBLIC_WS_BASE_URL: http://api.localhost
