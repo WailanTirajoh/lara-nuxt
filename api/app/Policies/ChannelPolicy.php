@@ -14,7 +14,8 @@ class ChannelPolicy extends AppPolicy
      */
     public function update(User $user, Channel $channel = null): bool
     {
-        return $user->can("{$this->model}-update") && $channel->created_by === $user->id;
+        return parent::update($user)
+            && $channel->created_by === $user->id;
     }
 
     /**
@@ -22,6 +23,7 @@ class ChannelPolicy extends AppPolicy
      */
     public function delete(User $user, Channel $channel = null): bool
     {
-        return $user->can("{$this->model}-delete") && $channel->created_by === $user->id;
+        return parent::delete($user)
+            && $channel->created_by === $user->id;
     }
 }
